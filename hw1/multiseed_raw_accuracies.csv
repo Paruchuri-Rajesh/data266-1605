@@ -1,0 +1,13 @@
+framework,model,seed,test_acc
+PyTorch,baseline,1605,0.75
+PyTorch,modified (HP_ID=3),1605,0.7413793206214905
+TensorFlow,baseline,1605,0.7413793206214905
+TensorFlow,modified (HP_ID=3),1605,0.732758641242981
+PyTorch,baseline,1606,0.75
+PyTorch,modified (HP_ID=3),1606,0.7241379022598267
+TensorFlow,baseline,1606,0.7241379022598267
+TensorFlow,modified (HP_ID=3),1606,0.6982758641242981
+PyTorch,baseline,1607,0.7586206793785095
+PyTorch,modified (HP_ID=3),1607,0.7155172228813171
+TensorFlow,baseline,1607,0.7586206793785095
+TensorFlow,modified (HP_ID=3),1607,0.732758641242981
