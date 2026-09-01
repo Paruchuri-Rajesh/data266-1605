@@ -1,0 +1,103 @@
+RUN_LOG.txt — HW1 (SID4 = 1605, SEED = 1605, HP_ID = 3)
+================================================================
+
+[2026-09-01 13:01 PDT] Environment
+------------------------------------------------------------
+Host: macOS (Apple M4), Python 3.13.7, dedicated venv at .venv/
+torch 2.13.0
+tensorflow 2.21.0
+pandas 2.3.2 / numpy 2.3.3 / scikit-learn 1.8.0
+Note: importing torch and tensorflow together in the machine's global
+site-packages crashed on import (`libc++abi ... mutex lock failed`), a
+known OpenMP-library collision between the two frameworks' bundled
+libomp copies on macOS. Fixed by installing both into an isolated venv
+(.venv/) instead of the global environment — no code-level workaround
+needed once the environments were separated.
+
+[2026-09-01 13:01 PDT] Dataset
+------------------------------------------------------------
+$ curl -o data/diabetes.csv \
+    https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.csv
+768 rows x 9 columns (no header), Pima Indians Diabetes dataset.
+Zero-as-missing recode counts (Glucose/BloodPressure/SkinThickness/Insulin/BMI):
+  Glucose 5, BloodPressure 35, SkinThickness 227, Insulin 374, BMI 11
+
+[2026-09-01 13:01 PDT] neural_networks.ipynb — full execution
+------------------------------------------------------------
+$ source .venv/bin/activate
+$ python -m ipykernel install --user --name hw1venv --display-name "HW1 (.venv)"
+Installed kernelspec hw1venv in /Users/rajesh_paruchuri/Library/Jupyter/kernels/hw1venv
+
+$ jupyter nbconvert --to notebook --execute --inplace \
+    --ExecutePreprocessor.kernel_name=hw1venv \
+    --ExecutePreprocessor.timeout=600 neural_networks.ipynb
+[NbConvertApp] Converting notebook neural_networks.ipynb to notebook
+[NbConvertApp] Writing 384473 bytes to neural_networks.ipynb
+(exit code 0, no errors)
+
+--- key stdout captured from executed cells ---
+SID4=1605 SEED=1605 SLICE=605 HP_ID=3 CLS_A=5 CLS_B=3
+(768, 9)
+Missing values per column (0s recoded as NaN):
+Pregnancies 0, Glucose 5, BloodPressure 35, SkinThickness 227, Insulin 374,
+BMI 11, DiabetesPedigreeFunction 0, Age 0, Outcome 0
+train=(537, 8)  val=(115, 8)  test=(116, 8)
+class balance (train): 0.348 positive
+BASELINE: {'hidden': [64, 32], 'lr': 0.001, 'epochs': 30}
+MODIFIED (HP_ID=3): {'hidden': [64, 32], 'lr': 0.0003, 'epochs': 30}
+
+[PyTorch]     baseline test acc = 0.7500   modified test acc = 0.7414   (1.6s)
+[TensorFlow]  baseline test acc = 0.7414   modified test acc = 0.7328   (4.4s)
+Checkpoints saved to checkpoints/
+
+Multi-seed raw results (seeds 1605, 1606, 1607; split fixed at SEED=1605):
+framework,model,seed,test_acc
+PyTorch,baseline,1605,0.7500
+PyTorch,modified (HP_ID=3),1605,0.7414
+TensorFlow,baseline,1605,0.7414
+TensorFlow,modified (HP_ID=3),1605,0.7328
+PyTorch,baseline,1606,0.7500
+PyTorch,modified (HP_ID=3),1606,0.7241
+TensorFlow,baseline,1606,0.7241
+TensorFlow,modified (HP_ID=3),1606,0.6983
+PyTorch,baseline,1607,0.7586
+PyTorch,modified (HP_ID=3),1607,0.7155
+TensorFlow,baseline,1607,0.7586
+TensorFlow,modified (HP_ID=3),1607,0.7328
+
+Multi-seed summary (mean ± std):
+framework,model,test_acc_mean,test_acc_std
+PyTorch,baseline,0.752874,0.004977
+PyTorch,modified (HP_ID=3),0.727011,0.013168
+TensorFlow,baseline,0.741379,0.017241
+TensorFlow,modified (HP_ID=3),0.721264,0.019909
+
+Seed-run (SEED=1605) final-epoch (30) loss, re-derived for the written conclusion:
+PT  baseline   train=0.3821 val=0.4188
+PT  modified   train=0.4276 val=0.4037
+TF  baseline   train=0.3627 val=0.4284
+TF  modified   train=0.4213 val=0.4079
+
+Artifacts written:
+  figures/correlation_matrix.png
+  figures/feature_distributions.png
+  figures/pytorch_loss_curves.png
+  figures/tensorflow_loss_curves.png
+  checkpoints/pytorch_baseline.pt          (trained via cell "Seed-run training" in neural_networks.ipynb)
+  checkpoints/pytorch_modified_hp3.pt      (trained via cell "Seed-run training" in neural_networks.ipynb)
+  checkpoints/tensorflow_baseline.keras    (trained via cell "Seed-run training" in neural_networks.ipynb)
+  checkpoints/tensorflow_modified_hp3.keras(trained via cell "Seed-run training" in neural_networks.ipynb)
+  multiseed_raw_accuracies.csv
+  multiseed_summary.csv
+
+No errors or exceptions were raised during execution.
+
+[PENDING] cuda.ipynb — CUDA matrix multiplication
+------------------------------------------------------------
+Not run on this machine: it is Apple Silicon (M4) with no NVIDIA GPU and no `nvcc`
+(`which nvcc` -> not found). matmul.cu and cuda.ipynb were written and reviewed for
+correctness on this machine but must be executed on a CUDA-capable GPU (Google Colab
+T4 runtime, per the user's stated plan). ACTION REQUIRED: run cuda.ipynb top to bottom
+in Colab, then append its console output (nvidia-smi, nvcc compile log, ./matmul CSV
+output, nsys profile --stats=true output) below this line, and copy the resulting
+table into METRICS.md section 5.
