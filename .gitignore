@@ -4,3 +4,10 @@ __pycache__/
 .DS_Store
 .ipynb_checkpoints/
 friend_reference_DO_NOT_SUBMIT/
+hw1/figures/
+hw1/checkpoints/
+hw1/data/
+hw1/multiseed_raw_accuracies.csv
+hw1/multiseed_summary.csv
+hw1/report.md
+README.md
