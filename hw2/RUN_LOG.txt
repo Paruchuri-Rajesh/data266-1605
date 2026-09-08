@@ -1,0 +1,102 @@
+HW2 RUN LOG
+SID4=1605  SEED=1605
+Machine: macOS (Apple Silicon), Python 3.13.7, torch 2.11.0, CUDA unavailable, MPS available.
+All three notebooks were re-executed top-to-bottom, with no manual intervention, via:
+  jupyter nbconvert --to notebook --execute --inplace <notebook>.ipynb --ExecutePreprocessor.timeout=1800
+These are the final runs whose numbers are reported in METRICS.md.
+
+================================================================================
+PART 1 — part1_word2vec.ipynb  (Word2Vec transfer learning on IMDB)
+================================================================================
+RUN_START 2026-09-08T18:09:46Z
+[NbConvertApp] Converting notebook /Users/rajesh_paruchuri/Desktop/GENAI_HWS/HW_2/hw2/part1_word2vec.ipynb to notebook
+[NbConvertApp] Writing 90785 bytes to /Users/rajesh_paruchuri/Desktop/GENAI_HWS/HW_2/hw2/part1_word2vec.ipynb
+RUN_END 2026-09-08T18:15:02Z
+Duration: ~5.3 min. Exit: 0. Cell errors: 0 (26/26 cells scanned, none with output_type=="error").
+
+Determinism note: gensim Word2Vec with workers>1 uses multi-threaded async SGD, which is not
+exactly reproducible under a fixed seed. We tested workers=1 (single-threaded) on the full
+25k-review IMDB fine-tuning corpus, 5 epochs: measured 243.2s (~4 min) — well under the
+practicality threshold — so workers=1 was used for the reported run, giving true determinism
+under SEED=1605 rather than documented non-determinism.
+
+Non-fatal issues hit during initial development (fixed before this final run; kept here per the
+reproducibility rule to document what was tried):
+  1. gensim.downloader SSL certificate verification failure on this machine's Python.org build
+     (macOS does not ship CA certs to python.org Python by default). Fix: set
+     SSL_CERT_FILE to certifi's bundle before calling api.load("word2vec-google-news-300").
+  2. gensim 4.4.0's KeyedVectors.intersect_word2vec_format() (used to seed the fine-tuning run
+     from the pretrained GoogleNews vectors) calls np.fromstring() in binary mode, which NumPy
+     2.x removed. Fix: a small compatibility shim routes binary np.fromstring calls to
+     np.frombuffer before the intersect call; documented inline in the notebook.
+
+================================================================================
+PART 2 — part2_rag.ipynb  (RAG pipeline, 10 movie Wikipedia pages, LangChain + FAISS)
+================================================================================
+RUN_START 2026-09-08T18:03:30Z
+[NbConvertApp] Converting notebook part2_rag.ipynb to notebook
+[NbConvertApp] Writing 118902 bytes to part2_rag.ipynb
+RUN_END 2026-09-08T18:04:03Z
+Duration: ~33s (used the on-disk Wikipedia cache at hw2/data/wikipedia_movies/ — all 10 movies
+loaded with "[cache]", 0.0s each, no network fetch on this run). Exit: 0. Cell errors: 0
+(14/14 code cells executed sequentially, execution_count 1->14).
+
+Determinism: SEED=1605 applied via random.seed/np.random.seed/torch.manual_seed/
+transformers.set_seed. LLM generation (flan-t5-base, wrapped for langchain_huggingface's
+HuggingFacePipeline) confirmed deterministic: do_sample=False explicit in the model.generate()
+call, combined with num_beams=4 beam search (never stochastic).
+
+Non-fatal issues hit during initial development (fixed before this final run):
+  1. Wikipedia's API rejects the `wikipedia` package's default User-Agent with HTTP 403.
+     Fix: set a descriptive custom User-Agent before any fetch.
+  2. transformers 5.5.3 removed the legacy "text2text-generation" pipeline factory that
+     langchain_huggingface.HuggingFacePipeline expects for encoder-decoder models. Fix: a small
+     drop-in wrapper class (Text2TextGenerationPipelineCompat) built directly on
+     AutoModelForSeq2SeqLM.generate() exposes the same call interface, so flan-t5-base is still
+     used through HuggingFacePipeline as specified by the assignment.
+
+================================================================================
+PART 3 — part3_optimization.ipynb  (PyTorch training optimization techniques)
+================================================================================
+RUN_START 2026-09-08T18:05:31Z
+[NbConvertApp] Converting notebook part3_optimization.ipynb to notebook
+/Library/.../nbformat/__init__.py:96: MissingIDFieldWarning: Cell is missing an id field, this
+  will become a hard error in future nbformat versions. (cosmetic; not a failure)
+[NbConvertApp] Writing 427433 bytes to part3_optimization.ipynb
+RUN_END 2026-09-08T18:08:08Z
+Duration: ~2.6 min. Exit: 0. Cell errors: 0 (17/17 code cells).
+
+Determinism: SEED=1605 applied via random.seed/np.random.seed/torch.manual_seed, and
+torch.mps.manual_seed(SEED) (verified present in torch 2.11.0, called via hasattr guard).
+Timing methodology: 1 untimed warmup + best-of-3 timed repeats for every timed comparison
+(Section 1 uses mean-of-5); this was applied consistently after an earlier development run
+showed a cold-start MPS kernel-compile artifact (see below).
+
+Non-fatal issues hit during initial development (fixed before this final run):
+  1. MPS cold-start artifact: the first activation-checkpointing timing comparison showed
+     checkpointing as *faster* than no-checkpointing, the wrong direction. Root cause: MPS
+     compiles kernels lazily on first use, so whichever variant ran first absorbed a one-time
+     compile cost. Fix: added an untimed warmup pass before timed repeats, then took best-of-3 —
+     produced the theoretically expected result (checkpointing ~25-28% slower, ~70% less
+     activation memory) consistently afterward.
+  2. torch.cuda.amp.GradScaler instantiates without raising off-CUDA hardware, but silently
+     self-disables (is_enabled() == False, with a UserWarning) — confirmed live rather than
+     assumed. Mixed-precision sections therefore use autocast without a scaler on MPS/CPU,
+     documented in the notebook as GradScaler being CUDA-only.
+  3. Under an earlier run (different seed), MPS matmul appeared to beat CPU matmul by ~1.2-2x
+     for a 4096x4096 matmul; under this run's SEED=1605 + best-of-3 methodology the two are near
+     parity (0.98x, i.e. CPU marginally faster). The notebook's Section 1 findings, the summary
+     table, and the overall discussion were corrected to state the new, honest result rather
+     than leave the earlier claim standing — see METRICS.md.
+
+================================================================================
+Model checkpoint produced (Part 1 only — Parts 2 and 3 do not train anything, see each
+notebook's explicit "no checkpoint applies" note):
+  hw2/checkpoints/imdb_finetuned_word2vec.model  (66.6 MB / 69,860,594 bytes)
+  Produced by: model.save("hw2/checkpoints/imdb_finetuned_word2vec.model") in part1_word2vec.ipynb
+               after model.train(...) on the 25k-review IMDB corpus (workers=1, seed=1605,
+               5 epochs, vector_size=300, sg=1, initialized from word2vec-google-news-300 via
+               intersect_word2vec_format(lockf=1.0)).
+  Reload check: Word2Vec.load(...) verified to reproduce the notebook's reported vectors.
+  Not committed to git (binary, gitignored per hw2/checkpoints/ — see .gitignore); regenerate by
+  re-running part1_word2vec.ipynb top to bottom.
