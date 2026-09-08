@@ -10,4 +10,8 @@ hw1/data/
 hw1/multiseed_raw_accuracies.csv
 hw1/multiseed_summary.csv
 hw1/report.md
+hw2/figures/
+hw2/checkpoints/
+hw2/data/
+hw2/logs/
 README.md
