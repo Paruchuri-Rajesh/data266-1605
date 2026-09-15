@@ -1,0 +1,104 @@
+DATA 266 HW2.5 â€” Rajesh Paruchuri (SID4=1605)
+
+This file is appended to automatically by src/identity.append_run_log() every
+time a part script runs, labelled with a UTC timestamp, the GPU UUID, and the
+GPU slug. Nothing has been run yet â€” this is the empty starting file. Do not
+hand-edit entries once real runs start appending below; if you need to note
+something, add a dated line instead of altering a run's own output.
+
+===== 2026-09-15 17:17:03 UTC  uuid=GPU-5b052ad1-4272-40db-4b25-c930bf32b547  NVIDIAGeForceRTX4090_5b052ad1 =====
+PART A
+DATA 266 HW2.5 — Rajesh Paruchuri
+SID4=1605  SEED=1605  SLICE=605  HP_ID=3  CLS_A=5  CLS_B=3
+HP_ID is reported only, from Section 0.1. HW2.5 has no HP_ID mapping and no second-model requirement, so it is not trained here.
+hostname: ADS-R15-840-01
+GPU name: NVIDIA GeForce RTX 4090
+GPU UUID: GPU-5b052ad1-4272-40db-4b25-c930bf32b547
+driver: 610.60
+CUDA (nvidia-smi): 13.3
+CUDA (torch): 13.0
+torch: 2.14.0+cu130
+VRAM: 24564 MiB  (25756696576 bytes)
+power limit: 450.00 W
+capability: 8.9
+nvidia-smi -q written to: C:\Users\rajesh\Desktop\HW_2.5\hw2_5\results\NVIDIAGeForceRTX4090_5b052ad1\nvidia_smi_q.txt
+architecture: Ada Lovelace (AD102)
+memory type: 24 GB GDDR6X, 384-bit, 21 Gbps
+bandwidth: 1008.0 GB/s
+tensor core gen: 4th generation
+tensor precisions: TF32, FP16, BF16, FP8, INT8, INT4
+
+===== 2026-09-15 17:17:50 UTC  uuid=GPU-5b052ad1-4272-40db-4b25-c930bf32b547  NVIDIAGeForceRTX4090_5b052ad1 =====
+PART B
+DATA 266 HW2.5 — Rajesh Paruchuri
+SID4=1605  SEED=1605  SLICE=605  HP_ID=3  CLS_A=5  CLS_B=3
+HP_ID is reported only, from Section 0.1. HW2.5 has no HP_ID mapping and no second-model requirement, so it is not trained here.
+UUID: GPU-5b052ad1-4272-40db-4b25-c930bf32b547
+GPU: NVIDIA GeForce RTX 4090
+sizes: [1024, 4096, 8192, 16384]
+  fp32  N= 1024     34.40 TFLOPS  (41.6% of 82.6 peak)  reps=200 mean=0.062ms std=0.006ms cv=0.099
+  fp32  N= 4096     53.24 TFLOPS  (64.5% of 82.6 peak)  reps=200 mean=2.581ms std=0.055ms cv=0.021
+  fp32  N= 8192     54.61 TFLOPS  (66.1% of 82.6 peak)  reps=75 mean=20.134ms std=0.117ms cv=0.006
+  fp32  N=16384     50.10 TFLOPS  (60.6% of 82.6 peak)  reps=20 mean=175.583ms std=1.704ms cv=0.010
+  tf32  N= 1024     35.27 TFLOPS  (42.7% of 82.6 peak)  reps=200 mean=0.061ms std=0.008ms cv=0.124
+  tf32  N= 4096     85.60 TFLOPS  (103.6% of 82.6 peak)  reps=200 mean=1.606ms std=0.076ms cv=0.048
+  tf32  N= 8192     87.57 TFLOPS  (106.0% of 82.6 peak)  reps=120 mean=12.556ms std=0.127ms cv=0.010
+  tf32  N=16384     86.90 TFLOPS  (105.2% of 82.6 peak)  reps=20 mean=101.217ms std=0.754ms cv=0.007
+  fp16  N= 1024     67.39 TFLOPS  (40.8% of 165.2 peak)  reps=200 mean=0.032ms std=0.004ms cv=0.120
+  fp16  N= 4096    166.48 TFLOPS  (100.8% of 165.2 peak)  reps=200 mean=0.826ms std=0.025ms cv=0.030
+  fp16  N= 8192    158.18 TFLOPS  (95.8% of 165.2 peak)  reps=200 mean=6.951ms std=0.163ms cv=0.023
+  fp16  N=16384    157.84 TFLOPS  (95.5% of 165.2 peak)  reps=27 mean=55.729ms std=0.419ms cv=0.008
+  bf16  N= 1024     71.79 TFLOPS  (43.5% of 165.2 peak)  reps=200 mean=0.030ms std=0.004ms cv=0.148
+  bf16  N= 4096    152.45 TFLOPS  (92.3% of 165.2 peak)  reps=200 mean=0.902ms std=0.026ms cv=0.029
+  bf16  N= 8192    161.75 TFLOPS  (97.9% of 165.2 peak)  reps=200 mean=6.798ms std=0.137ms cv=0.020
+  bf16  N=16384    160.08 TFLOPS  (96.9% of 165.2 peak)  reps=28 mean=54.949ms std=0.521ms cv=0.009
+  fp8   N=8192  263.39 TFLOPS  via torch._scaled_mm(a8, b8.t().contiguous().t(), ...)  pct=79.74160205771128
+  fp4: ok=False Found symbols ['float4_e2m1fn_x2'] but no public dense GEMM path is wired in this script. Treated as tooling-maturity finding unless a later cell succeeds.
+
+===== 2026-09-15 17:18:46 UTC  uuid=GPU-5b052ad1-4272-40db-4b25-c930bf32b547  NVIDIAGeForceRTX4090_5b052ad1 =====
+PART C
+DATA 266 HW2.5 — Rajesh Paruchuri
+SID4=1605  SEED=1605  SLICE=605  HP_ID=3  CLS_A=5  CLS_B=3
+HP_ID is reported only, from Section 0.1. HW2.5 has no HP_ID mapping and no second-model requirement, so it is not trained here.
+UUID: GPU-5b052ad1-4272-40db-4b25-c930bf32b547
+spec bandwidth: 1008.0 GB/s
+add: 916.3 GB/s  (90.9% of spec)  AI=0.0833 FLOP/B  memory-bound (left of ridge)
+copy: 907.8 GB/s  (90.1% of spec)
+bf16 GEMM N=16384: 161.01 TFLOPS  (97.5% of 165.2)  AI=5461.3 FLOP/B  compute-bound (right of ridge)
+ridge FP32=81.9 FLOP/B  ridge BF16=163.9 FLOP/B
+
+===== 2026-09-15 17:29:31 UTC  uuid=GPU-5b052ad1-4272-40db-4b25-c930bf32b547  NVIDIAGeForceRTX4090_5b052ad1 =====
+PART D
+DATA 266 HW2.5 — Rajesh Paruchuri
+SID4=1605  SEED=1605  SLICE=605  HP_ID=3  CLS_A=5  CLS_B=3
+HP_ID is reported only, from Section 0.1. HW2.5 has no HP_ID mapping and no second-model requirement, so it is not trained here.
+UUID: GPU-5b052ad1-4272-40db-4b25-c930bf32b547
+config: B=1 H=16 D=128 dtype=bfloat16
+naive OOM: largest ok=37760  smallest fail=37824  gap=64
+fused available: True  OOM largest ok=131072  smallest fail=None
+  seq=  512  naive=0.10ms  fused=0.13ms  speedup=0.75x  mem naive=0.03GB  fused=0.03GB
+  seq= 1024  naive=0.16ms  fused=0.36ms  speedup=0.45x  mem naive=0.09GB  fused=0.03GB
+  seq= 2048  naive=1.00ms  fused=1.22ms  speedup=0.82x  mem naive=0.31GB  fused=0.05GB
+  seq= 4096  naive=3.72ms  fused=3.25ms  speedup=1.15x  mem naive=1.15GB  fused=0.08GB
+  seq= 8192  naive=14.50ms  fused=5.27ms  speedup=2.75x  mem naive=4.44GB  fused=0.15GB
+  seq=16384  naive=57.26ms  fused=20.41ms  speedup=2.81x  mem naive=17.46GB  fused=0.29GB
+  naive seq=  512  0.10ms  peak=0.034 GB  reps=80
+  naive seq= 1024  0.16ms  peak=0.092 GB  reps=80
+  naive seq= 2048  1.00ms  peak=0.311 GB  reps=80
+  naive seq= 4096  3.72ms  peak=1.149 GB  reps=80
+  naive seq= 8192  14.50ms  peak=4.438 GB  reps=56
+  naive seq=16384  57.26ms  peak=17.457 GB  reps=14
+
+===== 2026-09-15 17:50:42 UTC  uuid=GPU-5b052ad1-4272-40db-4b25-c930bf32b547  NVIDIAGeForceRTX4090_5b052ad1 =====
+PART E
+DATA 266 HW2.5 — Rajesh Paruchuri
+SID4=1605  SEED=1605  SLICE=605  HP_ID=3  CLS_A=5  CLS_B=3
+HP_ID is reported only, from Section 0.1. HW2.5 has no HP_ID mapping and no second-model requirement, so it is not trained here.
+UUID: GPU-5b052ad1-4272-40db-4b25-c930bf32b547
+ran 1203.2s  N=8192 BF16  iters=172375
+first 30s mean TFLOPS: 161.06215183887156
+last 5min mean TFLOPS: 157.44094297466992
+steady/peak %: 97.75166988466394
+throttle onset s: 10.0
+max temp C: 76.0
+smi log: C:\Users\rajesh\Desktop\HW_2.5\hw2_5\results\NVIDIAGeForceRTX4090_5b052ad1\thermal_smi.csv

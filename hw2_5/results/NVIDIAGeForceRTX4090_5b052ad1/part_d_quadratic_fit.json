@@ -1,0 +1,11 @@
+{
+  "a_bytes_per_s2": 63.99999999999994,
+  "b_bytes_per_s": 16384.000000000553,
+  "c_bytes": 8519679.999998469,
+  "rmse_quadratic": 3.2199498082270016e-06,
+  "rmse_linear": 1506093029.3881428,
+  "quadratic_better": true,
+  "a_positive": true,
+  "n_points": 6,
+  "formula": "peak_bytes \u2248 a S^2 + b S + c"
+}

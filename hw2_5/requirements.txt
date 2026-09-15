@@ -1,0 +1,4 @@
+# Lab CUDA PyTorch is required. Do not pip-install a CPU/Mac wheel of torch here.
+numpy>=1.24
+matplotlib>=3.7
+pandas>=2.0
