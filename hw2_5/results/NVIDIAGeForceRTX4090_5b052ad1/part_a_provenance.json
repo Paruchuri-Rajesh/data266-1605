@@ -1,0 +1,75 @@
+{
+  "part": "A",
+  "gpu": {
+    "hostname": "ADS-R15-840-01",
+    "timestamp_utc": "2026-09-15T17:17:02.855739+00:00",
+    "device_index": 0,
+    "name": "NVIDIA GeForce RTX 4090",
+    "uuid": "GPU-5b052ad1-4272-40db-4b25-c930bf32b547",
+    "driver_version": "610.60",
+    "cuda_version_smi": "13.3",
+    "cuda_version_torch": "13.0",
+    "torch_version": "2.14.0+cu130",
+    "python": "3.12.10",
+    "vram_total_smi": "24564 MiB",
+    "vram_total_bytes": 25756696576,
+    "power_limit": "450.00 W",
+    "capability": "8.9",
+    "multi_processor_count": 128,
+    "nvidia_smi_parsed": {
+      "name": "NVIDIA GeForce RTX 4090",
+      "uuid": "GPU-5b052ad1-4272-40db-4b25-c930bf32b547",
+      "driver_version": "610.60",
+      "cuda_version": "13.3",
+      "vram_total": "24564 MiB",
+      "power_limit": "450.00 W",
+      "persistence_mode": "N/A",
+      "compute_mode": "Default",
+      "gpu_clock_max": "3105 MHz",
+      "mem_clock_max": "10501 MHz"
+    }
+  },
+  "vendor_spec": {
+    "match": [
+      "4090"
+    ],
+    "marketing_name": "GeForce RTX 4090",
+    "architecture": "Ada Lovelace (AD102)",
+    "memory_type": "24 GB GDDR6X, 384-bit, 21 Gbps",
+    "memory_gb": 24,
+    "bandwidth_gbs": 1008.0,
+    "tensor_core_gen": "4th generation",
+    "tensor_precisions": [
+      "TF32",
+      "FP16",
+      "BF16",
+      "FP8",
+      "INT8",
+      "INT4"
+    ],
+    "tflops": {
+      "fp32": 82.6,
+      "tf32": 82.6,
+      "fp16": 165.2,
+      "bf16": 165.2,
+      "fp8": 330.3,
+      "fp8_fp16acc": 660.6,
+      "fp4": null
+    },
+    "tdp_w": 450,
+    "boost_mhz": 2520,
+    "sources": [
+      "NVIDIA Ada GPU Architecture whitepaper, Table of GeForce RTX 4090 specs",
+      "https://images.nvidia.com/aem-dam/Solutions/geforce/ada/nvidia-ada-gpu-architecture.pdf",
+      "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4090/"
+    ]
+  },
+  "nvidia_smi_q_file": "results\\NVIDIAGeForceRTX4090_5b052ad1\\nvidia_smi_q.txt",
+  "required_fields": {
+    "uuid": "GPU-5b052ad1-4272-40db-4b25-c930bf32b547",
+    "driver_version": "610.60",
+    "cuda_version": "13.3",
+    "vram_capacity": "24564 MiB",
+    "power_limit": "450.00 W"
+  }
+}
