@@ -1,0 +1,70 @@
+HW3 RUN LOG
+SID4=1605  SEED=1605
+Machine: macOS (Apple Silicon), Python 3.13.7, torch 2.14.0, CUDA unavailable, MPS available.
+LLM backend: local Ollama server (ollama 0.32.15), model llama3.1:8b, via langchain-ollama.
+No Anthropic/OpenAI/Google API key is configured in this environment; all Part A LLM calls went
+to the local model instead (see AI_USE.md).
+
+Notebook: hw3/attention_and_prompting.ipynb (Part A: prompt engineering, Part B: self-attention),
+executed top-to-bottom with no manual intervention via:
+  jupyter nbconvert --to notebook --execute --inplace attention_and_prompting.ipynb \
+    --ExecutePreprocessor.timeout=900 --ExecutePreprocessor.kernel_name=hw3
+
+This is the final run whose numbers are reported in METRICS.md.
+
+================================================================================
+FINAL RUN — attention_and_prompting.ipynb
+================================================================================
+RUN_START 2026-09-15 08:31 PDT
+[NbConvertApp] Converting notebook hw3/attention_and_prompting.ipynb to notebook
+[NbConvertApp] Writing 381297 bytes to hw3/attention_and_prompting.ipynb
+RUN_END   2026-09-15 09:08 PDT
+Duration: ~37 min (dominated by ~20 local llama3.1:8b calls in Part A; Part B trains in seconds).
+Exit: 0. Cell errors: 0 (44/44 cells scanned, none with output_type=="error").
+
+--------------------------------------------------------------------------------
+Part A — Prompt Engineering (12 LangChain calls + Tree-of-Thoughts helper calls)
+--------------------------------------------------------------------------------
+All 6 techniques x 2 examples executed for real against llama3.1:8b (temperature=0 for
+Zero-Shot/Few-Shot/CoT/Zero-Shot-CoT/Meta-Prompting; temperature=0.8 for Tree-of-Thoughts branch
+generation, temperature=0 for its evaluation step). Full transcripts are in the executed notebook
+and condensed in METRICS.md. Headline results:
+  Zero-Shot   | Math: 32 (wrong, correct=28)      | Logic: Yes (correct)
+  Few-Shot    | Math: 21 (wrong; answered the exemplar's own question) | Logic: Yes (correct)
+  CoT         | Math: 28 (correct)                | Logic: 6 (correct)
+  Zero-Shot CoT | Math: 28 (correct)               | Logic: 24 (wrong; self-contradicted)
+  Meta-Prompting | Math: 28 (correct)              | Text: Mixed (correct)
+  Tree of Thoughts | Math: no valid 24 found (wrong) | Logic: cat/Boston (pet right, city wrong)
+
+--------------------------------------------------------------------------------
+Part B — Self-Attention and Causal Masking (from scratch, PyTorch)
+--------------------------------------------------------------------------------
+Dataset: assignment's fixed 5-sentence paragraph -> 51 word-level tokens, vocab size 41.
+Two models trained independently (both SEED=1605 at init), 300 epochs, Adam lr=3e-3,
+autoregressive next-token cross-entropy:
+  Unmasked (bidirectional) self-attention: final loss 0.0027
+  Causal-masked self-attention:            final loss 0.0032
+Both started near ln(41)=3.71 (random-guess loss), confirming real learning, not random init.
+
+Verification performed IN the executed notebook (not just visual inspection of the heatmap):
+  Unmasked row sums: ~1.0 (softmax correctness)
+  Causal row sums:   ~1.0 (softmax correctness)
+  Causal upper-triangle attention mass: 0.0000000000 (confirms zero leakage to future tokens)
+
+Heatmaps saved to hw3/figures/ (gitignored; also embedded directly in the executed notebook
+cell outputs, which is the actual submitted deliverable):
+  unmasked_attention_heatmap.png
+  causal_attention_heatmap.png
+  training_loss.png
+
+--------------------------------------------------------------------------------
+Notable issues hit and fixed during development (see AI_USE.md for full narrative)
+--------------------------------------------------------------------------------
+1. AttentionLM's causal mask was originally sized to the full 51-token sequence but training
+   feeds 50-token shifted input, causing a RuntimeError (tensor size mismatch). Fixed by slicing
+   the mask to the actual input length inside forward().
+2. An early run of the Tree-of-Thoughts branch-generation call hung indefinitely (5+ hours, near
+   0% CPU) with no client-side timeout and no cap on generation length, most likely a runaway
+   repetition loop server-side. Fixed by adding `num_predict=400` (hard cap on generated tokens)
+   and `client_kwargs={"timeout": 120}` (hard request timeout) to every ChatOllama instance, then
+   re-ran successfully end-to-end in the log-confirmed run above.
