@@ -1,0 +1,63 @@
+HW4 RUN LOG
+SID4=1605  SEED=1605
+Machine: macOS (Apple Silicon), Python 3.12.13, torch 2.14.0, matplotlib 3.11.2, CUDA unavailable, MPS available.
+Dataset: Shakespeare.txt, 1,115,394 characters (public Tiny Shakespeare copy,
+  https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt).
+  The file is gitignored; the notebook downloads it automatically if it is missing.
+
+Notebook: hw4/MiniGPT_Shakespeare.ipynb, executed top-to-bottom with no manual intervention via:
+  jupyter nbconvert --to notebook --execute --inplace --allow-errors \
+    --ExecutePreprocessor.timeout=-1 --ExecutePreprocessor.kernel_name=python3 MiniGPT_Shakespeare.ipynb
+
+This is the final run whose numbers are reported in METRICS.md and MiniGPT_Findings.pdf.
+
+================================================================================
+FINAL RUN — MiniGPT_Shakespeare.ipynb
+================================================================================
+RUN_START 2026-09-22 13:39 PDT
+[NbConvertApp] Converting notebook MiniGPT_Shakespeare.ipynb to notebook
+[NbConvertApp] Writing 153029 bytes to MiniGPT_Shakespeare.ipynb
+RUN_END   2026-09-22 14:04 PDT
+Duration: 1488.8 s (~25 min): ~23.4 min training, remainder sampling + metrics.
+Exit: 0. Cell errors: 0 (20/20 code cells scanned, none with output_type=="error").
+
+--------------------------------------------------------------------------------
+Training output (verbatim from the executed notebook)
+--------------------------------------------------------------------------------
+Using device: mps
+Vocabulary size: 65
+Train tokens: 1,003,854 | Val tokens: 111,540
+Train windows: 31,367 | Val windows: 871
+Total parameter count : 3,225,153
+Steps per epoch: 490  | Total steps: 3920
+Expected initial loss ~ ln(65) = 4.174
+Loss before training (val): 4.243
+Epoch 1/8 | train loss 2.3576 | val loss 2.0665 | elapsed 140s
+Epoch 2/8 | train loss 1.9205 | val loss 1.8635 | elapsed 279s
+Epoch 3/8 | train loss 1.7204 | val loss 1.7405 | elapsed 425s
+Epoch 4/8 | train loss 1.6044 | val loss 1.6654 | elapsed 591s
+Epoch 5/8 | train loss 1.5291 | val loss 1.6220 | elapsed 815s
+Epoch 6/8 | train loss 1.4757 | val loss 1.5857 | elapsed 1009s
+Epoch 7/8 | train loss 1.4346 | val loss 1.5594 | elapsed 1211s
+Epoch 8/8 | train loss 1.4021 | val loss 1.5448 | elapsed 1404s
+
+Causal-mask unit test (Part 2):
+Outputs at positions 0-6 unchanged: True
+Attention weights above diagonal all zero: True
+
+--------------------------------------------------------------------------------
+Issues hit along the way (earlier runs, not the final one)
+--------------------------------------------------------------------------------
+1. First full run (SEED=42, stride=16, 7,840 steps) ran ~47 min and then failed with
+   "ModuleNotFoundError: No module named 'stack_data'". IPython could not format a
+   traceback, so the notebook was never written and the underlying cell error was
+   lost. Fix: rebuilt the .venv with ipython installed explicitly; re-ran the notebook's
+   code as a plain script (smoke test, 2 epochs) to confirm every cell runs; added
+   --allow-errors so any future cell error is saved into the notebook instead of lost.
+2. The project folder was renamed mid-run ("genai hw4" -> "GenAI_Hw4"), which broke the
+   absolute interpreter paths inside .venv. Fix: recreated the .venv at the new path.
+3. Stride 16 made one run take ~47 min. Changed to stride 32 (each character still appears
+   in 4 windows), 490 steps/epoch, ~23 min training.
+4. A SEED=42 run (stride 32) completed cleanly (train 1.401 / val 1.536). It was re-run with
+   SEED=1605 to match the course's standing seed requirement; only the SEED=1605 numbers
+   are reported.

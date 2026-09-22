@@ -1,0 +1,79 @@
+{
+  "vocab_size": 65,
+  "n_params": 3225153,
+  "d_model": 256,
+  "n_heads": 8,
+  "n_layers": 4,
+  "seq_len": 128,
+  "batch_size": 64,
+  "lr": 0.0003,
+  "epochs": 8,
+  "stride": 32,
+  "steps_per_epoch": 490,
+  "train_loss": [
+    2.3575731963527446,
+    1.9204691468452921,
+    1.720379323132184,
+    1.6044335671833583,
+    1.5291278800185846,
+    1.47570284191443,
+    1.4346124894764958,
+    1.4021351332567176
+  ],
+  "val_loss": [
+    2.0665004412150685,
+    1.8635197683535816,
+    1.7405018829724546,
+    1.6654020499964122,
+    1.6219668296667247,
+    1.5856670651726006,
+    1.5593930489707624,
+    1.5447556827426914
+  ],
+  "samples": {
+    "Greedy": "ROMEO:\nThe present of the princess of the princess.\n\nPOMPEY:\nI will not so much a strike of the princely of the country.\n\nKING RICHARD III:\nThe princely of the princess of the prince,\nAnd the present of the present of the prince,\nAnd the present of the princess of the world.\n\nKING RICHARD III:\nThe present of the princess of the princess.\n\nKING RICHARD III:\nThe present of the princess of the princely of ",
+    "Temperature τ=0.3": "ROMEO:\nThe king and the present of the body of the fearful of the king.\n\nMENENIUS:\nThe law may we have been the princely words,\nThat we we may be the world and all the head.\n\nCORIOLANUS:\nI will not be the father's comes of the court?\n\nCORIOLANUS:\nHe is the proclaim to the world of me?\n\nCORIOLANUS:\nBe so, sir, I have been your ancient speak with her\nsome of me that work that we shall be a more.\n\nCAPULET:",
+    "Temperature τ=1.0": "ROMEO:\n\nDUKE VINCENTIO:\nYou have life, as I may befaect;\nAnd go thy ghost looks power than may in hum.\nIf With come men my of with comforts,\nAnd with we lady in his spare offence.\n\nSEMN:\nIt is doubt:\nHark! yet cousin.\n\nWARWICK:\nAnd, but now, I shall be spit and son to our\nIn encling more marry subjects, than what?\n\nROMEO:\nMore, unhoods, as I did not, to them post it.\n\nLUCHIO:\nTrong I'll give him. Go, th",
+    "Temperature τ=1.8": "ROMEO: traF Bylorow'd speit his; like,\nash; nan hifae, nor hag?\nGon anot-glaced. Gauldera, mad? wert is my reR:\nMy hang my of ANNEjIol:\nResirous your well.\nNow, 'PovPETHMA, he Dpinor to the mark's tragto.\nHo.\nFaply:' you\nI was life, Tuke moorsal exprept for fools.\nTenco?\n\nISABELLY:\nWill\nI swear in Badnist: if York'?\n\nNORFOLK:\nHie how speak we by you,\nUsI it: I knully.\n\nGRUMIO,\nI finly. I in:--Afp if Jul",
+    "Top-k k=3": "ROMEO:\nTraitor, to-dear to the counterfacte of thine\nThat that we have sent my brother's head;\nThere is not the poison, and took me whose:\nThough thou shalt by the proceed of their court\nAnd so such a provise and with a servant:\nIf, the should she was the world of the prince,\nTo brother hearts the was to said of him.\n\nKING RICHARD III:\nTo see you, and well, and whereon the compassion\nAnd to make him, th",
+    "Top-k k=30": "ROMEO:\n\nDUKE VINCENTIO:\nYou have life, as I may befaect;\nAnd go thy ghost looks power than may in hum.\nIf With come men my of with comforts,\nAnd with we lady in his spare offence.\n\nSEMN:\nIt is doubt:\nHark! yet cousin.\n\nWARWICK:\nAnd, but now, I shall be spit and son to our\nIn encling more marry subjects, than what?\n\nROMEO:\nMore, unhoods, as I did not, to them post it.\n\nLUCHIO:\nTrong I'll give him. Go, th"
+  },
+  "metrics": {
+    "Greedy": {
+      "distinct2": 0.15384615384615385,
+      "rep4": 0.9388888888888889,
+      "real_word": 1.0,
+      "nll": 0.6603461498051734
+    },
+    "Temperature τ=0.3": {
+      "distinct2": 0.7441870719002502,
+      "rep4": 0.06461108692252565,
+      "real_word": 0.9953409129822012,
+      "nll": 0.8287068836724579
+    },
+    "Temperature τ=1.0": {
+      "distinct2": 0.9927726797543577,
+      "rep4": 0.0,
+      "real_word": 0.8779923839270024,
+      "nll": 1.3303186824665734
+    },
+    "Temperature τ=1.8": {
+      "distinct2": 1.0,
+      "rep4": 0.0,
+      "real_word": 0.4771611376073684,
+      "nll": 2.6075581666051253
+    },
+    "Top-k k=3": {
+      "distinct2": 0.9363197295339291,
+      "rep4": 0.0,
+      "real_word": 0.957737497409409,
+      "nll": 1.0180656344538699
+    },
+    "Top-k k=30": {
+      "distinct2": 0.9857369971079756,
+      "rep4": 0.0,
+      "real_word": 0.9114741175396182,
+      "nll": 1.294625892449374
+    }
+  }
+}
