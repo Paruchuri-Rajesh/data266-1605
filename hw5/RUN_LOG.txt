@@ -1,0 +1,122 @@
+HW5 RUN LOG
+SID4=1605  SEED=1605
+Machine: macOS (Apple Silicon, 16 GB), Python 3.13.7, torch 2.11.0 | transformers 5.5.3 | peft 0.21.1 | datasets 4.0.0
+Device: mps (CUDA unavailable). Kernel: `hw5` (.venv/, --system-site-packages + peft, rouge_score).
+Model/data were cached locally; the final run used HF_HUB_OFFLINE=1.
+
+Notebook: lora_dialogsum.ipynb, executed top-to-bottom with no manual intervention via:
+  HF_HUB_OFFLINE=1 PYTORCH_ENABLE_MPS_FALLBACK=1 .venv/bin/python -m nbconvert --to notebook --execute \
+    --inplace lora_dialogsum.ipynb --ExecutePreprocessor.timeout=7200 --ExecutePreprocessor.kernel_name=hw5
+
+This is the final run whose numbers are reported in METRICS.md.
+
+================================================================================
+FINAL RUN — lora_dialogsum.ipynb
+================================================================================
+RUN_START 2026-09-29 13:20:05 PDT
+RUN_END   2026-09-29 13:57:29 PDT
+Exit: 0. Cell errors: 0 (18/18 code cells scanned, none with output_type=="error").
+
+test rows: 499 | unique test dialogues: 167 | refs per dialogue: [1, 3]
+Baseline ROUGE on 167 test dialogues (119s): {'rouge1': 17.45, 'rouge2': 5.33, 'rougeL': 14.89, 'avg_words': 10.7}
+
+--------------------------------------------------------------------------------
+LoRA r=16, alpha=32, dropout=0.05, targets q,v — trainable 688,128 params (0.886%)
+--------------------------------------------------------------------------------
+13:22:33  step  10/250  epoch 0.08  loss 2.4053  lr 0.000692  grad_norm 0.799
+13:22:46  step  20/250  epoch 0.16  loss 1.8900  lr 0.000975  grad_norm 0.549
+13:23:08  step  30/250  epoch 0.24  loss 1.6871  lr 0.000932  grad_norm 0.467
+13:23:30  step  40/250  epoch 0.32  loss 1.7185  lr 0.000890  grad_norm 0.507
+13:24:35  step  50/250  epoch 0.40  loss 1.7591  lr 0.000848  grad_norm 0.463
+13:24:54  step  60/250  epoch 0.48  loss 1.5435  lr 0.000806  grad_norm 0.448
+13:25:08  step  70/250  epoch 0.56  loss 1.6274  lr 0.000764  grad_norm 0.696
+13:26:16  step  80/250  epoch 0.64  loss 1.5908  lr 0.000722  grad_norm 0.394
+13:26:34  step  90/250  epoch 0.72  loss 1.6214  lr 0.000679  grad_norm 0.386
+13:27:42  step 100/250  epoch 0.80  loss 1.5440  lr 0.000637  grad_norm 0.460
+13:28:04  step 110/250  epoch 0.88  loss 1.4842  lr 0.000595  grad_norm 0.372
+13:28:21  step 120/250  epoch 0.96  loss 1.5591  lr 0.000553  grad_norm 0.520
+13:29:53  step 125/250  epoch 1.00  EVAL val_loss 1.3372
+13:31:05  step 130/250  epoch 1.04  loss 1.4889  lr 0.000511  grad_norm 0.480
+13:31:30  step 140/250  epoch 1.12  loss 1.5027  lr 0.000468  grad_norm 0.481
+13:33:08  step 150/250  epoch 1.20  loss 1.5911  lr 0.000426  grad_norm 0.514
+13:33:49  step 160/250  epoch 1.28  loss 1.4368  lr 0.000384  grad_norm 0.385
+13:34:44  step 170/250  epoch 1.36  loss 1.4841  lr 0.000342  grad_norm 0.430
+13:35:26  step 180/250  epoch 1.44  loss 1.5291  lr 0.000300  grad_norm 0.576
+13:35:58  step 190/250  epoch 1.52  loss 1.4554  lr 0.000257  grad_norm 0.422
+13:36:25  step 200/250  epoch 1.60  loss 1.5130  lr 0.000215  grad_norm 0.677
+13:36:54  step 210/250  epoch 1.68  loss 1.6555  lr 0.000173  grad_norm 0.473
+13:37:34  step 220/250  epoch 1.76  loss 1.5275  lr 0.000131  grad_norm 0.505
+13:38:01  step 230/250  epoch 1.84  loss 1.5274  lr 0.000089  grad_norm 0.509
+13:38:39  step 240/250  epoch 1.92  loss 1.4879  lr 0.000046  grad_norm 0.515
+13:39:28  step 250/250  epoch 2.00  loss 1.4099  lr 0.000004  grad_norm 0.402
+13:40:36  step 250/250  epoch 2.00  EVAL val_loss 1.3167
+13:40:36  DONE  train_runtime 1096s (18.3 min)  avg train_loss 1.6016  0.228 steps/s
+ROUGE (167 unique test dialogues, 3 refs): {'rouge1': 37.63, 'rouge2': 12.78, 'rougeL': 29.89, 'avg_words': 23.0}
+
+--------------------------------------------------------------------------------
+LoRA r=4, alpha=8, dropout=0.05, targets q,v — trainable 172,032 params (0.223%)
+--------------------------------------------------------------------------------
+13:43:25  step  10/250  epoch 0.08  loss 2.5011  lr 0.000692  grad_norm 0.581
+13:43:40  step  20/250  epoch 0.16  loss 2.1328  lr 0.000975  grad_norm 0.614
+13:43:56  step  30/250  epoch 0.24  loss 1.7799  lr 0.000932  grad_norm 0.349
+13:44:14  step  40/250  epoch 0.32  loss 1.7784  lr 0.000890  grad_norm 0.466
+13:44:28  step  50/250  epoch 0.40  loss 1.8064  lr 0.000848  grad_norm 0.445
+13:44:43  step  60/250  epoch 0.48  loss 1.5874  lr 0.000806  grad_norm 0.398
+13:44:57  step  70/250  epoch 0.56  loss 1.6688  lr 0.000764  grad_norm 0.549
+13:45:09  step  80/250  epoch 0.64  loss 1.6233  lr 0.000722  grad_norm 0.352
+13:45:25  step  90/250  epoch 0.72  loss 1.6447  lr 0.000679  grad_norm 0.369
+13:45:39  step 100/250  epoch 0.80  loss 1.5714  lr 0.000637  grad_norm 0.397
+13:46:11  step 110/250  epoch 0.88  loss 1.5116  lr 0.000595  grad_norm 0.333
+13:46:34  step 120/250  epoch 0.96  loss 1.5952  lr 0.000553  grad_norm 0.497
+13:47:11  step 125/250  epoch 1.00  EVAL val_loss 1.3529
+13:47:24  step 130/250  epoch 1.04  loss 1.5280  lr 0.000511  grad_norm 0.443
+13:47:42  step 140/250  epoch 1.12  loss 1.5488  lr 0.000468  grad_norm 0.415
+13:48:06  step 150/250  epoch 1.20  loss 1.6429  lr 0.000426  grad_norm 0.406
+13:48:39  step 160/250  epoch 1.28  loss 1.4691  lr 0.000384  grad_norm 0.308
+13:49:21  step 170/250  epoch 1.36  loss 1.5378  lr 0.000342  grad_norm 0.369
+13:49:48  step 180/250  epoch 1.44  loss 1.5811  lr 0.000300  grad_norm 0.548
+13:50:13  step 190/250  epoch 1.52  loss 1.5060  lr 0.000257  grad_norm 0.364
+13:50:38  step 200/250  epoch 1.60  loss 1.5613  lr 0.000215  grad_norm 0.372
+13:51:42  step 210/250  epoch 1.68  loss 1.7051  lr 0.000173  grad_norm 0.411
+13:52:05  step 220/250  epoch 1.76  loss 1.5842  lr 0.000131  grad_norm 0.442
+13:53:11  step 230/250  epoch 1.84  loss 1.5827  lr 0.000089  grad_norm 0.437
+13:53:33  step 240/250  epoch 1.92  loss 1.5378  lr 0.000046  grad_norm 0.467
+13:54:38  step 250/250  epoch 2.00  loss 1.4522  lr 0.000004  grad_norm 0.353
+13:55:23  step 250/250  epoch 2.00  EVAL val_loss 1.3378
+13:55:23  DONE  train_runtime 732s (12.2 min)  avg train_loss 1.6575  0.342 steps/s
+ROUGE (167 unique test dialogues, 3 refs): {'rouge1': 38.04, 'rouge2': 13.45, 'rougeL': 30.46, 'avg_words': 22.6}
+
+Adapters saved: outputs/lora_adapter_r16/, outputs/lora_adapter_r4/ ; baseline outputs: outputs/baseline_outputs.json ;
+all outputs + ROUGE + rank table: outputs/all_outputs.json
+
+================================================================================
+EARLIER ATTEMPTS (superseded; kept for the record — see AI_USE.md)
+================================================================================
+Attempt 1 — 2026-09-29 09:27 -> ~11:25 PDT, STOPPED MANUALLY
+  flan-t5-base (248M), full 1,999-dialogue train split, 3 epochs, batch 8.
+  Still inside the first (r=16) training run after ~2 h. Diagnosis: vm.swapusage 15.9 GB used of 17.4 GB,
+  kernel process RSS 50 MB (the rest swapped/compressed) -> training was I/O-bound on swap.
+  (Two earlier launches that day failed immediately: `.venv/bin/jupyter` did not exist in the
+  --system-site-packages venv -> exit 127; then evaluate.load("rouge") could not reach the HF Hub ->
+  FileNotFoundError. Fixed by running `python -m nbconvert` and switching to the offline rouge_score package.)
+
+Attempt 2 — 11:37:51 -> ~12:09 PDT, STOPPED MANUALLY
+  flan-t5-base, 1,000-dialogue subset, 2 epochs, batch 4 x 2 grad-accumulation.
+  Step times degraded as swap filled: 11:40:34 step 10, 11:41:20 step 20 (~4.6 s/step),
+  11:43:36 step 30, 11:55:40 step 40, 12:08:21 step 50 (~76 s/step). Projected > 6 h -> switched model.
+
+Attempt 3 — 12:09:42 -> 12:24:19 PDT, exit 0, 0 cell errors, RESULTS DISCARDED
+  flan-t5-small, batch 4 x 2 grad-accumulation, greedy decoding. Three problems found by reading outputs:
+  (a) test rows 0 and 1 are the same dialogue (test split repeats each dialogue 3x, one per reference);
+  (b) fine-tuned summaries looped a clause ("Ms. Dawson asks #Person1# to take a dictation ..." x3);
+  (c) logged train loss 2.82 vs val loss 1.31; eval-mode loss of the r=16 adapter on 200 of its own
+      training examples measured 1.31 -> logged loss was ~2x too high (summed over accumulation steps).
+
+Attempt 4 — 12:26:21 -> 13:06:13 PDT, exit 0, 0 cell errors, RESULTS DISCARDED
+  Fixed (a) by grouping the test split into 167 unique dialogues, (c) by batch 8 with no accumulation,
+  and (b) with no_repeat_ngram_size=3 — which mangled speaker tags ("#Pperson2#", "#Pon2#", "Mss.")
+  because "#Person2#" is 5 subword tokens. Decoding was then chosen on validation dialogues 200-299
+  (6 settings compared, see AI_USE.md): beam 4 + no_repeat_ngram_size=6 -> 0/100 mangled, 0/100 looping.
+
+Final run (above) = attempt 4's pipeline + that decoding setting. Its training losses match attempt 4
+step-for-step (step 10: 2.4053, step 20: 1.8900), confirming training is deterministic under SEED=1605.
