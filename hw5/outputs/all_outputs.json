@@ -1,0 +1,68 @@
+{
+  "samples": [
+    {
+      "test_idx": 0,
+      "Reference": "Ms. Dawson helps #Person1# to write a memo to inform every employee that they have to change the communication method and should not use Instant Messaging anymore.",
+      "Baseline": "Ms. Dawson, Attached is a draft memo to all employees.",
+      "LoRA r=4": "#Person1# asks #Person2# to take a dictation for Ms. Dawson. Ms. Dawson asks #Person1# to go out as an intra-office memorandum to all employees by this afternoon.",
+      "LoRA r=16": "#Person1# asks #Person2# to take a dictation for Ms. Dawson. Ms. Dawson tells #Person1# that the use of instant messaging programs by employees during working hours is strictly prohibited."
+    },
+    {
+      "test_idx": 1,
+      "Reference": "#Person2# arrives late because of traffic jam. #Person1# persuades #Person2# to use public transportations to keep healthy and to protect the environment.",
+      "Baseline": "Talk to a friend.",
+      "LoRA r=4": "#Person1# is stuck in traffic again. #Person2# thinks it would be better if #Person1# started taking public transport system to work. #Person1# thinks the public transport system would be better for the environment.",
+      "LoRA r=16": "#Person1# tells #Person2# that #Person2#'s got stuck in traffic again. #Person2# thinks it's better if #Person1# started taking public transport system to work. #Person1# thinks biking to work would be better for the environment."
+    }
+  ],
+  "rouge_test_167_unique_3refs": {
+    "Baseline (zero-shot)": {
+      "rouge1": 17.45,
+      "rouge2": 5.33,
+      "rougeL": 14.89,
+      "avg_words": 10.7
+    },
+    "LoRA r=16": {
+      "rouge1": 37.63,
+      "rouge2": 12.78,
+      "rougeL": 29.89,
+      "avg_words": 23.0
+    },
+    "LoRA r=4": {
+      "rouge1": 38.04,
+      "rouge2": 13.45,
+      "rougeL": 30.46,
+      "avg_words": 22.6
+    }
+  },
+  "rank_table": [
+    {
+      "Rank r": 4,
+      "alpha": 8,
+      "Trainable params": 172032,
+      "% of total": 0.223,
+      "Train time (min)": 12.2,
+      "Avg train loss": 1.6575,
+      "Final logged train loss": 1.4522,
+      "Final val loss": 1.3378,
+      "rouge1": 38.04,
+      "rouge2": 13.45,
+      "rougeL": 30.46,
+      "avg_words": 22.6
+    },
+    {
+      "Rank r": 16,
+      "alpha": 32,
+      "Trainable params": 688128,
+      "% of total": 0.886,
+      "Train time (min)": 18.3,
+      "Avg train loss": 1.6016,
+      "Final logged train loss": 1.4099,
+      "Final val loss": 1.3167,
+      "rouge1": 37.63,
+      "rouge2": 12.78,
+      "rougeL": 29.89,
+      "avg_words": 23.0
+    }
+  ]
+}
