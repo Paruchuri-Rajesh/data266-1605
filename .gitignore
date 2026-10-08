@@ -19,3 +19,9 @@ hw3/logs/
 README.md
 hw4/Shakespeare.txt
 hw4/mini_gpt.pt
+hw6/.venv
+hw6/data
+hw6/logs/
+hw6/checkpoints/*_smoke.pt
+hw6/results_smoke.json
+hw6/smoke_run.ipynb
