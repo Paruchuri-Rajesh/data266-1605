@@ -1,0 +1,280 @@
+[18:15:43] [A supervised] epoch 1/15 loss 2.2635 train_acc 0.164
+[18:15:44] [A supervised] epoch 2/15 loss 1.8559 train_acc 0.300
+[18:15:46] [A supervised] epoch 3/15 loss 1.6488 train_acc 0.376
+[18:15:48] [A supervised] epoch 4/15 loss 1.6256 train_acc 0.406
+[18:15:50] [A supervised] epoch 5/15 loss 1.5344 train_acc 0.424
+[18:15:51] [A supervised] epoch 6/15 loss 1.3811 train_acc 0.480
+[18:15:53] [A supervised] epoch 7/15 loss 1.3012 train_acc 0.518
+[18:15:55] [A supervised] epoch 8/15 loss 1.2734 train_acc 0.504
+[18:15:57] [A supervised] epoch 9/15 loss 1.1776 train_acc 0.564
+[18:15:58] [A supervised] epoch 10/15 loss 1.0983 train_acc 0.596
+[18:16:00] [A supervised] epoch 11/15 loss 0.9319 train_acc 0.668
+[18:16:02] [A supervised] epoch 12/15 loss 0.8077 train_acc 0.716
+[18:16:04] [A supervised] epoch 13/15 loss 0.7569 train_acc 0.758
+[18:16:07] [A supervised] epoch 14/15 loss 0.6840 train_acc 0.766
+[18:16:09] [A supervised] epoch 15/15 loss 0.6374 train_acc 0.780
+[18:16:17] [A supervised] trained in 0.5 min. TEST ACC = 0.4784
+[18:16:18] [B rotation] epoch 1 step 0/781 loss 1.4945 (0.0 min)
+[18:18:01] [B rotation] epoch 1 step 200/781 loss 1.0726 (1.7 min)
+[18:19:43] [B rotation] epoch 1 step 400/781 loss 1.0153 (3.4 min)
+[18:21:11] [B rotation] epoch 1 step 600/781 loss 0.9352 (4.9 min)
+[18:22:26] [B rotation] EPOCH 1/15 loss 1.0355 rotation_acc 0.553
+[18:22:26] [B rotation] epoch 2 step 0/781 loss 0.7253 (6.1 min)
+[18:23:50] [B rotation] epoch 2 step 200/781 loss 0.8139 (7.5 min)
+[18:25:14] [B rotation] epoch 2 step 400/781 loss 0.8087 (8.9 min)
+[18:30:35] [B rotation] epoch 2 step 600/781 loss 0.8444 (14.3 min)
+[18:32:09] [B rotation] EPOCH 2/15 loss 0.8497 rotation_acc 0.655
+[18:32:09] [B rotation] epoch 3 step 0/781 loss 0.8602 (15.9 min)
+[18:33:58] [B rotation] epoch 3 step 200/781 loss 0.9291 (17.7 min)
+[18:35:24] [B rotation] epoch 3 step 400/781 loss 0.8150 (19.1 min)
+[18:36:56] [B rotation] epoch 3 step 600/781 loss 0.7509 (20.6 min)
+[18:38:36] [B rotation] EPOCH 3/15 loss 0.7791 rotation_acc 0.687
+[18:38:36] [B rotation] epoch 4 step 0/781 loss 0.7902 (22.3 min)
+[18:40:10] [B rotation] epoch 4 step 200/781 loss 0.7350 (23.9 min)
+[18:41:44] [B rotation] epoch 4 step 400/781 loss 0.7902 (25.4 min)
+[18:43:23] [B rotation] epoch 4 step 600/781 loss 0.6960 (27.1 min)
+[18:44:41] [B rotation] EPOCH 4/15 loss 0.7265 rotation_acc 0.709
+[18:44:41] [B rotation] epoch 5 step 0/781 loss 0.7692 (28.4 min)
+[18:46:01] [B rotation] epoch 5 step 200/781 loss 0.6188 (29.7 min)
+[18:47:24] [B rotation] epoch 5 step 400/781 loss 0.6696 (31.1 min)
+[18:48:55] [B rotation] epoch 5 step 600/781 loss 0.7063 (32.6 min)
+[18:50:01] [B rotation] EPOCH 5/15 loss 0.6787 rotation_acc 0.732
+[18:50:01] [B rotation] epoch 6 step 0/781 loss 0.7225 (33.7 min)
+[18:51:16] [B rotation] epoch 6 step 200/781 loss 0.7236 (35.0 min)
+[18:52:30] [B rotation] epoch 6 step 400/781 loss 0.6238 (36.2 min)
+[18:59:30] [B rotation] epoch 6 step 600/781 loss 0.6209 (43.2 min)
+[19:06:20] [B rotation] EPOCH 6/15 loss 0.6374 rotation_acc 0.748
+[19:06:20] [B rotation] epoch 7 step 0/781 loss 0.5611 (50.0 min)
+[19:07:34] [B rotation] epoch 7 step 200/781 loss 0.5361 (51.3 min)
+[19:12:12] [B rotation] epoch 7 step 400/781 loss 0.6645 (55.9 min)
+[19:13:27] [B rotation] epoch 7 step 600/781 loss 0.5688 (57.2 min)
+[19:14:45] [B rotation] EPOCH 7/15 loss 0.5968 rotation_acc 0.767
+[19:14:45] [B rotation] epoch 8 step 0/781 loss 0.6025 (58.5 min)
+[19:16:03] [B rotation] epoch 8 step 200/781 loss 0.5897 (59.8 min)
+[19:18:05] [B rotation] epoch 8 step 400/781 loss 0.4258 (61.8 min)
+[19:53:04] [B rotation] epoch 8 step 600/781 loss 0.5918 (96.8 min)
+[20:19:00] [B rotation] EPOCH 8/15 loss 0.5581 rotation_acc 0.784
+[20:19:01] [B rotation] epoch 9 step 0/781 loss 0.6327 (122.7 min)
+[21:01:00] [B rotation] epoch 9 step 200/781 loss 0.4848 (164.7 min)
+[21:27:40] [B rotation] epoch 9 step 400/781 loss 0.5073 (191.4 min)
+[21:50:19] [B rotation] epoch 9 step 600/781 loss 0.5030 (214.0 min)
+[21:53:56] [B rotation] EPOCH 9/15 loss 0.5193 rotation_acc 0.799
+[21:53:57] [B rotation] epoch 10 step 0/781 loss 0.4161 (217.6 min)
+[22:22:38] [B rotation] epoch 10 step 200/781 loss 0.4072 (246.3 min)
+[22:24:25] [B rotation] epoch 10 step 400/781 loss 0.4449 (248.1 min)
+[22:25:49] [B rotation] epoch 10 step 600/781 loss 0.3372 (249.5 min)
+[22:27:05] [B rotation] EPOCH 10/15 loss 0.4851 rotation_acc 0.814
+[22:27:06] [B rotation] epoch 11 step 0/781 loss 0.3108 (250.8 min)
+[22:28:30] [B rotation] epoch 11 step 200/781 loss 0.5040 (252.2 min)
+[22:29:54] [B rotation] epoch 11 step 400/781 loss 0.5568 (253.6 min)
+[22:31:19] [B rotation] epoch 11 step 600/781 loss 0.4422 (255.0 min)
+[22:32:34] [B rotation] EPOCH 11/15 loss 0.4525 rotation_acc 0.828
+[22:32:35] [B rotation] epoch 12 step 0/781 loss 0.5799 (256.3 min)
+[22:34:18] [B rotation] epoch 12 step 200/781 loss 0.3942 (258.0 min)
+[22:36:17] [B rotation] epoch 12 step 400/781 loss 0.4125 (260.0 min)
+[22:37:55] [B rotation] epoch 12 step 600/781 loss 0.4562 (261.6 min)
+[22:39:27] [B rotation] EPOCH 12/15 loss 0.4206 rotation_acc 0.840
+[22:39:28] [B rotation] epoch 13 step 0/781 loss 0.4129 (263.2 min)
+[22:41:01] [B rotation] epoch 13 step 200/781 loss 0.5236 (264.7 min)
+[22:42:30] [B rotation] epoch 13 step 400/781 loss 0.6425 (266.2 min)
+[22:43:58] [B rotation] epoch 13 step 600/781 loss 0.4540 (267.7 min)
+[22:45:15] [B rotation] EPOCH 13/15 loss 0.3934 rotation_acc 0.850
+[22:45:16] [B rotation] epoch 14 step 0/781 loss 0.3257 (269.0 min)
+[22:46:41] [B rotation] epoch 14 step 200/781 loss 0.4282 (270.4 min)
+[22:48:05] [B rotation] epoch 14 step 400/781 loss 0.2571 (271.8 min)
+[22:49:30] [B rotation] epoch 14 step 600/781 loss 0.3501 (273.2 min)
+[22:50:48] [B rotation] EPOCH 14/15 loss 0.3790 rotation_acc 0.857
+[22:50:48] [B rotation] epoch 15 step 0/781 loss 0.3576 (274.5 min)
+[22:52:14] [B rotation] epoch 15 step 200/781 loss 0.3530 (275.9 min)
+[22:53:38] [B rotation] epoch 15 step 400/781 loss 0.3935 (277.3 min)
+[22:55:02] [B rotation] epoch 15 step 600/781 loss 0.3748 (278.7 min)
+[22:56:18] [B rotation] EPOCH 15/15 loss 0.3708 rotation_acc 0.860
+[22:56:48] [B rotation] pretext trained in 280.0 min; rotation accuracy on test images = 0.8985
+[22:56:49] [B rotation probe] epoch 1/20 loss 2.2821 train_acc 0.102
+[22:56:49] [B rotation probe] epoch 2/20 loss 2.2078 train_acc 0.162
+[22:56:50] [B rotation probe] epoch 3/20 loss 2.1689 train_acc 0.182
+[22:56:50] [B rotation probe] epoch 4/20 loss 2.1412 train_acc 0.206
+[22:56:51] [B rotation probe] epoch 5/20 loss 2.1244 train_acc 0.204
+[22:56:51] [B rotation probe] epoch 6/20 loss 2.1181 train_acc 0.216
+[22:56:52] [B rotation probe] epoch 7/20 loss 2.0976 train_acc 0.226
+[22:56:52] [B rotation probe] epoch 8/20 loss 2.1088 train_acc 0.224
+[22:56:53] [B rotation probe] epoch 9/20 loss 2.0913 train_acc 0.220
+[22:56:53] [B rotation probe] epoch 10/20 loss 2.0803 train_acc 0.238
+[22:56:54] [B rotation probe] epoch 11/20 loss 2.0943 train_acc 0.222
+[22:56:54] [B rotation probe] epoch 12/20 loss 2.0904 train_acc 0.246
+[22:56:55] [B rotation probe] epoch 13/20 loss 2.0850 train_acc 0.214
+[22:56:55] [B rotation probe] epoch 14/20 loss 2.0652 train_acc 0.250
+[22:56:56] [B rotation probe] epoch 15/20 loss 2.0677 train_acc 0.264
+[22:56:57] [B rotation probe] epoch 16/20 loss 2.0739 train_acc 0.234
+[22:56:57] [B rotation probe] epoch 17/20 loss 2.0714 train_acc 0.252
+[22:56:58] [B rotation probe] epoch 18/20 loss 2.0603 train_acc 0.254
+[22:56:58] [B rotation probe] epoch 19/20 loss 2.0735 train_acc 0.236
+[22:56:59] [B rotation probe] epoch 20/20 loss 2.0633 train_acc 0.250
+[22:57:05] [B rotation probe] encoder state_dict hash unchanged (117915bfb9f1...) -> frozen. TEST ACC = 0.2460
+[22:57:14] [C SimCLR] epoch 1 step 0/156 loss 5.5036 (0.1 min)
+[22:58:00] [C SimCLR] epoch 1 step 50/156 loss 4.4664 (0.9 min)
+[22:58:45] [C SimCLR] epoch 1 step 100/156 loss 3.8029 (1.7 min)
+[22:59:31] [C SimCLR] epoch 1 step 150/156 loss 3.5631 (2.4 min)
+[22:59:36] [C SimCLR] EPOCH 1/20 loss 4.2184 positive-pair top-1 0.183
+[22:59:37] [C SimCLR] epoch 2 step 0/156 loss 3.6432 (2.5 min)
+[23:00:21] [C SimCLR] epoch 2 step 50/156 loss 3.3055 (3.3 min)
+[23:01:04] [C SimCLR] epoch 2 step 100/156 loss 3.1679 (4.0 min)
+[23:01:48] [C SimCLR] epoch 2 step 150/156 loss 3.1413 (4.7 min)
+[23:01:52] [C SimCLR] EPOCH 2/20 loss 3.2851 positive-pair top-1 0.401
+[23:01:53] [C SimCLR] epoch 3 step 0/156 loss 3.0350 (4.8 min)
+[23:02:36] [C SimCLR] epoch 3 step 50/156 loss 2.9700 (5.5 min)
+[23:03:20] [C SimCLR] epoch 3 step 100/156 loss 3.0109 (6.2 min)
+[23:04:03] [C SimCLR] epoch 3 step 150/156 loss 3.0974 (7.0 min)
+[23:04:07] [C SimCLR] EPOCH 3/20 loss 2.9656 positive-pair top-1 0.516
+[23:04:09] [C SimCLR] epoch 4 step 0/156 loss 2.8659 (7.0 min)
+[23:04:52] [C SimCLR] epoch 4 step 50/156 loss 2.9064 (7.8 min)
+[23:05:35] [C SimCLR] epoch 4 step 100/156 loss 2.7732 (8.5 min)
+[23:06:19] [C SimCLR] epoch 4 step 150/156 loss 2.7162 (9.2 min)
+[23:06:23] [C SimCLR] EPOCH 4/20 loss 2.7857 positive-pair top-1 0.586
+[23:06:24] [C SimCLR] epoch 5 step 0/156 loss 2.7338 (9.3 min)
+[23:07:07] [C SimCLR] epoch 5 step 50/156 loss 2.7601 (10.0 min)
+[23:07:49] [C SimCLR] epoch 5 step 100/156 loss 2.7006 (10.7 min)
+[23:08:31] [C SimCLR] epoch 5 step 150/156 loss 2.5451 (11.4 min)
+[23:08:35] [C SimCLR] EPOCH 5/20 loss 2.6643 positive-pair top-1 0.637
+[23:08:36] [C SimCLR] epoch 6 step 0/156 loss 2.6882 (11.5 min)
+[23:09:19] [C SimCLR] epoch 6 step 50/156 loss 2.6211 (12.2 min)
+[23:10:01] [C SimCLR] epoch 6 step 100/156 loss 2.4748 (12.9 min)
+[23:10:45] [C SimCLR] epoch 6 step 150/156 loss 2.7257 (13.6 min)
+[23:10:49] [C SimCLR] EPOCH 6/20 loss 2.5778 positive-pair top-1 0.674
+[23:10:50] [C SimCLR] epoch 7 step 0/156 loss 2.5279 (13.7 min)
+[23:11:36] [C SimCLR] epoch 7 step 50/156 loss 2.3796 (14.5 min)
+[23:12:18] [C SimCLR] epoch 7 step 100/156 loss 2.4641 (15.2 min)
+[23:13:00] [C SimCLR] epoch 7 step 150/156 loss 2.5368 (15.9 min)
+[23:13:04] [C SimCLR] EPOCH 7/20 loss 2.5134 positive-pair top-1 0.697
+[23:13:05] [C SimCLR] epoch 8 step 0/156 loss 2.4726 (16.0 min)
+[23:13:48] [C SimCLR] epoch 8 step 50/156 loss 2.5335 (16.7 min)
+[23:14:30] [C SimCLR] epoch 8 step 100/156 loss 2.3314 (17.4 min)
+[23:15:12] [C SimCLR] epoch 8 step 150/156 loss 2.4835 (18.1 min)
+[23:15:17] [C SimCLR] EPOCH 8/20 loss 2.4530 positive-pair top-1 0.721
+[23:15:18] [C SimCLR] epoch 9 step 0/156 loss 2.3978 (18.2 min)
+[23:16:00] [C SimCLR] epoch 9 step 50/156 loss 2.4126 (18.9 min)
+[23:16:45] [C SimCLR] epoch 9 step 100/156 loss 2.5299 (19.7 min)
+[23:17:28] [C SimCLR] epoch 9 step 150/156 loss 2.3763 (20.4 min)
+[23:17:32] [C SimCLR] EPOCH 9/20 loss 2.3957 positive-pair top-1 0.748
+[23:17:33] [C SimCLR] epoch 10 step 0/156 loss 2.3328 (20.5 min)
+[23:18:15] [C SimCLR] epoch 10 step 50/156 loss 2.2764 (21.2 min)
+[23:18:58] [C SimCLR] epoch 10 step 100/156 loss 2.3376 (21.9 min)
+[23:19:40] [C SimCLR] epoch 10 step 150/156 loss 2.2890 (22.6 min)
+[23:19:44] [C SimCLR] EPOCH 10/20 loss 2.3607 positive-pair top-1 0.761
+[23:19:46] [C SimCLR] epoch 11 step 0/156 loss 2.2279 (22.7 min)
+[23:20:28] [C SimCLR] epoch 11 step 50/156 loss 2.3085 (23.4 min)
+[23:21:11] [C SimCLR] epoch 11 step 100/156 loss 2.3245 (24.1 min)
+[23:21:53] [C SimCLR] epoch 11 step 150/156 loss 2.3262 (24.8 min)
+[23:21:56] [C SimCLR] EPOCH 11/20 loss 2.2954 positive-pair top-1 0.787
+[23:21:58] [C SimCLR] epoch 12 step 0/156 loss 2.3413 (24.9 min)
+[23:22:40] [C SimCLR] epoch 12 step 50/156 loss 2.1739 (25.6 min)
+[23:23:21] [C SimCLR] epoch 12 step 100/156 loss 2.2180 (26.3 min)
+[23:24:04] [C SimCLR] epoch 12 step 150/156 loss 2.2172 (27.0 min)
+[23:24:08] [C SimCLR] EPOCH 12/20 loss 2.2595 positive-pair top-1 0.799
+[23:24:10] [C SimCLR] epoch 13 step 0/156 loss 2.3356 (27.1 min)
+[23:24:51] [C SimCLR] epoch 13 step 50/156 loss 2.3251 (27.8 min)
+[23:25:33] [C SimCLR] epoch 13 step 100/156 loss 2.2778 (28.5 min)
+[23:26:15] [C SimCLR] epoch 13 step 150/156 loss 2.0501 (29.2 min)
+[23:26:19] [C SimCLR] EPOCH 13/20 loss 2.2110 positive-pair top-1 0.817
+[23:26:20] [C SimCLR] epoch 14 step 0/156 loss 2.2942 (29.2 min)
+[23:27:03] [C SimCLR] epoch 14 step 50/156 loss 2.1240 (30.0 min)
+[23:27:44] [C SimCLR] epoch 14 step 100/156 loss 2.0702 (30.6 min)
+[23:28:27] [C SimCLR] epoch 14 step 150/156 loss 2.0975 (31.4 min)
+[23:28:31] [C SimCLR] EPOCH 14/20 loss 2.1739 positive-pair top-1 0.831
+[23:28:33] [C SimCLR] epoch 15 step 0/156 loss 2.1896 (31.4 min)
+[23:29:15] [C SimCLR] epoch 15 step 50/156 loss 2.1635 (32.2 min)
+[23:29:57] [C SimCLR] epoch 15 step 100/156 loss 2.1766 (32.9 min)
+[23:30:39] [C SimCLR] epoch 15 step 150/156 loss 2.2601 (33.6 min)
+[23:30:43] [C SimCLR] EPOCH 15/20 loss 2.1524 positive-pair top-1 0.837
+[23:30:44] [C SimCLR] epoch 16 step 0/156 loss 2.0589 (33.6 min)
+[23:31:26] [C SimCLR] epoch 16 step 50/156 loss 2.0660 (34.3 min)
+[23:32:09] [C SimCLR] epoch 16 step 100/156 loss 2.2268 (35.0 min)
+[23:32:50] [C SimCLR] epoch 16 step 150/156 loss 2.0551 (35.7 min)
+[23:32:54] [C SimCLR] EPOCH 16/20 loss 2.1126 positive-pair top-1 0.851
+[23:32:55] [C SimCLR] epoch 17 step 0/156 loss 2.1145 (35.8 min)
+[23:33:37] [C SimCLR] epoch 17 step 50/156 loss 2.1022 (36.5 min)
+[23:34:19] [C SimCLR] epoch 17 step 100/156 loss 2.0985 (37.2 min)
+[23:35:05] [C SimCLR] epoch 17 step 150/156 loss 2.1512 (38.0 min)
+[23:35:09] [C SimCLR] EPOCH 17/20 loss 2.1026 positive-pair top-1 0.854
+[23:35:10] [C SimCLR] epoch 18 step 0/156 loss 2.1728 (38.1 min)
+[23:35:54] [C SimCLR] epoch 18 step 50/156 loss 2.0160 (38.8 min)
+[23:36:37] [C SimCLR] epoch 18 step 100/156 loss 2.1898 (39.5 min)
+[23:37:19] [C SimCLR] epoch 18 step 150/156 loss 2.0676 (40.2 min)
+[23:37:23] [C SimCLR] EPOCH 18/20 loss 2.0849 positive-pair top-1 0.858
+[23:37:24] [C SimCLR] epoch 19 step 0/156 loss 2.0422 (40.3 min)
+[23:38:07] [C SimCLR] epoch 19 step 50/156 loss 2.0824 (41.0 min)
+[23:38:48] [C SimCLR] epoch 19 step 100/156 loss 2.0583 (41.7 min)
+[23:39:31] [C SimCLR] epoch 19 step 150/156 loss 2.0051 (42.4 min)
+[23:39:35] [C SimCLR] EPOCH 19/20 loss 2.0660 positive-pair top-1 0.866
+[23:39:36] [C SimCLR] epoch 20 step 0/156 loss 2.0816 (42.5 min)
+[23:40:18] [C SimCLR] epoch 20 step 50/156 loss 1.9925 (43.2 min)
+[23:41:01] [C SimCLR] epoch 20 step 100/156 loss 2.0959 (43.9 min)
+[23:41:43] [C SimCLR] epoch 20 step 150/156 loss 2.1130 (44.6 min)
+[23:41:47] [C SimCLR] EPOCH 20/20 loss 2.0655 positive-pair top-1 0.865
+[23:41:48] [C SimCLR] pretext trained in 44.7 min
+[23:41:49] [C SimCLR probe] epoch 1/20 loss 2.0007 train_acc 0.280
+[23:41:49] [C SimCLR probe] epoch 2/20 loss 1.3364 train_acc 0.524
+[23:41:50] [C SimCLR probe] epoch 3/20 loss 1.1557 train_acc 0.560
+[23:41:50] [C SimCLR probe] epoch 4/20 loss 1.0896 train_acc 0.596
+[23:41:51] [C SimCLR probe] epoch 5/20 loss 1.0572 train_acc 0.600
+[23:41:51] [C SimCLR probe] epoch 6/20 loss 0.9758 train_acc 0.624
+[23:41:52] [C SimCLR probe] epoch 7/20 loss 0.9225 train_acc 0.672
+[23:41:52] [C SimCLR probe] epoch 8/20 loss 0.9053 train_acc 0.664
+[23:41:53] [C SimCLR probe] epoch 9/20 loss 0.8931 train_acc 0.662
+[23:41:54] [C SimCLR probe] epoch 10/20 loss 0.8459 train_acc 0.690
+[23:41:54] [C SimCLR probe] epoch 11/20 loss 0.8488 train_acc 0.670
+[23:41:55] [C SimCLR probe] epoch 12/20 loss 0.8181 train_acc 0.718
+[23:41:55] [C SimCLR probe] epoch 13/20 loss 0.8087 train_acc 0.706
+[23:41:56] [C SimCLR probe] epoch 14/20 loss 0.7855 train_acc 0.722
+[23:41:56] [C SimCLR probe] epoch 15/20 loss 0.7869 train_acc 0.704
+[23:41:57] [C SimCLR probe] epoch 16/20 loss 0.7657 train_acc 0.742
+[23:41:57] [C SimCLR probe] epoch 17/20 loss 0.7828 train_acc 0.710
+[23:41:58] [C SimCLR probe] epoch 18/20 loss 0.7819 train_acc 0.720
+[23:41:58] [C SimCLR probe] epoch 19/20 loss 0.7472 train_acc 0.726
+[23:41:59] [C SimCLR probe] epoch 20/20 loss 0.7610 train_acc 0.730
+[23:42:05] [C SimCLR probe] encoder state_dict hash unchanged (c5d7a5fc1fc3...) -> frozen. TEST ACC = 0.5575
+[23:44:50] [A supervised] trained in 0.5 min. TEST ACC = 0.4784
+[23:45:21] [B rotation] pretext training wall-clock 280.0 min; rotation accuracy on test images = 0.8985
+[23:45:22] [B rotation probe] epoch 1/20 loss 2.2698 train_acc 0.200
+[23:45:23] [B rotation probe] epoch 2/20 loss 2.1371 train_acc 0.220
+[23:45:24] [B rotation probe] epoch 3/20 loss 2.0396 train_acc 0.250
+[23:45:24] [B rotation probe] epoch 4/20 loss 1.9425 train_acc 0.314
+[23:45:25] [B rotation probe] epoch 5/20 loss 1.9228 train_acc 0.280
+[23:45:25] [B rotation probe] epoch 6/20 loss 1.9033 train_acc 0.320
+[23:45:26] [B rotation probe] epoch 7/20 loss 1.8774 train_acc 0.308
+[23:45:26] [B rotation probe] epoch 8/20 loss 1.8462 train_acc 0.324
+[23:45:27] [B rotation probe] epoch 9/20 loss 1.7656 train_acc 0.348
+[23:45:27] [B rotation probe] epoch 10/20 loss 1.7650 train_acc 0.362
+[23:45:28] [B rotation probe] epoch 11/20 loss 1.7548 train_acc 0.350
+[23:45:28] [B rotation probe] epoch 12/20 loss 1.7094 train_acc 0.374
+[23:45:29] [B rotation probe] epoch 13/20 loss 1.7071 train_acc 0.380
+[23:45:29] [B rotation probe] epoch 14/20 loss 1.7034 train_acc 0.382
+[23:45:30] [B rotation probe] epoch 15/20 loss 1.7006 train_acc 0.412
+[23:45:30] [B rotation probe] epoch 16/20 loss 1.7072 train_acc 0.380
+[23:45:31] [B rotation probe] epoch 17/20 loss 1.6673 train_acc 0.412
+[23:45:32] [B rotation probe] epoch 18/20 loss 1.6751 train_acc 0.408
+[23:45:32] [B rotation probe] epoch 19/20 loss 1.6591 train_acc 0.450
+[23:45:33] [B rotation probe] epoch 20/20 loss 1.6714 train_acc 0.390
+[23:45:39] [B rotation probe] encoder state_dict hash unchanged (117915bfb9f1...) -> frozen. TEST ACC = 0.3599
+[23:45:40] [C SimCLR] pretext training wall-clock 44.7 min
+[23:45:41] [C SimCLR probe] epoch 1/20 loss 1.5448 train_acc 0.468
+[23:45:41] [C SimCLR probe] epoch 2/20 loss 1.0981 train_acc 0.602
+[23:45:42] [C SimCLR probe] epoch 3/20 loss 1.0018 train_acc 0.632
+[23:45:42] [C SimCLR probe] epoch 4/20 loss 0.9200 train_acc 0.658
+[23:45:43] [C SimCLR probe] epoch 5/20 loss 0.8826 train_acc 0.672
+[23:45:44] [C SimCLR probe] epoch 6/20 loss 0.8513 train_acc 0.686
+[23:45:44] [C SimCLR probe] epoch 7/20 loss 0.8019 train_acc 0.708
+[23:45:45] [C SimCLR probe] epoch 8/20 loss 0.7567 train_acc 0.722
+[23:45:45] [C SimCLR probe] epoch 9/20 loss 0.7598 train_acc 0.722
+[23:45:46] [C SimCLR probe] epoch 10/20 loss 0.7054 train_acc 0.754
+[23:45:46] [C SimCLR probe] epoch 11/20 loss 0.6957 train_acc 0.742
+[23:45:47] [C SimCLR probe] epoch 12/20 loss 0.6921 train_acc 0.756
+[23:45:48] [C SimCLR probe] epoch 13/20 loss 0.6938 train_acc 0.738
+[23:45:48] [C SimCLR probe] epoch 14/20 loss 0.6462 train_acc 0.756
+[23:45:49] [C SimCLR probe] epoch 15/20 loss 0.6113 train_acc 0.780
+[23:45:49] [C SimCLR probe] epoch 16/20 loss 0.6298 train_acc 0.788
+[23:45:50] [C SimCLR probe] epoch 17/20 loss 0.6179 train_acc 0.790
+[23:45:51] [C SimCLR probe] epoch 18/20 loss 0.6172 train_acc 0.788
+[23:45:51] [C SimCLR probe] epoch 19/20 loss 0.6123 train_acc 0.814
+[23:45:52] [C SimCLR probe] epoch 20/20 loss 0.6326 train_acc 0.788
+[23:45:59] [C SimCLR probe] encoder state_dict hash unchanged (c5d7a5fc1fc3...) -> frozen. TEST ACC = 0.5600
