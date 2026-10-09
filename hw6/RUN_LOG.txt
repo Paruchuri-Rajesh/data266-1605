@@ -1,0 +1,60 @@
+HW6 RUN LOG
+SID4=1605  SEED=1605
+Machine: macOS (Apple M4, 16 GB), Python 3.13.7, torch 2.11.0 | torchvision 0.26.0 | numpy 2.3.3 | matplotlib 3.10.6
+Device: mps. Kernel: `hw6` (.venv/, --system-site-packages).
+Data: data/stl10_binary.tar.gz from http://ai.stanford.edu/~acoates/stl10/ (MD5 91f7769df0f17e558f3565bffb0c7dfb, verified).
+
+Notebook: stl10_ssl.ipynb (helper module: hw6_lib.py), executed headless with:
+  PYTORCH_ENABLE_MPS_FALLBACK=1 .venv/bin/python -m nbconvert --to notebook --execute --inplace \
+    stl10_ssl.ipynb --ExecutePreprocessor.timeout=14400 --ExecutePreprocessor.kernel_name=hw6
+
+Each training cell (Part A model, Part B rotation pretext, Part C SimCLR pretext) saves its weights and
+per-epoch history to outputs/. On later executions it reloads them instead of retraining, unless
+HW6_RETRAIN=1. Linear probes, all test accuracies, per-class accuracies and Part D are always recomputed.
+
+================================================================================
+RUN 0 — smoke test (HW6_SMOKE=1: 2,000 unlabeled / 512 SimCLR / 1,000 test images, 1 epoch each)
+================================================================================
+Completed with 0 errors in ~70 s; outputs went to outputs_smoke/ (since deleted). Figures checked by eye:
+image orientation, rotation labels, SimCLR views, NN-grid layout.
+
+================================================================================
+RUN 1 — full training run (all three models trained from scratch)
+================================================================================
+RUN_START 2026-10-08 18:15:24 PDT
+RUN_END   2026-10-08 23:42:52 PDT
+Exit: 0.
+  Part A supervised     : 15 epochs, 0.5 min. TEST ACC 0.4784
+  Part B rotation       : 15 epochs, 280.0 min wall-clock. The laptop was on battery and slept between ~19:36
+                          and ~22:20 (pmset log: "Entering Sleep state ... Using Batt"); training advanced
+                          only in brief maintenance wakes. Awake epochs took ~5.5-6.5 min, so ~85 min active.
+                          Resumed at full speed on AC power under `caffeinate`.
+                          Rotation acc on held-out test images: 0.8985
+  Part B probe (old)    : TEST ACC 0.2460, train acc 0.250 -> probe failed to optimize (see AI_USE.md)
+  Part C SimCLR         : 20 epochs, 44.7 min
+  Part C probe (old)    : TEST ACC 0.5575
+Per-epoch log: outputs/train_progress.log (first part). Results: outputs/run1_all_outputs_unstandardized_probe.json
+
+Fix applied after run 1: the linear probe now standardizes the frozen features (fixed train-set statistics) and
+uses batch 25 (400 steps). Recipe chosen from training-set convergence only; see AI_USE.md.
+The run-1 histories were written to outputs/partA_history.json, partB_pretext_history.json and
+partC_pretext_history.json, next to the run-1 checkpoints.
+
+================================================================================
+FINAL RUN — numbers reported in METRICS.md
+================================================================================
+Smoke-tested first: two consecutive HW6_SMOKE=1 executions exercised both the train path and the reload path,
+with 0 errors; the reloaded run reproduced the trained run's probe losses exactly.
+
+RUN_START 2026-10-08 23:44:35 PDT
+RUN_END   2026-10-08 23:46:43 PDT
+Exit: 0. Cell errors: 0 (12/12 code cells scanned, none with output_type=="error").
+Reloaded the run-1 encoders (A, B, C); recomputed everything downstream.
+  Part A supervised : TEST ACC 0.478375
+  Part B rotation   : encoder state_dict hash unchanged (117915bfb9f1...) -> frozen. TEST ACC 0.359875
+  Part C SimCLR     : encoder state_dict hash unchanged (c5d7a5fc1fc3...) -> frozen. TEST ACC 0.5600
+  Part D (8,000 queries) precision@5 / 5-NN acc:
+      Supervised 0.4093 / 0.4735   Rotation SSL 0.2431 / 0.2890   SimCLR 0.4971 / 0.5789
+
+After execution, the "Comparison and discussion" markdown cell (the last cell) was filled in with the analysis.
+It is a markdown cell, so no code was re-run; every number in it matches the cell outputs above it.
