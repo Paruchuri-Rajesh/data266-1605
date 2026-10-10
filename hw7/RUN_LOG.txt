@@ -1,0 +1,68 @@
+HW7 RUN LOG
+SID4=1605  SEED=1605  SEEDS=1605,1606,1607  CLS_A=5 (Sandal)  CLS_B=3 (Dress)  [SLICE=605, HP_ID=3 unused]
+Machine: macOS (Apple M4, 16 GB), on AC power. Python 3.13.7, torch 2.11.0, torchvision 0.26.0, numpy 2.3.3,
+scikit-learn 1.8.0, scipy 1.17.1, pandas 2.3.2, matplotlib 3.10.6.
+Device: mps. Kernel: `hw7` (.venv/, created with --system-site-packages, registered via ipykernel install).
+
+Data: torchvision.datasets.FashionMNIST(download=True) -> data/FashionMNIST/raw/
+  MD5 train-images 8d4fb7e6c68d591d4c3dfef9ec88bf0d   train-labels 25c81989df183df01b3e8a0aad5dffbe
+      t10k-images  bef4ecab320f06d8554ea6380940ec79   t10k-labels  bb300cfdad3c16e7a12a480ee83cd310
+  (match torchvision's published checksums)
+
+Notebook: autoencoders_fashionmnist.ipynb, executed headless with:
+  caffeinate -i .venv/bin/python -m nbconvert --to notebook --execute --inplace \
+    autoencoders_fashionmnist.ipynb --ExecutePreprocessor.kernel_name=hw7 --ExecutePreprocessor.timeout=14400
+
+Each model (FC-AE, VAE x 3 seeds) and the evaluation CNN save to checkpoints/ and are reloaded on later
+executions unless HW7_RETRAIN=1. HW7_SMOKE=1 runs a 1-epoch pipeline check into *_smoke/ directories.
+
+================================================================================
+RUN 0 - smoke tests (HW7_SMOKE=1, 1 epoch per model), run from a scratch copy
+================================================================================
+Attempt 1: crashed in section 6 (latent stats):
+  RuntimeError: Can't call numpy() on Tensor that requires grad.
+  -> VAE.encode_dist() was called outside torch.no_grad(). Fixed (wrapped in no_grad).
+Attempt 2: 0 errors, but C-FID printed scipy "LinAlgWarning: Matrix is singular" (49/128 CNN features are
+  dead ReLUs -> rank-deficient covariance). Fixed with a 1e-6*I ridge on both covariances (see AI_USE.md).
+Attempt 3: 0 errors, 0 warnings. Train path and checkpoint-reload path both exercised.
+
+================================================================================
+RUN 1 - full training run (all 6 autoencoders + eval CNN trained from scratch)
+================================================================================
+RUN_START 2026-10-09 05:58:16 PDT
+RUN_END   2026-10-09 06:07:45 PDT
+Exit: 0. Cell errors: 0.
+  fcae s1605  30 ep  69s  val bce 207.87  val mse 0.00807
+  vae  s1605  30 ep  86s  val bce 222.66  val mse 0.01478  val kl 11.88  val -ELBO 237.85
+  fcae s1606  30 ep  66s  val bce 207.57  val mse 0.00793
+  vae  s1606  30 ep  85s  val bce 222.62  val mse 0.01474  val kl 12.20  val -ELBO 237.67
+  fcae s1607  30 ep  66s  val bce 207.74  val mse 0.00801
+  vae  s1607  30 ep  86s  val bce 222.48  val mse 0.01467  val kl 12.51  val -ELBO 237.62
+  eval CNN: val acc 0.9162, test acc 0.9092
+
+Change after run 1 (plot label only): the training-curve title now states that the VAE's dashed "train"
+BCE uses a sampled z while validation decodes mu. Also checked offline that the C-FID ridge fix leaves
+values unchanged on the final models (seed 1605, N(0,I) samples):
+  VAE   old (no ridge) 108.980  new 108.980
+  FC-AE old (no ridge) 216.690  new 216.689
+
+================================================================================
+FINAL RUN - numbers reported in METRICS.md / report.md
+================================================================================
+RUN_START 2026-10-09 06:14:13 PDT
+RUN_END   2026-10-09 06:24:28 PDT   (~10 min: all checkpoints reloaded; time is in the probes and t-SNE)
+Exit: 0. Cell errors: 0 (15/15 code cells scanned, none with output_type=="error").
+Checkpoint mtimes unchanged (05:59-06:07) -> reloaded, not retrained.
+  Test (mean over 3 seeds):  FC-AE mse 0.00807 psnr 22.12 ssim 0.748 bce 209.78
+                             VAE   mse 0.01484 psnr 19.17 ssim 0.642 bce 224.71 kl 12.19 -ELBO 239.84
+  Linear probe test acc:     FC-AE 0.8304  VAE 0.8089  raw pixels 0.8332
+  VAE active dims (s1605):   6/32
+  Generation C-FID / IS:     VAE prior 111.59 / 5.54   FC-AE N(0,I) 223.38 / 3.01   FC-AE fit 92.77 / 4.81
+All values are identical to run 1 except the VAE -ELBO, which uses one sampled z with a different RNG
+state (239.82 in run 1 -> 239.84).
+
+After execution, the "Comparison and discussion" markdown cell (the last cell) was filled in. It is a
+markdown cell, so no code was re-run; every number in it matches the cell outputs above it.
+
+Report PDF: pandoc report.md -o HW7_Report.pdf --pdf-engine=xelatex -V mainfont="Arial" -V mathfont="STIX Two Math"
+(Helvetica Neue was tried first but has no arrow glyphs; Arial Unicode MS has no bold face.)
