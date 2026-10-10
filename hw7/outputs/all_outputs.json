@@ -1,0 +1,502 @@
+{
+ "params": {
+  "SID4": 1605,
+  "SEED": 1605,
+  "SEEDS": [
+   1605,
+   1606,
+   1607
+  ],
+  "SLICE": 605,
+  "HP_ID": 3,
+  "CLS_A": 5,
+  "CLS_B": 3,
+  "latent": 32,
+  "hidden": [
+   512,
+   256
+  ],
+  "epochs": 30,
+  "batch": 128,
+  "lr": 0.001,
+  "device": "mps",
+  "torch": "2.11.0"
+ },
+ "test_metrics_per_seed": [
+  {
+   "model": "fcae",
+   "seed": 1605,
+   "bce": 209.91259375,
+   "mse": 0.0081316819190979,
+   "psnr": 22.08816328125,
+   "ssim": 0.7460349243164063,
+   "train_min": 1.1441654165585835,
+   "kl": NaN,
+   "neg_elbo": NaN
+  },
+  {
+   "model": "vae",
+   "seed": 1605,
+   "bce": 224.75785,
+   "mse": 0.01487757453918457,
+   "psnr": 19.157417578125,
+   "ssim": 0.641839599609375,
+   "train_min": 1.4408411026000976,
+   "kl": 11.8802443359375,
+   "neg_elbo": 239.91131875
+  },
+  {
+   "model": "fcae",
+   "seed": 1606,
+   "bce": 209.62176875,
+   "mse": 0.007995552158355713,
+   "psnr": 22.154525390625,
+   "ssim": 0.7489337890625,
+   "train_min": 1.1012465834617615,
+   "kl": NaN,
+   "neg_elbo": NaN
+  },
+  {
+   "model": "vae",
+   "seed": 1606,
+   "bce": 224.785646875,
+   "mse": 0.014873798942565918,
+   "psnr": 19.167790234375,
+   "ssim": 0.6434048461914063,
+   "train_min": 1.421063498655955,
+   "kl": 12.1828130859375,
+   "neg_elbo": 239.87481875
+  },
+  {
+   "model": "fcae",
+   "seed": 1607,
+   "bce": 209.805025,
+   "mse": 0.00808870973587036,
+   "psnr": 22.104240625,
+   "ssim": 0.7476911499023438,
+   "train_min": 1.1081723690032959,
+   "kl": NaN,
+   "neg_elbo": NaN
+  },
+  {
+   "model": "vae",
+   "seed": 1607,
+   "bce": 224.598471875,
+   "mse": 0.01477826442718506,
+   "psnr": 19.192738671875,
+   "ssim": 0.6398726684570313,
+   "train_min": 1.4277700463930765,
+   "kl": 12.5106458984375,
+   "neg_elbo": 239.729503125
+  }
+ ],
+ "test_metrics_summary": {
+  "bce": {
+   "fcae": {
+    "mean": 209.77979583333334,
+    "std": 0.1470448172982389
+   },
+   "vae": {
+    "mean": 224.7139895833333,
+    "std": 0.10100209041836447
+   }
+  },
+  "mse": {
+   "fcae": {
+    "mean": 0.00807198127110799,
+    "std": 6.958957601473529e-05
+   },
+   "vae": {
+    "mean": 0.01484321263631185,
+    "std": 5.627846998666195e-05
+   }
+  },
+  "psnr": {
+   "fcae": {
+    "mean": 22.115643098958333,
+    "std": 0.03461928219147125
+   },
+   "vae": {
+    "mean": 19.172648828125,
+    "std": 0.018154871683509786
+   }
+  },
+  "ssim": {
+   "fcae": {
+    "mean": 0.7475532877604166,
+    "std": 0.0014543413222723022
+   },
+   "vae": {
+    "mean": 0.6417057047526041,
+    "std": 0.001769891454667726
+   }
+  },
+  "kl": {
+   "fcae": {
+    "mean": NaN,
+    "std": NaN
+   },
+   "vae": {
+    "mean": 12.191234440104168,
+    "std": 0.3152851438065407
+   }
+  },
+  "neg_elbo": {
+   "fcae": {
+    "mean": NaN,
+    "std": NaN
+   },
+   "vae": {
+    "mean": 239.83854687500002,
+    "std": 0.09618194768534043
+   }
+  },
+  "train_min": {
+   "fcae": {
+    "mean": 1.1178614563412135,
+    "std": 0.023041600827190034
+   },
+   "vae": {
+    "mean": 1.4298915492163762,
+    "std": 0.010058030876607681
+   }
+  }
+ },
+ "per_class_mse": {
+  "fcae": {
+   "T-shirt/top": 0.0074738371185958385,
+   "Trouser": 0.0035766996443271637,
+   "Pullover": 0.007276447955518961,
+   "Dress": 0.007350419647991657,
+   "Coat": 0.006738615222275257,
+   "Sandal": 0.01255106646567583,
+   "Shirt": 0.00840218085795641,
+   "Sneaker": 0.005965556018054485,
+   "Bag": 0.013559041544795036,
+   "Ankle boot": 0.007825948297977448
+  },
+  "vae": {
+   "T-shirt/top": 0.014363320544362068,
+   "Trouser": 0.0075365351513028145,
+   "Pullover": 0.014562049880623817,
+   "Dress": 0.013877052813768387,
+   "Coat": 0.01350807398557663,
+   "Sandal": 0.021904971450567245,
+   "Shirt": 0.014724992215633392,
+   "Sneaker": 0.011471424251794815,
+   "Bag": 0.021806523203849792,
+   "Ankle boot": 0.014677182771265507
+  },
+  "vae/fcae": {
+   "T-shirt/top": 1.9218134294931764,
+   "Trouser": 2.107119943173356,
+   "Pullover": 2.0012580272190297,
+   "Dress": 1.8879266053279,
+   "Coat": 2.0045771334330174,
+   "Sandal": 1.7452677436194057,
+   "Shirt": 1.752520264032358,
+   "Sneaker": 1.9229430110248011,
+   "Bag": 1.6082643549551443,
+   "Ankle boot": 1.875451026817888
+  }
+ },
+ "linear_probe": [
+  {
+   "model": "fcae",
+   "seed": 1605.0,
+   "probe_test_acc": 0.831,
+   "probe_train_acc": 0.8428888888888889
+  },
+  {
+   "model": "vae",
+   "seed": 1605.0,
+   "probe_test_acc": 0.8074,
+   "probe_train_acc": 0.8213148148148148
+  },
+  {
+   "model": "fcae",
+   "seed": 1606.0,
+   "probe_test_acc": 0.8313,
+   "probe_train_acc": 0.8427407407407408
+  },
+  {
+   "model": "vae",
+   "seed": 1606.0,
+   "probe_test_acc": 0.8036,
+   "probe_train_acc": 0.8141481481481482
+  },
+  {
+   "model": "fcae",
+   "seed": 1607.0,
+   "probe_test_acc": 0.8289,
+   "probe_train_acc": 0.8403703703703703
+  },
+  {
+   "model": "vae",
+   "seed": 1607.0,
+   "probe_test_acc": 0.8158,
+   "probe_train_acc": 0.8253703703703704
+  },
+  {
+   "model": "raw pixels (784-d)",
+   "seed": NaN,
+   "probe_test_acc": 0.8332,
+   "probe_train_acc": 0.8893518518518518
+  }
+ ],
+ "vae_active_dims_seed1605": 6,
+ "eval_classifier_test_acc": 0.9092,
+ "generation_per_seed": [
+  {
+   "setting": "VAE \u2014 N(0,I) prior",
+   "seed": 1605.0,
+   "c_fid": 108.98039537962146,
+   "is_style": 5.58410294825724,
+   "mean_max_conf": 0.8088812963351607,
+   "class_entropy_norm": 0.9642230443360419
+  },
+  {
+   "setting": "VAE \u2014 N(0,I) prior",
+   "seed": 1606.0,
+   "c_fid": 114.03613953489419,
+   "is_style": 5.514338427532571,
+   "mean_max_conf": 0.8020502559751272,
+   "class_entropy_norm": 0.9652058527108643
+  },
+  {
+   "setting": "VAE \u2014 N(0,I) prior",
+   "seed": 1607.0,
+   "c_fid": 111.74305307918144,
+   "is_style": 5.508147897444672,
+   "mean_max_conf": 0.8010862583875656,
+   "class_entropy_norm": 0.9668839270050247
+  },
+  {
+   "setting": "FC-AE \u2014 N(0,I)",
+   "seed": 1605.0,
+   "c_fid": 216.6894692973516,
+   "is_style": 3.1480815874956116,
+   "mean_max_conf": 0.6513104165896774,
+   "class_entropy_norm": 0.8877108076317162
+  },
+  {
+   "setting": "FC-AE \u2014 N(0,I)",
+   "seed": 1606.0,
+   "c_fid": 219.55254065249238,
+   "is_style": 2.967955838701976,
+   "mean_max_conf": 0.6466590990692377,
+   "class_entropy_norm": 0.8597593668597492
+  },
+  {
+   "setting": "FC-AE \u2014 N(0,I)",
+   "seed": 1607.0,
+   "c_fid": 233.8875046273741,
+   "is_style": 2.9116805415534817,
+   "mean_max_conf": 0.6102434499025344,
+   "class_entropy_norm": 0.9006507284816564
+  },
+  {
+   "setting": "FC-AE \u2014 Gaussian fit to train codes",
+   "seed": 1605.0,
+   "c_fid": 86.93263411052415,
+   "is_style": 4.896287144435344,
+   "mean_max_conf": 0.7559478500500322,
+   "class_entropy_norm": 0.9675158777049129
+  },
+  {
+   "setting": "FC-AE \u2014 Gaussian fit to train codes",
+   "seed": 1606.0,
+   "c_fid": 96.53683229788683,
+   "is_style": 4.783941943280813,
+   "mean_max_conf": 0.7521196534439921,
+   "class_entropy_norm": 0.9642771264669003
+  },
+  {
+   "setting": "FC-AE \u2014 Gaussian fit to train codes",
+   "seed": 1607.0,
+   "c_fid": 94.83597125238815,
+   "is_style": 4.760641487478653,
+   "mean_max_conf": 0.7464773284211755,
+   "class_entropy_norm": 0.969082994649103
+  },
+  {
+   "setting": "Real train images (reference)",
+   "seed": NaN,
+   "c_fid": 0.49950870228365146,
+   "is_style": 8.377810801467337,
+   "mean_max_conf": 0.9351641742676496,
+   "class_entropy_norm": 0.9991391575595002
+  }
+ ],
+ "generation_summary": {
+  "c_fid": {
+   "FC-AE \u2014 Gaussian fit to train codes": {
+    "mean": 92.76847922026639,
+    "std": 5.125041285950819
+   },
+   "FC-AE \u2014 N(0,I)": {
+    "mean": 223.3765048590727,
+    "std": 9.214669364284388
+   },
+   "Real train images (reference)": {
+    "mean": 0.49950870228365146,
+    "std": NaN
+   },
+   "VAE \u2014 N(0,I) prior": {
+    "mean": 111.58652933123237,
+    "std": 2.531503901566739
+   }
+  },
+  "is_style": {
+   "FC-AE \u2014 Gaussian fit to train codes": {
+    "mean": 4.813623525064936,
+    "std": 0.07253056794006776
+   },
+   "FC-AE \u2014 N(0,I)": {
+    "mean": 3.00923932258369,
+    "std": 0.1234893038351583
+   },
+   "Real train images (reference)": {
+    "mean": 8.377810801467337,
+    "std": NaN
+   },
+   "VAE \u2014 N(0,I) prior": {
+    "mean": 5.535529757744828,
+    "std": 0.04217934083302704
+   }
+  },
+  "mean_max_conf": {
+   "FC-AE \u2014 Gaussian fit to train codes": {
+    "mean": 0.7515149439717334,
+    "std": 0.004764131624970079
+   },
+   "FC-AE \u2014 N(0,I)": {
+    "mean": 0.6360709885204832,
+    "std": 0.02248788567129449
+   },
+   "Real train images (reference)": {
+    "mean": 0.9351641742676496,
+    "std": NaN
+   },
+   "VAE \u2014 N(0,I) prior": {
+    "mean": 0.8040059368992846,
+    "std": 0.004249608224171527
+   }
+  },
+  "class_entropy_norm": {
+   "FC-AE \u2014 Gaussian fit to train codes": {
+    "mean": 0.9669586662736388,
+    "std": 0.002450909153872058
+   },
+   "FC-AE \u2014 N(0,I)": {
+    "mean": 0.8827069676577072,
+    "std": 0.020899872599791453
+   },
+   "Real train images (reference)": {
+    "mean": 0.9991391575595002,
+    "std": NaN
+   },
+   "VAE \u2014 N(0,I) prior": {
+    "mean": 0.9654376080173103,
+    "std": 0.001345495089575818
+   }
+  }
+ },
+ "generation_class_hist_seed1605": {
+  "VAE \u2014 N(0,I) prior": {
+   "T-shirt/top": 0.0952,
+   "Trouser": 0.0837,
+   "Pullover": 0.1509,
+   "Dress": 0.1439,
+   "Coat": 0.0396,
+   "Sandal": 0.0415,
+   "Shirt": 0.0775,
+   "Sneaker": 0.093,
+   "Bag": 0.1377,
+   "Ankle boot": 0.137
+  },
+  "FC-AE \u2014 N(0,I)": {
+   "T-shirt/top": 0.1316,
+   "Trouser": 0.0215,
+   "Pullover": 0.0542,
+   "Dress": 0.0813,
+   "Coat": 0.0242,
+   "Sandal": 0.0503,
+   "Shirt": 0.1982,
+   "Sneaker": 0.0674,
+   "Bag": 0.2657,
+   "Ankle boot": 0.1056
+  },
+  "FC-AE \u2014 Gaussian fit to train codes": {
+   "T-shirt/top": 0.061,
+   "Trouser": 0.0654,
+   "Pullover": 0.1308,
+   "Dress": 0.1338,
+   "Coat": 0.0606,
+   "Sandal": 0.0535,
+   "Shirt": 0.1219,
+   "Sneaker": 0.0852,
+   "Bag": 0.176,
+   "Ankle boot": 0.1118
+  },
+  "Real train images": {
+   "T-shirt/top": 0.0917,
+   "Trouser": 0.0955,
+   "Pullover": 0.1095,
+   "Dress": 0.1069,
+   "Coat": 0.0922,
+   "Sandal": 0.0967,
+   "Shirt": 0.1026,
+   "Sneaker": 0.0959,
+   "Bag": 0.1003,
+   "Ankle boot": 0.1087
+  }
+ },
+ "interpolation": {
+  "pixel blend": {
+   "pred": [
+    "Sandal",
+    "Sandal",
+    "Dress",
+    "Dress",
+    "Dress",
+    "Dress",
+    "Dress",
+    "Dress",
+    "Dress",
+    "Dress"
+   ],
+   "mean_max_conf": 0.9766681313514709
+  },
+  "FC-AE": {
+   "pred": [
+    "Sandal",
+    "Sandal",
+    "Sandal",
+    "Sandal",
+    "Bag",
+    "Dress",
+    "Dress",
+    "Dress",
+    "Dress",
+    "Dress"
+   ],
+   "mean_max_conf": 0.889553451538086
+  },
+  "VAE": {
+   "pred": [
+    "Sandal",
+    "Sandal",
+    "Dress",
+    "Trouser",
+    "Trouser",
+    "Trouser",
+    "Dress",
+    "Dress",
+    "Dress",
+    "Dress"
+   ],
+   "mean_max_conf": 0.8938342332839966
+  }
+ }
+}
