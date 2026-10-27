@@ -1,0 +1,70 @@
+HW8 RUN LOG
+SID4=1605  SEED=0 (HW8 handout defines no personal parameters; SEED=1605 not used)
+Machine: macOS (Apple M4, 16 GB). Python 3.13.7, torch 2.11.0, torchvision 0.26.0, numpy 2.3.3,
+matplotlib 3.10.6, nbconvert 7.16.6, nbclient 0.10.2. Device: mps. Kernel: system python3.
+
+Data: torchvision.datasets.MNIST(download=True) -> data/MNIST/raw/
+  The first download failed: python.org Python 3.13 has no CA bundle installed
+  (SSL: CERTIFICATE_VERIFY_FAILED on ossci-datasets.s3.amazonaws.com; the yann.lecun.com mirror returns 404).
+  It was downloaded once with SSL_CERT_FILE=$(python3 -c "import certifi; print(certifi.where())").
+  The notebook then reads from disk.
+  MD5 train-images f68b3c2dcbeaaa9fbdd348bbdeb94873   train-labels d53e105ee54ea40749a09fcbcd1e9432
+      t10k-images  9fb629c4189551a2d022fa330f9573f3   t10k-labels  ec29112dd5afa0611ce80d1b7f02629c
+  (match torchvision's published checksums)
+
+Notebook: Mini_Diffusion_DDPM_DDIM.ipynb, executed headless with:
+  jupyter nbconvert --to notebook --execute --inplace Mini_Diffusion_DDPM_DDIM.ipynb --ExecutePreprocessor.timeout=-1
+Checkpoints written: ddpm_mnist.pt (assignment schedule), ddpm_mnist_scaled.pt (scaled schedule, extra section).
+Both hold {"model", "ema"} state dicts.
+
+================================================================================
+RUN 0 - smoke tests (EPOCHS=1), run from a scratch copy
+================================================================================
+Attempt 1: 0 errors, but every sampler produced pure noise. Cause: the EMA (decay 0.999, no warm-up)
+  had only 469 updates, so 0.999^469 = 63% of its weight was still the random initialization (EMA
+  test MSE 0.35 vs raw-model training loss 0.126). Sampling with the raw weights gave stroke textures
+  instead. Fixed by adding an EMA warm-up: decay = min(0.999, (1+step)/(10+step)).
+  Also, the markdown said "15 conv layers"; the code counts 18. Text corrected.
+  Also found here: with T=100 and beta_T=0.02, alpha_bar_T = 0.3636, so x_T is not pure noise.
+  Added the "extra" section, which retrains with beta scaled x10.
+Attempt 2 (after the fixes, both models, 1 epoch each): 0 errors. Assignment-schedule model class
+  entropy 2.35 bits; scaled-schedule model 2.90 bits.
+
+================================================================================
+RUN 1 - full run (both models trained from scratch, 50 epochs each) = FINAL
+================================================================================
+RUN_START 2026-10-25 19:35 PDT
+RUN_END   2026-10-26 ~17:37 PDT   (nbconvert wall time 22:02:24)
+Exit: 0. Cell errors: 0.
+Wall time is inflated: the laptop was on battery and slept or throttled repeatedly. Expected time is
+about 3.5 h. Evidence from the epoch timestamps of the scaled model: epoch 21 at 2445 s, epoch 26
+at 7824 s, epoch 31 at 26189 s. Training results are unaffected (same code path, same number of
+steps), but every wall-clock time measured in that run is unreliable.
+  Assignment schedule:  epoch 1 loss 0.1236 -> epoch 50 0.0518; held-out MSE avg over t 0.0517
+  Scaled schedule:      epoch 1 loss 0.0622 -> epoch 50 0.0210
+  Judge CNN test acc 0.9883
+  DDPM-100 / DDIM-50 / DDIM-20 mean conf:  assignment 0.808 / 0.785 / 0.784   scaled 0.936 / 0.925 / 0.920
+  DDIM determinism: max abs diff 0.0; DDIM-{50,20,10} digit agreement with DDIM-100 100%; DDPM run-to-run 60%
+
+================================================================================
+POST-RUN - clean sampling-speed cell (only this new cell executed; it loads ddpm_mnist.pt)
+================================================================================
+Added a markdown cell and a code cell ("Sampling speed (clean re-measurement)") after the metrics
+chart. A note in the "Quantitative comparison" markdown says the time column there is unreliable.
+The new cell was executed alone with nbclient, after hidden setup cells (imports, data, schedule,
+model, and sampler definitions copied from the notebook). Batch 256.
+Attempt 1 (median of 3, samplers run sequentially): DDPM 165 s vs DDIM-100 27 s. Rejected: equal
+  NFE should give equal time; DDPM ran first and absorbed a stall.
+Attempt 2 (median of 5 interleaved rounds): DDPM 101 s vs DDIM-100 28 s. Rejected for the same reason.
+  A separate head-to-head check (64 images, alternating order) gave DDIM-100 714 s (stall), then
+  6.3/6.3, 6.27/5.81 s -> DDPM and DDIM-100 cost the same when the machine is awake.
+  Side effect found: nbclient's execute_cell(cell, 0) writes the executed cell into nb.cells[0],
+  which overwrote the title markdown. It was restored from a backup, and every other cell was
+  checked against the backup (only the intended markdown note differed).
+Attempt 3 (min of 5 interleaved rounds, hidden setup cells appended and then removed) = FINAL:
+  DDPM 25.83 s, DDIM-100 24.47 s, DDIM-50 12.19 s, DDIM-20 4.56 s, DDIM-10 1.66 s
+  -> speed-ups 1.1x / 2.1x / 5.7x / 15.5x, consistent with NFE.
+
+After that, the last markdown cell ("Discussion: DDPM vs. DDIM") was filled in. It is a markdown
+cell, so no code was re-run; every number in it matches the cell outputs above it.
+Final notebook: 36 cells, nbformat.validate passes, 0 error outputs, every code cell has output.
