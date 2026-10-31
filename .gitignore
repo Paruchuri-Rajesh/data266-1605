@@ -27,3 +27,5 @@ hw6/results_smoke.json
 hw6/smoke_run.ipynb
 hw6/checkpoints/*_progress.pt
 hw8/data/
+hw9/*.pt
+hw9/data/

@@ -1,0 +1,71 @@
+HW9 RUN LOG
+SID4=1605  SEED=1605 (all notebook seeds derive from it: SEED+1..SEED+4, SEED+6; see METRICS.md)  [SLICE, HP_ID, CLS_A, CLS_B unused]
+Machine: macOS (Apple M4, 16 GB). Python 3.13.7, torch 2.11.0, torchvision 0.26.0, diffusers 0.42.1,
+huggingface_hub 1.33.0, safetensors 0.8.0, numpy 2.3.3, matplotlib 3.10.6, nbconvert 7.16.6, nbclient 0.10.2. Device: mps.
+
+Environment: HW_9/.venv (python3 -m venv --system-site-packages; adds diffusers on top of the system torch).
+  pip install diffusers pulled huggingface-hub 2.3.0. diffusers imports the system transformers, which rejects
+  hub >= 2.0, so the venv pins "huggingface-hub>=1.5,<2.0" (resolved to 1.33.0).
+  Jupyter kernel "hw9" (ipykernel install --user) points to .venv/bin/python. The default "python3" kernel is
+  the system Python, which has no diffusers. The first smoke attempt failed on that before it was fixed.
+
+Data: torchvision.datasets.FashionMNIST(download=True) -> data/FashionMNIST/raw/, downloaded once with
+  SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())") (python.org Python has no CA bundle; same issue as HW8).
+  MD5 train-images 8d4fb7e6c68d591d4c3dfef9ec88bf0d   train-labels 25c81989df183df01b3e8a0aad5dffbe
+      t10k-images  bef4ecab320f06d8554ea6380940ec79   t10k-labels  bb300cfdad3c16e7a12a480ee83cd310
+  (match torchvision's published checksums)
+VAE: stabilityai/sd-vae-ft-mse from the Hugging Face Hub (cached in ~/.cache/huggingface).
+
+Notebook: Latent_Diffusion_FashionMNIST.ipynb, executed headless with:
+  caffeinate -dims .venv/bin/python -m jupyter nbconvert --to notebook --execute --inplace \
+    Latent_Diffusion_FashionMNIST.ipynb --ExecutePreprocessor.timeout=-1
+Artifacts written: latents_train.pt (scaled training latents, 246 MB), ldm_fashionmnist.pt (model, EMA,
+optimizer, loss history; rewritten after every epoch so an interrupted run can resume).
+
+================================================================================
+PRE-RUN - speed measurements (scratch scripts, not part of the notebook)
+================================================================================
+SD VAE at 128x128 on MPS: encode ~94 ms/image, decode ~190 ms/image (fp16 not faster). A plain 128-ch
+  3x3 conv runs at ~1.4 TFLOPS, so the VAE is simply compute-bound on this GPU.
+U-Net train step, batch 128: 2 ResBlocks/level 1160 ms; 1 ResBlock/level 769 ms; no 16x16 attention 676 ms;
+  fp16 autocast slower in every case. Self-attention over 256 tokens costs ~70 ms fwd+bwd per block.
+The user chose 2 ResBlocks/level (standard depth), accepting a ~10 h run.
+
+================================================================================
+RUN 0 - smoke tests (LDM_SMOKE=1: 2,048 train latents, 1 epoch, 128 recon images, 20 sweep samples;
+        outputs written to smoke/, deleted afterwards)
+================================================================================
+Attempt 1: ModuleNotFoundError: diffusers (wrong kernel, see above). Fixed by registering the hw9 kernel.
+Attempt 2: RuntimeError in to28(): F.interpolate(mode="area") 128 -> 28 is not supported on MPS (sizes not
+  divisible). Fixed by doing that resize on the CPU (every caller already moved the result to the CPU).
+Attempt 3: RuntimeError in loss_per_t(): z_test[:1000] had only N_RECON=128 rows in smoke mode, but
+  y_test[:1000] had 1000. Fixed by slicing labels to len(z0). (No effect on the full run, where N_RECON=2000.)
+Attempt 4: 0 errors, 10:40 wall. Samples are noise after 16 steps, as expected. All figures inspected.
+
+================================================================================
+RUN 1 - FINAL full run (single top-to-bottom execution)
+================================================================================
+RUN_START 2026-10-28 17:18:15 PDT
+RUN_END   2026-10-30 18:01:17 PDT   (wall 48:43:02)
+Exit: 0. Cell errors: 0. Execution counts in order 1..17.
+
+Wall time is dominated by the laptop sleeping. caffeinate -dims was active throughout, but pmset shows the
+machine going into Sleep / DarkWake cycles (lid closed and/or on battery), which pauses the process. No
+work was lost; the run just stopped and resumed. Epochs affected (wall s, normal is ~600 s):
+  6: 11004   11: 21448   12: 21685   13: 11156   14: 6834   18: 4110   28: 37963   29: 21144   30: 3085   41: 2304
+The 40 unaffected epochs: median 601 s, mean 614 s, range 503-909 s -> about 8.5 h of real training compute.
+The notebook's printed "training time 2755.1 min" is wall clock and includes the sleep.
+The reconstruction cell (1546 s, 773 ms/image vs 297 ms/image in the smoke test) was most likely also
+slowed by power state.
+
+  VAE encode of 60,000 training images: 5421 s
+  Recon MSE (2,000 test): 0.000196 @128 (37.09 dB); 0.003461 @28 (resize-only 0.003171)
+  Latents: std 1.2652 (scaled), mean -0.0391
+  Loss: epoch 1 0.6873 -> epoch 50 0.0955 (23,450 steps)
+  64-grid CFG w=3, DDPM 1000: 377.1 s sampling; judge 64/64, conf 0.985
+  Judge: real test acc 0.9129, VAE-recon acc 0.9160
+  Sweep (DDIM-50, 500/setting) acc: w0 0.824, w1 0.960, w3 0.988, w5 0.996; unconditional entropy 3.284 bits
+
+After execution, two markdown cells were filled in: the Part 2 "Observation" cell and the final
+"Discussion" cell. They are markdown, so no code was re-run; every number in them matches the cell
+outputs. Final notebook: 29 cells, nbformat.validate passes, 0 error outputs, every code cell has output.
