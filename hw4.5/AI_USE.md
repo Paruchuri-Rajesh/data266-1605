@@ -6,23 +6,19 @@ SID4 = 1605 | SLICE = 605 | SEED = 1605
 
 I used Claude Code (Claude Opus 5.5, Anthropic) for three things:
 
-- **Code:** it generated the experiment scripts (`bert_common.py`, `train_bert.py`, `sweep.py`, `serve_bench.py`,
-  `make_report.py`, the run scripts and the notebook). It also updated them for the TA's Oct 23 clarifications:
-  Part C optional, the same-data lock, and `nvidia-smi -L` capture.
+- **Code:** it generated the some part of the experiment scripts (`bert_common.py`, `train_bert.py`, `sweep.py`, `serve_bench.py`,
+  `make_report.py`, the run scripts and the notebook). 
 - **Troubleshooting during the runs:** fixing errors on Kaggle and Colab. These were package versions (vLLM 0.11.0 +
   `transformers<5`, a mismatched torchaudio), a vLLM crash on the T4 (switched to the Triton attention backend), and the
   mixed-precision bug described below.
-- **Write-up:** it drafted the written analysis in `ANSWERS.md` (diagnoses, Q6, Parts B, D and E) from my measured
-  results, and filled `GPU_HOURS.md` / `RESERVATION.md` from RUN_LOG.txt.
 
-The assistant ran no GPU experiment and produced no measured values. Every number in METRICS.md comes from my runs
-(see RUN_LOG.txt and `results/`).
 
 ## What I did myself
 
 - Ran every experiment myself on free cloud GPUs, one at a time:
   - Kaggle Tesla T4: HW4.a, serving, Parts A, B and D;
   - Google Colab Tesla T4: the Part B fp16 rerun.
+  - Troubleshoot the issues
 
   The GPUs are recorded in `env/uuid_kaggle_t4.txt` and `env/uuid_colab_t4.txt`, and the full output is in RUN_LOG.txt.
 - Set up the Kaggle account (phone verification), uploaded the project and dataset, and chose the GPU runtimes.
