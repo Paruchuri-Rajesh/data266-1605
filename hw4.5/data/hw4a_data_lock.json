@@ -1,0 +1,19 @@
+{
+  "file_sha256": "ea94b23f41892b290dec3330bb8cf9cb6b8bc669eaae5f3a84c40f7b0de8f15e",
+  "text_col": "text",
+  "label_col": "airline_sentiment",
+  "row_range": "605..5604 (0-based data rows, inclusive)",
+  "rows_used": 5000,
+  "labels": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "seed": 1605,
+  "split_sizes": [
+    3500,
+    750,
+    750
+  ],
+  "split_sha256": "0a40f6dcbc3f9a2073d492c0a68e8993625f8d7d061e64ed35641f62906be645"
+}

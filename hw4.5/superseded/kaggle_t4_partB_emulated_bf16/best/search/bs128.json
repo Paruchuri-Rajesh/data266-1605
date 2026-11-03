@@ -1,0 +1,100 @@
+{
+  "tag": "search_bs128",
+  "config": {
+    "data": "data/Tweets.csv",
+    "text_col": "text",
+    "label_col": "airline_sentiment",
+    "slice_start": 605,
+    "seed": 1605,
+    "max_len": 128,
+    "model_name": "bert-base-uncased",
+    "batch_size": 128,
+    "epochs": 4,
+    "lr": 2e-05,
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "max_grad_norm": 1.0,
+    "amp": "auto",
+    "grad_ckpt": false,
+    "accum_steps": 1,
+    "optim": "adamw8bit",
+    "max_opt_steps": 0,
+    "probe_steps": 10,
+    "warmup_steps": 3,
+    "eval": false,
+    "save_dir": "",
+    "tag": "search_bs128",
+    "out": "results/kaggle_t4/partB/best/search/bs128.json",
+    "data_lock": "data/hw4a_data_lock.json",
+    "write_lock": false
+  },
+  "data": {
+    "file": "data/Tweets.csv",
+    "file_rows": 14640,
+    "row_range": "605..5604 (0-based data rows, inclusive)",
+    "csv_line_range": "607..5606 (1-based file lines, header = line 1)",
+    "slice_start": 605,
+    "slice_end_exclusive": 5605,
+    "rows_in_range": 5000,
+    "rows_dropped_na": 0,
+    "rows_used": 5000,
+    "labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "fingerprint": {
+      "file_sha256": "ea94b23f41892b290dec3330bb8cf9cb6b8bc669eaae5f3a84c40f7b0de8f15e",
+      "text_col": "text",
+      "label_col": "airline_sentiment",
+      "row_range": "605..5604 (0-based data rows, inclusive)",
+      "rows_used": 5000,
+      "labels": [
+        "negative",
+        "neutral",
+        "positive"
+      ],
+      "seed": 1605,
+      "split_sizes": [
+        3500,
+        750,
+        750
+      ],
+      "split_sha256": "0a40f6dcbc3f9a2073d492c0a68e8993625f8d7d061e64ed35641f62906be645"
+    },
+    "split_sizes": {
+      "train": 3500,
+      "val": 750,
+      "test": 750
+    }
+  },
+  "gpu": {
+    "name": "Tesla T4",
+    "total_gb": 15.64,
+    "capability": "7.5",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8"
+  },
+  "time": "2026-11-03 09:32:34",
+  "status": "ok",
+  "metrics": {
+    "samples": 1280,
+    "opt_steps": 10,
+    "wall_s_incl_eval": 44.8058415659998,
+    "train_time_s": 44.804052903999946,
+    "throughput_sps": 28.09841368678521,
+    "time_per_epoch_s": 124.56219198046982,
+    "peak_alloc_gb": 11.146312704,
+    "peak_reserved_gb": 11.389632512,
+    "effective_batch": 128,
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 1.0331512451171876,
+        "epoch_time_s": 44.804052903999946,
+        "opt_steps": 10
+      }
+    ],
+    "epoch_time_estimated": true
+  }
+}
