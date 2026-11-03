@@ -1,0 +1,27 @@
+# captured 2026-11-03T08:06:04Z on e13cab2f2890
+GPU 0: Tesla T4 (UUID: GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a)
+index, name, uuid, memory.total [MiB], driver_version, compute_cap, pcie.link.gen.current, pcie.link.width.current
+0, Tesla T4, GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a, 15360 MiB, 580.82.07, 7.5, 1, 16
+Tue Nov  3 08:06:05 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.82.07              Driver Version: 580.82.07      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |
+| N/A   58C    P8             12W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+torch 2.8.0+cu128 cuda 12.8 transformers 4.57.6
+vllm 0.11.0
+bitsandbytes 0.50.2

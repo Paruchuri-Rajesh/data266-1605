@@ -1,0 +1,217 @@
+{
+  "tag": "B_adamw8bit",
+  "config": {
+    "data": "data/Tweets.csv",
+    "text_col": "text",
+    "label_col": "airline_sentiment",
+    "slice_start": 605,
+    "seed": 1605,
+    "max_len": 128,
+    "model_name": "bert-base-uncased",
+    "batch_size": 32,
+    "epochs": 4,
+    "lr": 2e-05,
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "max_grad_norm": 1.0,
+    "amp": "none",
+    "grad_ckpt": false,
+    "accum_steps": 1,
+    "optim": "adamw8bit",
+    "max_opt_steps": 0,
+    "probe_steps": 0,
+    "warmup_steps": 3,
+    "eval": true,
+    "save_dir": "",
+    "tag": "B_adamw8bit",
+    "out": "results/kaggle_t4/partB/adamw8bit/full.json",
+    "data_lock": "data/hw4a_data_lock.json",
+    "write_lock": false
+  },
+  "data": {
+    "file": "data/Tweets.csv",
+    "file_rows": 14640,
+    "row_range": "605..5604 (0-based data rows, inclusive)",
+    "csv_line_range": "607..5606 (1-based file lines, header = line 1)",
+    "slice_start": 605,
+    "slice_end_exclusive": 5605,
+    "rows_in_range": 5000,
+    "rows_dropped_na": 0,
+    "rows_used": 5000,
+    "labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "fingerprint": {
+      "file_sha256": "ea94b23f41892b290dec3330bb8cf9cb6b8bc669eaae5f3a84c40f7b0de8f15e",
+      "text_col": "text",
+      "label_col": "airline_sentiment",
+      "row_range": "605..5604 (0-based data rows, inclusive)",
+      "rows_used": 5000,
+      "labels": [
+        "negative",
+        "neutral",
+        "positive"
+      ],
+      "seed": 1605,
+      "split_sizes": [
+        3500,
+        750,
+        750
+      ],
+      "split_sha256": "0a40f6dcbc3f9a2073d492c0a68e8993625f8d7d061e64ed35641f62906be645"
+    },
+    "split_sizes": {
+      "train": 3500,
+      "val": 750,
+      "test": 750
+    }
+  },
+  "gpu": {
+    "name": "Tesla T4",
+    "total_gb": 15.64,
+    "capability": "7.5",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8"
+  },
+  "time": "2026-11-03 09:24:59",
+  "status": "ok",
+  "metrics": {
+    "samples": 14000,
+    "opt_steps": 440,
+    "wall_s_incl_eval": 349.7767914920005,
+    "train_time_s": 324.61938096499944,
+    "throughput_sps": 43.127431142225866,
+    "time_per_epoch_s": 81.15484524124986,
+    "peak_alloc_gb": 3.293061632,
+    "peak_reserved_gb": 3.653238784,
+    "effective_batch": 32,
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 0.7111145588670458,
+        "epoch_time_s": 82.79399321599976,
+        "opt_steps": 110,
+        "val_loss": 0.4960455978711446,
+        "val_acc": 0.8013333333333333
+      },
+      {
+        "epoch": 2,
+        "train_loss": 0.43603883576393127,
+        "epoch_time_s": 80.92483636599991,
+        "opt_steps": 220,
+        "val_loss": 0.44814369026819867,
+        "val_acc": 0.8253333333333334
+      },
+      {
+        "epoch": 3,
+        "train_loss": 0.30155993003504616,
+        "epoch_time_s": 80.44688811299966,
+        "opt_steps": 330,
+        "val_loss": 0.45838737034797666,
+        "val_acc": 0.8333333333333334
+      },
+      {
+        "epoch": 4,
+        "train_loss": 0.22314724897486823,
+        "epoch_time_s": 80.4536632700001,
+        "opt_steps": 440,
+        "val_loss": 0.4732287843227386,
+        "val_acc": 0.8346666666666667
+      }
+    ]
+  },
+  "early_stopping": {
+    "best_epoch_by_val_loss": 2,
+    "best_epoch_by_val_acc": 4,
+    "epochs_past_best": 2,
+    "extra_time_s": 160.90055138299977,
+    "val_loss_increase": 0.025085094054539958,
+    "val_acc_change": 0.009333333333333305
+  },
+  "test": {
+    "test_acc": 0.8253333333333334,
+    "test_loss": 0.4916678314208984,
+    "labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "confusion_matrix": [
+      [
+        436,
+        34,
+        17
+      ],
+      [
+        39,
+        100,
+        11
+      ],
+      [
+        13,
+        17,
+        83
+      ]
+    ],
+    "per_class": {
+      "negative": {
+        "precision": 0.8934426229508197,
+        "recall": 0.8952772073921971,
+        "f1": 0.8943589743589744,
+        "support": 487
+      },
+      "neutral": {
+        "precision": 0.6622516556291391,
+        "recall": 0.6666666666666666,
+        "f1": 0.6644518272425249,
+        "support": 150
+      },
+      "positive": {
+        "precision": 0.7477477477477478,
+        "recall": 0.7345132743362832,
+        "f1": 0.7410714285714286,
+        "support": 113
+      }
+    },
+    "worst_class": "neutral",
+    "worst_class_misclassified": [
+      {
+        "text": "@united it just goes round &amp; round, it's be going on for weeks,",
+        "true": "neutral",
+        "pred": "negative",
+        "pred_conf": 0.99,
+        "diagnosis": "TODO: one-line diagnosis"
+      },
+      {
+        "text": "@united Lindsay and ??.  Darn.  Terrible memory on my part.  I know they are headed back to IAD and then PIT tonight.",
+        "true": "neutral",
+        "pred": "negative",
+        "pred_conf": 0.988,
+        "diagnosis": "TODO: one-line diagnosis"
+      },
+      {
+        "text": "@united @paigeworthy : page United values your tweet b/c it's so rare that they receive tweets complimenting their service...most are fake.",
+        "true": "neutral",
+        "pred": "negative",
+        "pred_conf": 0.986,
+        "diagnosis": "TODO: one-line diagnosis"
+      },
+      {
+        "text": "@united What happens on 9:11 a.m. of 9/11 2spooky 4me m8 such spook much scare",
+        "true": "neutral",
+        "pred": "negative",
+        "pred_conf": 0.982,
+        "diagnosis": "TODO: one-line diagnosis"
+      },
+      {
+        "text": "@united You please do not burn my dreams !!!  #burningman tickets sales today.",
+        "true": "neutral",
+        "pred": "negative",
+        "pred_conf": 0.98,
+        "diagnosis": "TODO: one-line diagnosis"
+      }
+    ]
+  }
+}

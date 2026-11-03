@@ -1,0 +1,20 @@
+{
+  "engine": "vllm",
+  "batch": 1,
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "dtype": "float16",
+  "max_tokens": 128,
+  "gpu_memory_utilization": 0.9,
+  "gpu": "Tesla T4",
+  "gpu_total_gb": 15.0,
+  "compute_cap": "7.5",
+  "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+  "torch": "2.8.0+cu128",
+  "requests": 64,
+  "tokens": 8192,
+  "wall_s": 59.187105892000545,
+  "tokens_per_s": 138.40852456864584,
+  "requests_per_s": 1.0813165981925457,
+  "p50_ms": 921.438108500297,
+  "p95_ms": 963.3292439498291
+}

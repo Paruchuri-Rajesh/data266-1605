@@ -1,0 +1,33 @@
+{
+  "baseline": {
+    "max_batch": 128,
+    "full_status": "ok"
+  },
+  "amp": {
+    "max_batch": 128,
+    "full_status": "ok"
+  },
+  "grad_ckpt": {
+    "max_batch": 512,
+    "full_status": "ok"
+  },
+  "adamw8bit": {
+    "max_batch": 128,
+    "full_status": "ok"
+  },
+  "best": {
+    "max_batch": 128,
+    "full_status": "ok"
+  },
+  "best_ckpt": {
+    "max_batch": 512,
+    "full_status": "ok"
+  },
+  "grad_accum": {
+    "physical_batch": 8,
+    "accum_steps": 16,
+    "effective_batch": 128,
+    "max_physical_batch": 128,
+    "max_effective_batch": 2048
+  }
+}

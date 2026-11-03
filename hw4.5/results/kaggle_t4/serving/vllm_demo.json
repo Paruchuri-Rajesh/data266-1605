@@ -1,0 +1,9 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "results": [
+    {
+      "prompt": "Explain what a KV cache is to a first-year student.",
+      "output": " A key component of a computer's memory system, a K cache stores recently accessed data in memory. It is volatile, meaning that its contents are lost when power is lost, and it is sequential, meaning that it is accessed in order of last access. The data stored in a K cache is typically in the form of hash keys and values. The K cache is typically used to speed up the performance of applications that access frequently accessed data. A K cache is not used for storing large amounts of data because it is limited by the amount of memory that can be used and the size of the data that needs to be stored. A K cache is not used to store data that is not frequently accessed because it is not used for that purpose. A K cache is used to speed up the performance of applications that access frequently accessed data by storing the data in memory and retrieving it when needed. The K cache is not used to store large amounts of data because it is limited by the amount of memory that can"
+    }
+  ]
+}

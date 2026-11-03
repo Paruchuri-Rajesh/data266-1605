@@ -1,0 +1,1596 @@
+=== [2026-11-03 07:54:59] [kaggle_t4] SLICE=605 SEED=1605 DATA=data/Tweets.csv KV_MODEL=Qwen/Qwen2.5-1.5B-Instruct
+=== [2026-11-03 07:54:59] [kaggle_t4] start env
+wrote env/uuid_kaggle_t4.txt and env/topo_kaggle_t4.txt
+=== [2026-11-03 07:55:21] [kaggle_t4] end env
+=== [2026-11-03 07:55:21] [kaggle_t4] start hw4a
+[data] wrote data/hw4a_data_lock.json (HW4.a data lock)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[hw4a] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3511.37it/s]
+[transformers] [1mBertForSequenceClassification LOAD REPORT[0m from: bert-base-uncased
+Key                                        | Status     | 
+-------------------------------------------+------------+-
+cls.seq_relationship.weight                | UNEXPECTED | 
+cls.predictions.transform.dense.weight     | UNEXPECTED | 
+cls.predictions.bias                       | UNEXPECTED | 
+cls.seq_relationship.bias                  | UNEXPECTED | 
+cls.predictions.transform.LayerNorm.weight | UNEXPECTED | 
+cls.predictions.transform.dense.bias       | UNEXPECTED | 
+cls.predictions.transform.LayerNorm.bias   | UNEXPECTED | 
+classifier.weight                          | MISSING    | 
+classifier.bias                            | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+[hw4a] {"epoch": 1, "train_loss": 0.7093, "epoch_time_s": 72.3677, "opt_steps": 110, "val_loss": 0.4889, "val_acc": 0.8013}
+[hw4a] {"epoch": 2, "train_loss": 0.4318, "epoch_time_s": 81.2432, "opt_steps": 220, "val_loss": 0.4463, "val_acc": 0.836}
+[hw4a] {"epoch": 3, "train_loss": 0.2974, "epoch_time_s": 80.4507, "opt_steps": 330, "val_loss": 0.4513, "val_acc": 0.8387}
+[hw4a] {"epoch": 4, "train_loss": 0.2227, "epoch_time_s": 80.301, "opt_steps": 440, "val_loss": 0.4669, "val_acc": 0.8413}
+[hw4a] test acc 0.8213  worst class neutral
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:07<00:00,  7.63s/it]Writing model shards: 100%|██████████| 1/1 [00:07<00:00,  7.63s/it]
+Loading weights:   0%|          | 0/201 [00:00<?, ?it/s]Loading weights: 100%|██████████| 201/201 [00:00<00:00, 3587.79it/s]
+[
+ {
+  "text": "The flight was delayed three hours and nobody told us anything.",
+  "pred": "negative",
+  "conf": 0.981
+ },
+ {
+  "text": "Crew was friendly and we landed early, great job!",
+  "pred": "positive",
+  "conf": 0.946
+ },
+ {
+  "text": "Is there wifi on the 7am flight to Denver?",
+  "pred": "neutral",
+  "conf": 0.907
+ }
+]
+[hw4a] thr 44.5 samp/s  peak 4.01 GB  epoch 78.6s
+=== [2026-11-03 08:01:38] [kaggle_t4] end hw4a
+=== [2026-11-03 08:02:01] [kaggle_t4] SLICE=605 SEED=1605 DATA=data/Tweets.csv KV_MODEL=Qwen/Qwen2.5-1.5B-Instruct
+=== [2026-11-03 08:02:01] [kaggle_t4] start serve
+INFO 11-03 08:02:11 [__init__.py:216] Automatically detected platform cuda.
+INFO 11-03 08:02:15 [utils.py:233] non-default args: {'dtype': 'float16', 'seed': 0, 'max_model_len': 2048, 'disable_log_stats': True, 'model': 'Qwen/Qwen2.5-0.5B-Instruct'}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+INFO 11-03 08:02:37 [model.py:547] Resolved architecture: Qwen2ForCausalLM
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+WARNING 11-03 08:02:37 [model.py:1733] Casting torch.bfloat16 to torch.float16.
+INFO 11-03 08:02:37 [model.py:1510] Using max model len 2048
+INFO 11-03 08:02:37 [scheduler.py:205] Chunked prefill is enabled with max_num_batched_tokens=8192.
+Traceback (most recent call last):
+  File "/kaggle/working/hw45/serve_bench.py", line 218, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/hw45/serve_bench.py", line 214, in main
+    {"demo": demo, "hf": bench_hf, "vllm": bench_vllm, "kv": kv, "kv-child": kv_child}[a.mode](a)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/kaggle/working/hw45/serve_bench.py", line 125, in demo
+    llm = make_llm(a, max_model_len=a.max_model_len)
+  File "/kaggle/working/hw45/serve_bench.py", line 96, in make_llm
+    return LLM(model=a.model, dtype=pick_dtype(a.dtype), gpu_memory_utilization=a.gpu_util,
+               seed=0, **kw)
+  File "/usr/local/lib/python3.13/dist-packages/vllm/entrypoints/llm.py", line 297, in __init__
+    self.llm_engine = LLMEngine.from_engine_args(
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        engine_args=engine_args, usage_context=UsageContext.LLM_CLASS)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/vllm/v1/engine/llm_engine.py", line 177, in from_engine_args
+    return cls(vllm_config=vllm_config,
+               executor_class=executor_class,
+    ...<2 lines>...
+               stat_loggers=stat_loggers,
+               multiprocess_mode=enable_multiprocessing)
+  File "/usr/local/lib/python3.13/dist-packages/vllm/v1/engine/llm_engine.py", line 96, in __init__
+    self.tokenizer = init_tokenizer_from_configs(
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        model_config=vllm_config.model_config)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/vllm/transformers_utils/tokenizer.py", line 286, in init_tokenizer_from_configs
+    return get_tokenizer(
+        model_config.tokenizer,
+    ...<3 lines>...
+        truncation_side=truncation_side,
+    )
+  File "/usr/local/lib/python3.13/dist-packages/vllm/transformers_utils/tokenizer.py", line 256, in get_tokenizer
+    tokenizer = get_cached_tokenizer(tokenizer)
+  File "/usr/local/lib/python3.13/dist-packages/vllm/transformers_utils/tokenizer.py", line 99, in get_cached_tokenizer
+    tokenizer.all_special_tokens_extended)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_base.py", line 1317, in __getattr__
+    raise AttributeError(f"{self.__class__.__name__} has no attribute {key}")
+AttributeError: Qwen2Tokenizer has no attribute all_special_tokens_extended. Did you mean: 'num_special_tokens_to_add'?
+=== [2026-11-03 08:02:49] [kaggle_t4] SLICE=605 SEED=1605 DATA=data/Tweets.csv KV_MODEL=Qwen/Qwen2.5-1.5B-Instruct
+=== [2026-11-03 08:02:49] [kaggle_t4] start serve
+INFO 11-03 08:02:58 [__init__.py:216] Automatically detected platform cuda.
+INFO 11-03 08:03:01 [utils.py:233] non-default args: {'dtype': 'float16', 'seed': 0, 'max_model_len': 2048, 'disable_log_stats': True, 'model': 'Qwen/Qwen2.5-0.5B-Instruct'}
+INFO 11-03 08:03:01 [model.py:547] Resolved architecture: Qwen2ForCausalLM
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+WARNING 11-03 08:03:01 [model.py:1733] Casting torch.bfloat16 to torch.float16.
+INFO 11-03 08:03:01 [model.py:1510] Using max model len 2048
+INFO 11-03 08:03:03 [scheduler.py:205] Chunked prefill is enabled with max_num_batched_tokens=8192.
+Traceback (most recent call last):
+  File "/kaggle/working/hw45/serve_bench.py", line 218, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/hw45/serve_bench.py", line 214, in main
+    {"demo": demo, "hf": bench_hf, "vllm": bench_vllm, "kv": kv, "kv-child": kv_child}[a.mode](a)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/kaggle/working/hw45/serve_bench.py", line 125, in demo
+    llm = make_llm(a, max_model_len=a.max_model_len)
+  File "/kaggle/working/hw45/serve_bench.py", line 96, in make_llm
+    return LLM(model=a.model, dtype=pick_dtype(a.dtype), gpu_memory_utilization=a.gpu_util,
+               seed=0, **kw)
+  File "/usr/local/lib/python3.13/dist-packages/vllm/entrypoints/llm.py", line 297, in __init__
+    self.llm_engine = LLMEngine.from_engine_args(
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        engine_args=engine_args, usage_context=UsageContext.LLM_CLASS)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/vllm/v1/engine/llm_engine.py", line 177, in from_engine_args
+    return cls(vllm_config=vllm_config,
+               executor_class=executor_class,
+    ...<2 lines>...
+               stat_loggers=stat_loggers,
+               multiprocess_mode=enable_multiprocessing)
+  File "/usr/local/lib/python3.13/dist-packages/vllm/v1/engine/llm_engine.py", line 96, in __init__
+    self.tokenizer = init_tokenizer_from_configs(
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        model_config=vllm_config.model_config)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/vllm/transformers_utils/tokenizer.py", line 286, in init_tokenizer_from_configs
+    return get_tokenizer(
+        model_config.tokenizer,
+    ...<3 lines>...
+        truncation_side=truncation_side,
+    )
+  File "/usr/local/lib/python3.13/dist-packages/vllm/transformers_utils/tokenizer.py", line 256, in get_tokenizer
+    tokenizer = get_cached_tokenizer(tokenizer)
+  File "/usr/local/lib/python3.13/dist-packages/vllm/transformers_utils/tokenizer.py", line 99, in get_cached_tokenizer
+    tokenizer.all_special_tokens_extended)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/transformers/tokenization_utils_base.py", line 1317, in __getattr__
+    raise AttributeError(f"{self.__class__.__name__} has no attribute {key}")
+AttributeError: Qwen2Tokenizer has no attribute all_special_tokens_extended. Did you mean: 'num_special_tokens_to_add'?
+=== [2026-11-03 08:06:04] [kaggle_t4] SLICE=605 SEED=1605 DATA=data/Tweets.csv KV_MODEL=Qwen/Qwen2.5-1.5B-Instruct
+=== [2026-11-03 08:06:04] [kaggle_t4] start env
+wrote env/uuid_kaggle_t4.txt and env/topo_kaggle_t4.txt
+=== [2026-11-03 08:06:23] [kaggle_t4] end env
+=== [2026-11-03 08:06:23] [kaggle_t4] start hw4a
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793693192.962541    7633 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[hw4a] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[hw4a] {"epoch": 1, "train_loss": 0.7093, "epoch_time_s": 76.035, "opt_steps": 110, "val_loss": 0.4889, "val_acc": 0.8013}
+[hw4a] {"epoch": 2, "train_loss": 0.4318, "epoch_time_s": 80.547, "opt_steps": 220, "val_loss": 0.4463, "val_acc": 0.836}
+[hw4a] {"epoch": 3, "train_loss": 0.2974, "epoch_time_s": 80.7573, "opt_steps": 330, "val_loss": 0.4513, "val_acc": 0.8387}
+[hw4a] {"epoch": 4, "train_loss": 0.2227, "epoch_time_s": 80.0258, "opt_steps": 440, "val_loss": 0.4669, "val_acc": 0.8413}
+[hw4a] test acc 0.8213  worst class neutral
+[
+ {
+  "text": "The flight was delayed three hours and nobody told us anything.",
+  "pred": "negative",
+  "conf": 0.981
+ },
+ {
+  "text": "Crew was friendly and we landed early, great job!",
+  "pred": "positive",
+  "conf": 0.946
+ },
+ {
+  "text": "Is there wifi on the 7am flight to Denver?",
+  "pred": "neutral",
+  "conf": 0.907
+ }
+]
+[hw4a] thr 44.1 samp/s  peak 3.99 GB  epoch 79.3s
+=== [2026-11-03 08:12:39] [kaggle_t4] end hw4a
+=== [2026-11-03 08:13:31] [kaggle_t4] SLICE=605 SEED=1605 DATA=data/Tweets.csv KV_MODEL=Qwen/Qwen2.5-1.5B-Instruct
+=== [2026-11-03 08:13:31] [kaggle_t4] start serve
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793693617.124779    9450 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+INFO 11-03 08:13:43 [__init__.py:216] Automatically detected platform cuda.
+INFO 11-03 08:13:45 [utils.py:233] non-default args: {'dtype': 'float16', 'seed': 0, 'max_model_len': 2048, 'disable_log_stats': True, 'model': 'Qwen/Qwen2.5-0.5B-Instruct'}
+INFO 11-03 08:13:45 [model.py:547] Resolved architecture: Qwen2ForCausalLM
+`torch_dtype` is deprecated! Use `dtype` instead!
+WARNING 11-03 08:13:45 [model.py:1733] Casting torch.bfloat16 to torch.float16.
+INFO 11-03 08:13:45 [model.py:1510] Using max model len 2048
+INFO 11-03 08:13:47 [scheduler.py:205] Chunked prefill is enabled with max_num_batched_tokens=8192.
+WARNING 11-03 08:13:48 [__init__.py:3036] We must use the `spawn` multiprocessing start method. Overriding VLLM_WORKER_MULTIPROC_METHOD to 'spawn'. See https://docs.vllm.ai/en/latest/usage/troubleshooting.html#python-multiprocessing for more information. Reasons: CUDA is initialized
+INFO 11-03 08:14:00 [__init__.py:216] Automatically detected platform cuda.
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:02 [core.py:644] Waiting for init message from front-end.
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:02 [core.py:77] Initializing a V1 LLM engine (v0.11.0) with config: model='Qwen/Qwen2.5-0.5B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-0.5B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=2048, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=0, served_model_name=Qwen/Qwen2.5-0.5B-Instruct, enable_prefix_caching=True, chunked_prefill_enabled=True, pooler_config=None, compilation_config={"level":3,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":["vllm.unified_attention","vllm.unified_attention_with_output","vllm.mamba_mixer2","vllm.mamba_mixer","vllm.short_conv","vllm.linear_attention","vllm.plamo2_mamba_mixer","vllm.gdn_attention","vllm.sparse_attn_indexer"],"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":[2,1],"use_cudagraph":true,"cudagraph_num_of_warmups":1,"cudagraph_capture_sizes":[512,504,496,488,480,472,464,456,448,440,432,424,416,408,400,392,384,376,368,360,352,344,336,328,320,312,304,296,288,280,272,264,256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"use_inductor_graph_partition":false,"pass_config":{},"max_capture_size":512,"local_cache_dir":null}
+[1;36m(EngineCore_DP0 pid=9538)[0;0m ERROR 11-03 08:14:06 [fa_utils.py:57] Cannot use FA version 2 is not supported due to FA2 is only supported on devices with compute capability >= 8
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:10 [parallel_state.py:1208] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:11 [topk_topp_sampler.py:55] Using FlashInfer for top-p & top-k sampling.
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:11 [gpu_model_runner.py:2602] Starting to load model Qwen/Qwen2.5-0.5B-Instruct...
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:12 [gpu_model_runner.py:2634] Loading model from scratch...
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:12 [cuda.py:322] Using Triton backend on V1 engine.
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:12 [weight_utils.py:392] Using model weights format ['*.safetensors']
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:26 [weight_utils.py:413] Time spent downloading weights for Qwen/Qwen2.5-0.5B-Instruct: 13.319217 seconds
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:26 [weight_utils.py:450] No model.safetensors.index.json found in remote.
+[1;36m(EngineCore_DP0 pid=9538)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+[1;36m(EngineCore_DP0 pid=9538)[0;0m Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.24s/it]
+[1;36m(EngineCore_DP0 pid=9538)[0;0m Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.24s/it]
+[1;36m(EngineCore_DP0 pid=9538)[0;0m 
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:27 [default_loader.py:267] Loading weights took 1.28 seconds
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:28 [gpu_model_runner.py:2653] Model loading took 0.9277 GiB and 15.329021 seconds
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:37 [backends.py:548] Using cache directory: /root/.cache/vllm/torch_compile_cache/0aafedc52a/rank_0_0/backbone for vLLM's torch.compile
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:37 [backends.py:559] Dynamo bytecode transform time: 7.76 s
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:14:41 [backends.py:197] Cache the graph for dynamic shape for later use
+[1;36m(EngineCore_DP0 pid=9538)[0;0m [rank0]:W1103 08:14:41.993000 9538 torch/_inductor/utils.py:1436] [0/0] Not enough SMs to use max_autotune_gemm mode
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:15:00 [backends.py:218] Compiling a graph for dynamic shape takes 22.46 s
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:15:06 [monitor.py:34] torch.compile takes 30.22 s in total
+[1;36m(EngineCore_DP0 pid=9538)[0;0m 2026-11-03 08:15:06,188 - INFO - core.py:594 - flashinfer.jit: Building JIT module sampling; this can take several minutes on first use.
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:18:25 [gpu_worker.py:298] Available KV cache memory: 11.62 GiB
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:18:26 [kv_cache_utils.py:1087] GPU KV cache size: 1,014,960 tokens
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:18:26 [kv_cache_utils.py:1091] Maximum concurrency for 2,048 tokens per request: 495.59x
+[1;36m(EngineCore_DP0 pid=9538)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/67 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   3%|▎         | 2/67 [00:00<00:03, 18.29it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   6%|▌         | 4/67 [00:00<00:03, 18.88it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  10%|█         | 7/67 [00:00<00:02, 20.65it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  15%|█▍        | 10/67 [00:00<00:02, 21.44it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  19%|█▉        | 13/67 [00:00<00:02, 22.04it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▍       | 16/67 [00:00<00:02, 21.97it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  28%|██▊       | 19/67 [00:00<00:02, 23.15it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  33%|███▎      | 22/67 [00:00<00:01, 23.96it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  37%|███▋      | 25/67 [00:01<00:01, 24.44it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  42%|████▏     | 28/67 [00:01<00:01, 24.91it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  46%|████▋     | 31/67 [00:01<00:01, 25.08it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  51%|█████     | 34/67 [00:01<00:01, 24.78it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  55%|█████▌    | 37/67 [00:01<00:01, 25.23it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  60%|█████▉    | 40/67 [00:01<00:01, 25.44it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  64%|██████▍   | 43/67 [00:01<00:00, 24.84it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  69%|██████▊   | 46/67 [00:01<00:00, 25.19it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  73%|███████▎  | 49/67 [00:02<00:00, 23.37it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  78%|███████▊  | 52/67 [00:02<00:00, 24.01it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  82%|████████▏ | 55/67 [00:02<00:00, 24.16it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  87%|████████▋ | 58/67 [00:02<00:00, 24.28it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  91%|█████████ | 61/67 [00:02<00:00, 23.49it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  96%|█████████▌| 64/67 [00:02<00:00, 23.37it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 67/67 [00:02<00:00, 17.09it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 67/67 [00:02<00:00, 22.40it/s]
+[1;36m(EngineCore_DP0 pid=9538)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   3%|▎         | 1/35 [00:01<00:55,  1.62s/it]Capturing CUDA graphs (decode, FULL):   6%|▌         | 2/35 [00:02<00:35,  1.09s/it]Capturing CUDA graphs (decode, FULL):  14%|█▍        | 5/35 [00:02<00:10,  2.91it/s]Capturing CUDA graphs (decode, FULL):  20%|██        | 7/35 [00:02<00:06,  4.45it/s]Capturing CUDA graphs (decode, FULL):  29%|██▊       | 10/35 [00:02<00:03,  6.96it/s]Capturing CUDA graphs (decode, FULL):  37%|███▋      | 13/35 [00:02<00:02,  9.26it/s]Capturing CUDA graphs (decode, FULL):  43%|████▎     | 15/35 [00:03<00:01, 10.73it/s]Capturing CUDA graphs (decode, FULL):  51%|█████▏    | 18/35 [00:03<00:01, 12.99it/s]Capturing CUDA graphs (decode, FULL):  60%|██████    | 21/35 [00:03<00:00, 14.88it/s]Capturing CUDA graphs (decode, FULL):  69%|██████▊   | 24/35 [00:03<00:00, 16.38it/s]Capturing CUDA graphs (decode, FULL):  74%|███████▍  | 26/35 [00:03<00:00, 16.78it/s]Capturing CUDA graphs (decode, FULL):  80%|████████  | 28/35 [00:05<00:01,  4.03it/s]Capturing CUDA graphs (decode, FULL):  86%|████████▌ | 30/35 [00:05<00:01,  3.46it/s]Capturing CUDA graphs (decode, FULL):  91%|█████████▏| 32/35 [00:06<00:00,  4.43it/s]Capturing CUDA graphs (decode, FULL):  97%|█████████▋| 34/35 [00:06<00:00,  5.66it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:07<00:00,  4.52it/s]
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:18:39 [gpu_model_runner.py:3480] Graph capturing finished in 13 secs, took 0.45 GiB
+[1;36m(EngineCore_DP0 pid=9538)[0;0m INFO 11-03 08:18:39 [core.py:210] init engine (profile, create kv cache, warmup model) took 250.61 seconds
+INFO 11-03 08:18:41 [llm.py:306] Supported_tasks: ['generate']
+Adding requests:   0%|          | 0/1 [00:00<?, ?it/s]Adding requests: 100%|██████████| 1/1 [00:00<00:00, 49.90it/s]
+Processed prompts:   0%|          | 0/1 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s]Processed prompts: 100%|██████████| 1/1 [00:02<00:00,  2.20s/it, est. speed input: 5.91 toks/s, output: 90.96 toks/s]Processed prompts: 100%|██████████| 1/1 [00:02<00:00,  2.20s/it, est. speed input: 5.91 toks/s, output: 90.96 toks/s]Processed prompts: 100%|██████████| 1/1 [00:02<00:00,  2.20s/it, est. speed input: 5.91 toks/s, output: 90.96 toks/s]
+wrote results/kaggle_t4/serving/vllm_demo.json
+{
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "results": [
+  {
+   "prompt": "Explain what a KV cache is to a first-year student.",
+   "output": " A key component of a computer's memory system, a K cache stores recently accessed data in memory. It is volatile, meaning that its contents are lost when power is lost, and it is sequential, meaning that it is accessed in order of last access. The data stored in a K cache is typically in the form of hash keys and values. The K cache is typically used to speed up the performance of applications that access frequently accessed data. A K cache is not used for storing large amounts of data because it is limited by the amount of memory that can be used and the size of the data that needs to be stored. A K cache is not used to store data that is not frequently accessed because it is not used for that purpose. A K cache is used to speed up the performance of applications that access frequently accessed data by storing the data in memory and retrieving it when needed. The K cache is not used to store large amounts of data because it is limited by the amount of memory that can"
+  }
+ ]
+}
+[rank0]:[W1103 08:18:43.377184437 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793693933.762907   11275 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Device set to use cuda:0
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
+wrote results/kaggle_t4/serving/hf_b1.json
+{
+ "engine": "hf_pipeline",
+ "batch": 1,
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "dtype": "float16",
+ "max_tokens": 128,
+ "gpu": "Tesla T4",
+ "gpu_total_gb": 15.0,
+ "compute_cap": "7.5",
+ "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+ "torch": "2.8.0+cu128",
+ "requests": 64,
+ "tokens": 8192,
+ "wall_s": 331.90128506999963,
+ "tokens_per_s": 24.6820376072731,
+ "requests_per_s": 0.19282841880682108,
+ "p50_ms": 5036.827982499972,
+ "p95_ms": 5731.397549500116
+}
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793694295.265977   12860 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+INFO 11-03 08:25:00 [__init__.py:216] Automatically detected platform cuda.
+INFO 11-03 08:25:03 [utils.py:233] non-default args: {'dtype': 'float16', 'seed': 0, 'max_model_len': 2048, 'disable_log_stats': True, 'model': 'Qwen/Qwen2.5-0.5B-Instruct'}
+INFO 11-03 08:25:03 [model.py:547] Resolved architecture: Qwen2ForCausalLM
+`torch_dtype` is deprecated! Use `dtype` instead!
+WARNING 11-03 08:25:03 [model.py:1733] Casting torch.bfloat16 to torch.float16.
+INFO 11-03 08:25:03 [model.py:1510] Using max model len 2048
+INFO 11-03 08:25:06 [scheduler.py:205] Chunked prefill is enabled with max_num_batched_tokens=8192.
+WARNING 11-03 08:25:06 [__init__.py:3036] We must use the `spawn` multiprocessing start method. Overriding VLLM_WORKER_MULTIPROC_METHOD to 'spawn'. See https://docs.vllm.ai/en/latest/usage/troubleshooting.html#python-multiprocessing for more information. Reasons: CUDA is initialized
+INFO 11-03 08:25:18 [__init__.py:216] Automatically detected platform cuda.
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:20 [core.py:644] Waiting for init message from front-end.
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:20 [core.py:77] Initializing a V1 LLM engine (v0.11.0) with config: model='Qwen/Qwen2.5-0.5B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-0.5B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=2048, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=0, served_model_name=Qwen/Qwen2.5-0.5B-Instruct, enable_prefix_caching=True, chunked_prefill_enabled=True, pooler_config=None, compilation_config={"level":3,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":["vllm.unified_attention","vllm.unified_attention_with_output","vllm.mamba_mixer2","vllm.mamba_mixer","vllm.short_conv","vllm.linear_attention","vllm.plamo2_mamba_mixer","vllm.gdn_attention","vllm.sparse_attn_indexer"],"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":[2,1],"use_cudagraph":true,"cudagraph_num_of_warmups":1,"cudagraph_capture_sizes":[512,504,496,488,480,472,464,456,448,440,432,424,416,408,400,392,384,376,368,360,352,344,336,328,320,312,304,296,288,280,272,264,256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"use_inductor_graph_partition":false,"pass_config":{},"max_capture_size":512,"local_cache_dir":null}
+[1;36m(EngineCore_DP0 pid=12957)[0;0m ERROR 11-03 08:25:24 [fa_utils.py:57] Cannot use FA version 2 is not supported due to FA2 is only supported on devices with compute capability >= 8
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:27 [parallel_state.py:1208] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:28 [topk_topp_sampler.py:55] Using FlashInfer for top-p & top-k sampling.
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:28 [gpu_model_runner.py:2602] Starting to load model Qwen/Qwen2.5-0.5B-Instruct...
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:29 [gpu_model_runner.py:2634] Loading model from scratch...
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:29 [cuda.py:322] Using Triton backend on V1 engine.
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:30 [weight_utils.py:392] Using model weights format ['*.safetensors']
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:30 [weight_utils.py:450] No model.safetensors.index.json found in remote.
+[1;36m(EngineCore_DP0 pid=12957)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+[1;36m(EngineCore_DP0 pid=12957)[0;0m Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.27s/it]
+[1;36m(EngineCore_DP0 pid=12957)[0;0m Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.27s/it]
+[1;36m(EngineCore_DP0 pid=12957)[0;0m 
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:31 [default_loader.py:267] Loading weights took 1.31 seconds
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:33 [gpu_model_runner.py:2653] Model loading took 0.9277 GiB and 2.152857 seconds
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:41 [backends.py:548] Using cache directory: /root/.cache/vllm/torch_compile_cache/0aafedc52a/rank_0_0/backbone for vLLM's torch.compile
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:41 [backends.py:559] Dynamo bytecode transform time: 7.69 s
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:43 [backends.py:164] Directly load the compiled graph(s) for dynamic shape from the cache, took 1.873 s
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:44 [monitor.py:34] torch.compile takes 7.69 s in total
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:46 [gpu_worker.py:298] Available KV cache memory: 11.62 GiB
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:47 [kv_cache_utils.py:1087] GPU KV cache size: 1,015,120 tokens
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:47 [kv_cache_utils.py:1091] Maximum concurrency for 2,048 tokens per request: 495.66x
+[1;36m(EngineCore_DP0 pid=12957)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/67 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   3%|▎         | 2/67 [00:00<00:03, 19.40it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   7%|▋         | 5/67 [00:00<00:03, 20.15it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 8/67 [00:00<00:02, 21.35it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  16%|█▋        | 11/67 [00:00<00:02, 22.50it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  21%|██        | 14/67 [00:00<00:02, 23.61it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  25%|██▌       | 17/67 [00:00<00:02, 24.39it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  30%|██▉       | 20/67 [00:00<00:01, 25.34it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  34%|███▍      | 23/67 [00:00<00:01, 25.35it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  39%|███▉      | 26/67 [00:01<00:01, 26.32it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  43%|████▎     | 29/67 [00:01<00:01, 27.28it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  48%|████▊     | 32/67 [00:01<00:01, 27.76it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  52%|█████▏    | 35/67 [00:01<00:01, 28.40it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  58%|█████▊    | 39/67 [00:01<00:00, 29.36it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  64%|██████▍   | 43/67 [00:01<00:00, 29.80it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  70%|███████   | 47/67 [00:01<00:00, 29.91it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  75%|███████▍  | 50/67 [00:01<00:00, 28.41it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  79%|███████▉  | 53/67 [00:01<00:00, 27.91it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  84%|████████▎ | 56/67 [00:02<00:00, 28.15it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  90%|████████▉ | 60/67 [00:02<00:00, 28.08it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  94%|█████████▍| 63/67 [00:02<00:00, 28.01it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  99%|█████████▊| 66/67 [00:02<00:00, 27.87it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 67/67 [00:02<00:00, 26.41it/s]
+[1;36m(EngineCore_DP0 pid=12957)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   6%|▌         | 2/35 [00:00<00:02, 13.95it/s]Capturing CUDA graphs (decode, FULL):  14%|█▍        | 5/35 [00:00<00:01, 19.08it/s]Capturing CUDA graphs (decode, FULL):  23%|██▎       | 8/35 [00:00<00:01, 21.01it/s]Capturing CUDA graphs (decode, FULL):  31%|███▏      | 11/35 [00:00<00:01, 20.83it/s]Capturing CUDA graphs (decode, FULL):  40%|████      | 14/35 [00:00<00:00, 21.51it/s]Capturing CUDA graphs (decode, FULL):  49%|████▊     | 17/35 [00:00<00:00, 21.83it/s]Capturing CUDA graphs (decode, FULL):  57%|█████▋    | 20/35 [00:00<00:00, 22.42it/s]Capturing CUDA graphs (decode, FULL):  66%|██████▌   | 23/35 [00:01<00:00, 18.86it/s]Capturing CUDA graphs (decode, FULL):  71%|███████▏  | 25/35 [00:01<00:00, 18.20it/s]Capturing CUDA graphs (decode, FULL):  77%|███████▋  | 27/35 [00:01<00:00, 17.78it/s]Capturing CUDA graphs (decode, FULL):  83%|████████▎ | 29/35 [00:01<00:00, 14.93it/s]Capturing CUDA graphs (decode, FULL):  89%|████████▊ | 31/35 [00:01<00:00, 14.96it/s]Capturing CUDA graphs (decode, FULL):  94%|█████████▍| 33/35 [00:01<00:00, 15.25it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 15.21it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 17.69it/s]
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:53 [gpu_model_runner.py:3480] Graph capturing finished in 6 secs, took 0.45 GiB
+[1;36m(EngineCore_DP0 pid=12957)[0;0m INFO 11-03 08:25:53 [core.py:210] init engine (profile, create kv cache, warmup model) took 20.65 seconds
+INFO 11-03 08:25:55 [llm.py:306] Supported_tasks: ['generate']
+wrote results/kaggle_t4/serving/vllm_b1.json
+{
+ "engine": "vllm",
+ "batch": 1,
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "dtype": "float16",
+ "max_tokens": 128,
+ "gpu_memory_utilization": 0.9,
+ "gpu": "Tesla T4",
+ "gpu_total_gb": 15.0,
+ "compute_cap": "7.5",
+ "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+ "torch": "2.8.0+cu128",
+ "requests": 64,
+ "tokens": 8192,
+ "wall_s": 60.64188665900019,
+ "tokens_per_s": 135.08814536172054,
+ "requests_per_s": 1.0553761356384417,
+ "p50_ms": 923.0744184999367,
+ "p95_ms": 991.8743172998802
+}
+wrote results/kaggle_t4/serving/vllm_b8.json
+{
+ "engine": "vllm",
+ "batch": 8,
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "dtype": "float16",
+ "max_tokens": 128,
+ "gpu_memory_utilization": 0.9,
+ "gpu": "Tesla T4",
+ "gpu_total_gb": 15.0,
+ "compute_cap": "7.5",
+ "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+ "torch": "2.8.0+cu128",
+ "requests": 64,
+ "tokens": 8192,
+ "wall_s": 8.233943230000023,
+ "tokens_per_s": 994.9060579082931,
+ "requests_per_s": 7.77270357740854,
+ "p50_ms": 1016.6773705000196,
+ "p95_ms": 1083.1352750001315
+}
+wrote results/kaggle_t4/serving/vllm_b32.json
+{
+ "engine": "vllm",
+ "batch": 32,
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "dtype": "float16",
+ "max_tokens": 128,
+ "gpu_memory_utilization": 0.9,
+ "gpu": "Tesla T4",
+ "gpu_total_gb": 15.0,
+ "compute_cap": "7.5",
+ "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+ "torch": "2.8.0+cu128",
+ "requests": 64,
+ "tokens": 8192,
+ "wall_s": 2.802252383999985,
+ "tokens_per_s": 2923.3626659660804,
+ "requests_per_s": 22.838770827860003,
+ "p50_ms": 1401.105094499826,
+ "p95_ms": 1404.1816179997113
+}
+[rank0]:[W1103 08:27:08.210211064 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+=== [2026-11-03 08:27:12] [kaggle_t4] end serve
+=== [2026-11-03 08:27:30] [kaggle_t4] SLICE=605 SEED=1605 DATA=data/Tweets.csv KV_MODEL=Qwen/Qwen2.5-1.5B-Instruct
+=== [2026-11-03 08:27:30] [kaggle_t4] start partA
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 1 --tag partA_bs1 --epoch-or-probe --out results/kaggle_t4/partA/bs1.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793694456.742014   13693 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[partA_bs1] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[partA_bs1] {"epoch": 1, "train_loss": 0.9529, "epoch_time_s": 255.3588, "opt_steps": 3500}
+[partA_bs1] thr 13.7 samp/s  peak 2.21 GB  epoch 255.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 2 --tag partA_bs2 --epoch-or-probe --out results/kaggle_t4/partA/bs2.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793694731.097543   14904 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[partA_bs2] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[partA_bs2] {"epoch": 1, "train_loss": 0.7232, "epoch_time_s": 157.1009, "opt_steps": 1750}
+[partA_bs2] thr 22.3 samp/s  peak 2.22 GB  epoch 157.1s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 4 --tag partA_bs4 --epoch-or-probe --out results/kaggle_t4/partA/bs4.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793694906.660683   15677 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[partA_bs4] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[partA_bs4] {"epoch": 1, "train_loss": 0.58, "epoch_time_s": 117.1571, "opt_steps": 875}
+[partA_bs4] thr 29.9 samp/s  peak 2.22 GB  epoch 117.2s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 8 --tag partA_bs8 --epoch-or-probe --out results/kaggle_t4/partA/bs8.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695042.172965   16285 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[partA_bs8] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[partA_bs8] {"epoch": 1, "train_loss": 0.5966, "epoch_time_s": 98.6499, "opt_steps": 438}
+[partA_bs8] thr 35.5 samp/s  peak 2.25 GB  epoch 98.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 16 --tag partA_bs16 --epoch-or-probe --out results/kaggle_t4/partA/bs16.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695158.703937   16805 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[partA_bs16] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[partA_bs16] {"epoch": 1, "train_loss": 0.627, "epoch_time_s": 87.9099, "opt_steps": 219}
+[partA_bs16] thr 39.8 samp/s  peak 2.65 GB  epoch 87.9s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 32 --tag partA_bs32 --epoch-or-probe --out results/kaggle_t4/partA/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695264.862487   17278 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[partA_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[partA_bs32] {"epoch": 1, "train_loss": 0.7438, "epoch_time_s": 82.1384, "opt_steps": 110}
+[partA_bs32] thr 42.6 samp/s  peak 3.99 GB  epoch 82.1s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 64 --tag partA_bs64 --epoch-or-probe --out results/kaggle_t4/partA/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695366.301801   17728 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[partA_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[partA_bs64] {"epoch": 1, "train_loss": 0.8177, "epoch_time_s": 80.5738, "opt_steps": 55}
+[partA_bs64] thr 43.4 samp/s  peak 6.51 GB  epoch 80.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 128 --tag partA_bs128 --epoch-or-probe --out results/kaggle_t4/partA/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695465.072349   18174 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[partA_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[partA_bs128] {"epoch": 1, "train_loss": 0.9251, "epoch_time_s": 79.6813, "opt_steps": 28}
+[partA_bs128] thr 43.9 samp/s  peak 11.67 GB  epoch 79.7s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 256 --tag partA_bs256 --epoch-or-probe --out results/kaggle_t4/partA/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695563.949436   18616 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[partA_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[partA_bs256] OOM at batch 256
+--> stopped at batch 256: oom
+Part A max batch on kaggle_t4: 128
+=== [2026-11-03 08:46:17] [kaggle_t4] end partA
+=== [2026-11-03 08:47:05] [kaggle_t4] SLICE=605 SEED=1605 DATA=data/Tweets.csv KV_MODEL=Qwen/Qwen2.5-1.5B-Instruct
+=== [2026-11-03 08:47:05] [kaggle_t4] start partB
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/kaggle_t4/partB/baseline/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695631.307190   18938 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.0557, "epoch_time_s": 7.0032, "opt_steps": 10}
+[search_bs32] thr 47.9 samp/s  peak 3.99 GB  epoch 73.1s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/kaggle_t4/partB/baseline/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695656.774638   19058 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.0387, "epoch_time_s": 14.1962, "opt_steps": 10}
+[search_bs64] thr 45.7 samp/s  peak 6.51 GB  epoch 76.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/kaggle_t4/partB/baseline/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695690.125249   19213 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.0342, "epoch_time_s": 31.1841, "opt_steps": 10}
+[search_bs128] thr 40.7 samp/s  peak 11.67 GB  epoch 86.1s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/kaggle_t4/partB/baseline/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695738.750923   19438 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] OOM at batch 256
+--> stopped at batch 256: oom
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 32 --tag B_baseline --out results/kaggle_t4/partB/baseline/full.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793695759.350195   19530 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_baseline] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_baseline] {"epoch": 1, "train_loss": 0.7093, "epoch_time_s": 82.3155, "opt_steps": 110, "val_loss": 0.4889, "val_acc": 0.8013}
+[B_baseline] {"epoch": 2, "train_loss": 0.4318, "epoch_time_s": 80.6201, "opt_steps": 220, "val_loss": 0.4463, "val_acc": 0.836}
+[B_baseline] {"epoch": 3, "train_loss": 0.2974, "epoch_time_s": 80.4134, "opt_steps": 330, "val_loss": 0.4513, "val_acc": 0.8387}
+[B_baseline] {"epoch": 4, "train_loss": 0.2227, "epoch_time_s": 80.0682, "opt_steps": 440, "val_loss": 0.4669, "val_acc": 0.8413}
+[B_baseline] test acc 0.8213  worst class neutral
+[B_baseline] thr 43.3 samp/s  peak 3.99 GB  epoch 80.9s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/kaggle_t4/partB/amp/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793696132.520432   21175 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.0583, "epoch_time_s": 10.3181, "opt_steps": 10}
+[search_bs32] thr 32.6 samp/s  peak 4.15 GB  epoch 107.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/kaggle_t4/partB/amp/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793696161.650332   21315 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.0446, "epoch_time_s": 21.8629, "opt_steps": 10}
+[search_bs64] thr 29.1 samp/s  peak 6.67 GB  epoch 120.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/kaggle_t4/partB/amp/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793696202.357929   21504 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.0329, "epoch_time_s": 44.0167, "opt_steps": 10}
+[search_bs128] thr 28.5 samp/s  peak 11.81 GB  epoch 122.7s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/kaggle_t4/partB/amp/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793696266.078165   21791 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] OOM at batch 256
+--> stopped at batch 256: oom
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 32 --tag B_amp --out results/kaggle_t4/partB/amp/full.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793696287.361166   21894 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_amp] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_amp] {"epoch": 1, "train_loss": 0.7223, "epoch_time_s": 113.2643, "opt_steps": 110, "val_loss": 0.506, "val_acc": 0.788}
+[B_amp] {"epoch": 2, "train_loss": 0.4256, "epoch_time_s": 111.9598, "opt_steps": 220, "val_loss": 0.4638, "val_acc": 0.8253}
+[B_amp] {"epoch": 3, "train_loss": 0.3072, "epoch_time_s": 111.2934, "opt_steps": 330, "val_loss": 0.4656, "val_acc": 0.8307}
+[B_amp] {"epoch": 4, "train_loss": 0.2341, "epoch_time_s": 111.9784, "opt_steps": 440, "val_loss": 0.4712, "val_acc": 0.8213}
+[B_amp] test acc 0.8067  worst class neutral
+[B_amp] thr 31.2 samp/s  peak 4.15 GB  epoch 112.1s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --grad-ckpt true --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_ckpt/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793696795.854475   24123 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.0557, "epoch_time_s": 9.9915, "opt_steps": 10}
+[search_bs32] thr 33.4 samp/s  peak 2.24 GB  epoch 104.9s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --grad-ckpt true --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_ckpt/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793696824.008158   24255 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.0387, "epoch_time_s": 21.7069, "opt_steps": 10}
+[search_bs64] thr 29.3 samp/s  peak 2.23 GB  epoch 119.5s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --grad-ckpt true --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_ckpt/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793696864.102327   24441 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.0342, "epoch_time_s": 42.3447, "opt_steps": 10}
+[search_bs128] thr 29.6 samp/s  peak 3.05 GB  epoch 118.3s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --grad-ckpt true --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_ckpt/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793696924.225106   24717 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] {"epoch": 1, "train_loss": 1.0283, "epoch_time_s": 79.6525, "opt_steps": 10}
+[search_bs256] thr 31.6 samp/s  peak 4.74 GB  epoch 110.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --grad-ckpt true --batch-size 512 --tag search_bs512 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_ckpt/search/bs512.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793697023.171458   25125 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs512] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs512] {"epoch": 1, "train_loss": 1.0341, "epoch_time_s": 155.4359, "opt_steps": 10}
+[search_bs512] thr 33.5 samp/s  peak 8.13 GB  epoch 104.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --grad-ckpt true --batch-size 1024 --tag search_bs1024 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_ckpt/search/bs1024.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793697196.730529   25846 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs1024] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs1024] OOM at batch 1024
+--> stopped at batch 1024: oom
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --grad-ckpt true --batch-size 32 --tag B_grad_ckpt --out results/kaggle_t4/partB/grad_ckpt/full.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793697254.955529   26099 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_grad_ckpt] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_grad_ckpt] {"epoch": 1, "train_loss": 0.7093, "epoch_time_s": 110.2937, "opt_steps": 110, "val_loss": 0.4889, "val_acc": 0.8013}
+[B_grad_ckpt] {"epoch": 2, "train_loss": 0.4318, "epoch_time_s": 109.7327, "opt_steps": 220, "val_loss": 0.4463, "val_acc": 0.836}
+[B_grad_ckpt] {"epoch": 3, "train_loss": 0.2974, "epoch_time_s": 109.5575, "opt_steps": 330, "val_loss": 0.4513, "val_acc": 0.8387}
+[B_grad_ckpt] {"epoch": 4, "train_loss": 0.2227, "epoch_time_s": 108.8904, "opt_steps": 440, "val_loss": 0.4669, "val_acc": 0.8413}
+[B_grad_ckpt] test acc 0.8213  worst class neutral
+[B_grad_ckpt] thr 31.9 samp/s  peak 2.24 GB  epoch 109.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --optim adamw8bit --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/kaggle_t4/partB/adamw8bit/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793697743.716220   28098 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.0557, "epoch_time_s": 7.6273, "opt_steps": 10}
+[search_bs32] thr 45.0 samp/s  peak 3.29 GB  epoch 77.8s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --optim adamw8bit --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/kaggle_t4/partB/adamw8bit/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793697772.986977   28243 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.0387, "epoch_time_s": 15.2267, "opt_steps": 10}
+[search_bs64] thr 42.9 samp/s  peak 5.86 GB  epoch 81.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --optim adamw8bit --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/kaggle_t4/partB/adamw8bit/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793697810.044830   28412 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.0342, "epoch_time_s": 31.7675, "opt_steps": 10}
+[search_bs128] thr 39.6 samp/s  peak 11.01 GB  epoch 88.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --optim adamw8bit --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/kaggle_t4/partB/adamw8bit/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793697864.322923   28656 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] OOM at batch 256
+--> stopped at batch 256: oom
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --optim adamw8bit --batch-size 32 --tag B_adamw8bit --out results/kaggle_t4/partB/adamw8bit/full.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793697889.710243   28780 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_adamw8bit] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_adamw8bit] {"epoch": 1, "train_loss": 0.7111, "epoch_time_s": 82.794, "opt_steps": 110, "val_loss": 0.496, "val_acc": 0.8013}
+[B_adamw8bit] {"epoch": 2, "train_loss": 0.436, "epoch_time_s": 80.9248, "opt_steps": 220, "val_loss": 0.4481, "val_acc": 0.8253}
+[B_adamw8bit] {"epoch": 3, "train_loss": 0.3016, "epoch_time_s": 80.4469, "opt_steps": 330, "val_loss": 0.4584, "val_acc": 0.8333}
+[B_adamw8bit] {"epoch": 4, "train_loss": 0.2231, "epoch_time_s": 80.4537, "opt_steps": 440, "val_loss": 0.4732, "val_acc": 0.8347}
+[B_adamw8bit] test acc 0.8253  worst class neutral
+[B_adamw8bit] thr 43.1 samp/s  peak 3.29 GB  epoch 81.2s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/kaggle_t4/partB/best/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793698267.831916   30342 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.0581, "epoch_time_s": 10.6617, "opt_steps": 10}
+[search_bs32] thr 32.5 samp/s  peak 3.46 GB  epoch 107.8s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/kaggle_t4/partB/best/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793698300.839495   30495 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.0443, "epoch_time_s": 22.2686, "opt_steps": 10}
+[search_bs64] thr 28.8 samp/s  peak 6.01 GB  epoch 121.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/kaggle_t4/partB/best/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793698345.344913   30700 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.0332, "epoch_time_s": 44.8041, "opt_steps": 10}
+[search_bs128] thr 28.1 samp/s  peak 11.15 GB  epoch 124.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/kaggle_t4/partB/best/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793698411.993164   30999 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] OOM at batch 256
+--> stopped at batch 256: oom
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 32 --tag B_best --out results/kaggle_t4/partB/best/full.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793698437.259245   31120 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_best] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_best] {"epoch": 1, "train_loss": 0.7241, "epoch_time_s": 114.2259, "opt_steps": 110, "val_loss": 0.4914, "val_acc": 0.7987}
+[B_best] {"epoch": 2, "train_loss": 0.422, "epoch_time_s": 112.1294, "opt_steps": 220, "val_loss": 0.4723, "val_acc": 0.82}
+[B_best] {"epoch": 3, "train_loss": 0.3005, "epoch_time_s": 111.7814, "opt_steps": 330, "val_loss": 0.4562, "val_acc": 0.8373}
+[B_best] {"epoch": 4, "train_loss": 0.2257, "epoch_time_s": 111.6003, "opt_steps": 440, "val_loss": 0.4685, "val_acc": 0.832}
+[B_best] test acc 0.8067  worst class neutral
+[B_best] thr 31.1 samp/s  peak 3.46 GB  epoch 112.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/kaggle_t4/partB/best_ckpt/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793698950.122856   33229 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.0581, "epoch_time_s": 14.3727, "opt_steps": 10}
+[search_bs32] thr 23.7 samp/s  peak 1.31 GB  epoch 147.7s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/kaggle_t4/partB/best_ckpt/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793698985.882508   33398 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.0443, "epoch_time_s": 30.7083, "opt_steps": 10}
+[search_bs64] thr 20.6 samp/s  peak 1.60 GB  epoch 169.8s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/kaggle_t4/partB/best_ckpt/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793699038.610854   33634 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.0332, "epoch_time_s": 58.624, "opt_steps": 10}
+[search_bs128] thr 21.3 samp/s  peak 2.39 GB  epoch 164.0s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/kaggle_t4/partB/best_ckpt/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793699119.484230   33989 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] {"epoch": 1, "train_loss": 1.0303, "epoch_time_s": 113.151, "opt_steps": 10}
+[search_bs256] thr 22.7 samp/s  peak 4.07 GB  epoch 154.5s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 512 --tag search_bs512 --probe-steps 10 --eval false --out results/kaggle_t4/partB/best_ckpt/search/bs512.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793699254.103840   34559 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs512] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs512] {"epoch": 1, "train_loss": 1.0319, "epoch_time_s": 229.1691, "opt_steps": 10}
+[search_bs512] thr 22.6 samp/s  peak 7.43 GB  epoch 154.9s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 1024 --tag search_bs1024 --probe-steps 10 --eval false --out results/kaggle_t4/partB/best_ckpt/search/bs1024.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793699505.242508   35601 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs1024] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs1024] OOM at batch 1024
+--> stopped at batch 1024: oom
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 32 --tag B_best_ckpt --out results/kaggle_t4/partB/best_ckpt/full.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793699576.050787   35916 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_best_ckpt] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_best_ckpt] {"epoch": 1, "train_loss": 0.7241, "epoch_time_s": 153.2452, "opt_steps": 110, "val_loss": 0.4914, "val_acc": 0.7987}
+[B_best_ckpt] {"epoch": 2, "train_loss": 0.422, "epoch_time_s": 149.4601, "opt_steps": 220, "val_loss": 0.4723, "val_acc": 0.82}
+[B_best_ckpt] {"epoch": 3, "train_loss": 0.3005, "epoch_time_s": 149.2321, "opt_steps": 330, "val_loss": 0.4562, "val_acc": 0.8373}
+[B_best_ckpt] {"epoch": 4, "train_loss": 0.2257, "epoch_time_s": 149.1588, "opt_steps": 440, "val_loss": 0.4685, "val_acc": 0.832}
+[B_best_ckpt] test acc 0.8067  worst class neutral
+[B_best_ckpt] thr 23.3 samp/s  peak 1.32 GB  epoch 150.3s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 8 --accum-steps 16 --tag B_accum_8x16 --out results/kaggle_t4/partB/grad_accum/accum.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793700240.209264   38640 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_accum_8x16] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_accum_8x16] {"epoch": 1, "train_loss": 0.9019, "epoch_time_s": 84.9616, "opt_steps": 28, "val_loss": 0.7274, "val_acc": 0.708}
+[B_accum_8x16] {"epoch": 2, "train_loss": 0.6542, "epoch_time_s": 83.3574, "opt_steps": 56, "val_loss": 0.596, "val_acc": 0.744}
+[B_accum_8x16] {"epoch": 3, "train_loss": 0.5205, "epoch_time_s": 82.7078, "opt_steps": 85, "val_loss": 0.5063, "val_acc": 0.7853}
+[B_accum_8x16] {"epoch": 4, "train_loss": 0.4535, "epoch_time_s": 82.8632, "opt_steps": 113, "val_loss": 0.4886, "val_acc": 0.808}
+[B_accum_8x16] test acc 0.7880  worst class neutral
+[B_accum_8x16] thr 41.9 samp/s  peak 2.46 GB  epoch 83.5s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 128 --tag B_direct_128 --out results/kaggle_t4/partB/grad_accum/direct.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793700624.677013   40215 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_direct_128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_direct_128] {"epoch": 1, "train_loss": 0.9004, "epoch_time_s": 79.7061, "opt_steps": 28, "val_loss": 0.7202, "val_acc": 0.704}
+[B_direct_128] {"epoch": 2, "train_loss": 0.6594, "epoch_time_s": 78.0912, "opt_steps": 56, "val_loss": 0.5908, "val_acc": 0.752}
+[B_direct_128] {"epoch": 3, "train_loss": 0.5239, "epoch_time_s": 78.0243, "opt_steps": 84, "val_loss": 0.5062, "val_acc": 0.788}
+[B_direct_128] {"epoch": 4, "train_loss": 0.4517, "epoch_time_s": 77.9404, "opt_steps": 112, "val_loss": 0.4951, "val_acc": 0.7987}
+[B_direct_128] test acc 0.7787  worst class neutral
+[B_direct_128] thr 44.6 samp/s  peak 11.67 GB  epoch 78.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --accum-steps 16 --batch-size 8 --tag search_bs8 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_accum/search/bs8.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793700988.544130   41710 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs8] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs8] {"epoch": 1, "train_loss": 1.2891, "epoch_time_s": 2.1933, "opt_steps": 1}
+[search_bs8] thr 41.3 samp/s  peak 2.24 GB  epoch 84.7s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --accum-steps 16 --batch-size 16 --tag search_bs16 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_accum/search/bs16.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793701008.778301   41804 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs16] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs16] {"epoch": 1, "train_loss": 1.3192, "epoch_time_s": 3.7537, "opt_steps": 1}
+[search_bs16] thr 44.3 samp/s  peak 2.22 GB  epoch 78.9s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --accum-steps 16 --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_accum/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793701031.751860   41906 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.3195, "epoch_time_s": 7.1717, "opt_steps": 1}
+[search_bs32] thr 45.6 samp/s  peak 3.52 GB  epoch 76.8s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --accum-steps 16 --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_accum/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793701056.576248   42020 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.3177, "epoch_time_s": 15.0935, "opt_steps": 1}
+[search_bs64] thr 42.0 samp/s  peak 6.07 GB  epoch 83.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --accum-steps 16 --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_accum/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793701089.387608   42170 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.3064, "epoch_time_s": 29.9331, "opt_steps": 1}
+[search_bs128] thr 41.9 samp/s  peak 11.23 GB  epoch 83.5s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --accum-steps 16 --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/kaggle_t4/partB/grad_accum/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793701138.688031   42372 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] OOM at batch 256
+--> stopped at batch 256: oom
+{
+  "baseline": {
+    "max_batch": 128,
+    "full_status": "ok"
+  },
+  "amp": {
+    "max_batch": 128,
+    "full_status": "ok"
+  },
+  "grad_ckpt": {
+    "max_batch": 512,
+    "full_status": "ok"
+  },
+  "adamw8bit": {
+    "max_batch": 128,
+    "full_status": "ok"
+  },
+  "best": {
+    "max_batch": 128,
+    "full_status": "ok"
+  },
+  "best_ckpt": {
+    "max_batch": 512,
+    "full_status": "ok"
+  },
+  "grad_accum": {
+    "physical_batch": 8,
+    "accum_steps": 16,
+    "effective_batch": 128,
+    "max_physical_batch": 128,
+    "max_effective_batch": 2048
+  }
+}
+=== [2026-11-03 10:19:11] [kaggle_t4] end partB
+=== [2026-11-03 10:44:09] [kaggle_t4] SLICE=605 SEED=1605 DATA=data/Tweets.csv KV_MODEL=Qwen/Qwen2.5-1.5B-Instruct
+=== [2026-11-03 10:44:09] [kaggle_t4] start partD
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793702653.492353   48594 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Device set to use cuda:0
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
+wrote results/kaggle_t4/serving/hf_b1.json
+{
+ "engine": "hf_pipeline",
+ "batch": 1,
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "dtype": "float16",
+ "max_tokens": 128,
+ "gpu": "Tesla T4",
+ "gpu_total_gb": 15.0,
+ "compute_cap": "7.5",
+ "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+ "torch": "2.8.0+cu128",
+ "requests": 64,
+ "tokens": 8192,
+ "wall_s": 328.2697031960015,
+ "tokens_per_s": 24.955090037988565,
+ "requests_per_s": 0.19496164092178567,
+ "p50_ms": 4999.4181829997615,
+ "p95_ms": 5616.000842799804
+}
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793703011.741483   50164 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+INFO 11-03 10:50:16 [__init__.py:216] Automatically detected platform cuda.
+INFO 11-03 10:50:18 [utils.py:233] non-default args: {'dtype': 'float16', 'seed': 0, 'max_model_len': 2048, 'disable_log_stats': True, 'model': 'Qwen/Qwen2.5-0.5B-Instruct'}
+INFO 11-03 10:50:19 [model.py:547] Resolved architecture: Qwen2ForCausalLM
+`torch_dtype` is deprecated! Use `dtype` instead!
+WARNING 11-03 10:50:19 [model.py:1733] Casting torch.bfloat16 to torch.float16.
+INFO 11-03 10:50:19 [model.py:1510] Using max model len 2048
+INFO 11-03 10:50:21 [scheduler.py:205] Chunked prefill is enabled with max_num_batched_tokens=8192.
+WARNING 11-03 10:50:22 [__init__.py:3036] We must use the `spawn` multiprocessing start method. Overriding VLLM_WORKER_MULTIPROC_METHOD to 'spawn'. See https://docs.vllm.ai/en/latest/usage/troubleshooting.html#python-multiprocessing for more information. Reasons: CUDA is initialized
+INFO 11-03 10:50:33 [__init__.py:216] Automatically detected platform cuda.
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:36 [core.py:644] Waiting for init message from front-end.
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:36 [core.py:77] Initializing a V1 LLM engine (v0.11.0) with config: model='Qwen/Qwen2.5-0.5B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-0.5B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=2048, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser=''), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None), seed=0, served_model_name=Qwen/Qwen2.5-0.5B-Instruct, enable_prefix_caching=True, chunked_prefill_enabled=True, pooler_config=None, compilation_config={"level":3,"debug_dump_path":"","cache_dir":"","backend":"","custom_ops":[],"splitting_ops":["vllm.unified_attention","vllm.unified_attention_with_output","vllm.mamba_mixer2","vllm.mamba_mixer","vllm.short_conv","vllm.linear_attention","vllm.plamo2_mamba_mixer","vllm.gdn_attention","vllm.sparse_attn_indexer"],"use_inductor":true,"compile_sizes":[],"inductor_compile_config":{"enable_auto_functionalized_v2":false},"inductor_passes":{},"cudagraph_mode":[2,1],"use_cudagraph":true,"cudagraph_num_of_warmups":1,"cudagraph_capture_sizes":[512,504,496,488,480,472,464,456,448,440,432,424,416,408,400,392,384,376,368,360,352,344,336,328,320,312,304,296,288,280,272,264,256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"cudagraph_copy_inputs":false,"full_cuda_graph":false,"use_inductor_graph_partition":false,"pass_config":{},"max_capture_size":512,"local_cache_dir":null}
+[1;36m(EngineCore_DP0 pid=50261)[0;0m ERROR 11-03 10:50:40 [fa_utils.py:57] Cannot use FA version 2 is not supported due to FA2 is only supported on devices with compute capability >= 8
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:42 [parallel_state.py:1208] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:43 [topk_topp_sampler.py:55] Using FlashInfer for top-p & top-k sampling.
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:43 [gpu_model_runner.py:2602] Starting to load model Qwen/Qwen2.5-0.5B-Instruct...
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:44 [gpu_model_runner.py:2634] Loading model from scratch...
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:44 [cuda.py:322] Using Triton backend on V1 engine.
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:44 [weight_utils.py:392] Using model weights format ['*.safetensors']
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:44 [weight_utils.py:450] No model.safetensors.index.json found in remote.
+[1;36m(EngineCore_DP0 pid=50261)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+[1;36m(EngineCore_DP0 pid=50261)[0;0m Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.29s/it]
+[1;36m(EngineCore_DP0 pid=50261)[0;0m Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.29s/it]
+[1;36m(EngineCore_DP0 pid=50261)[0;0m 
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:46 [default_loader.py:267] Loading weights took 1.33 seconds
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:47 [gpu_model_runner.py:2653] Model loading took 0.9277 GiB and 1.975824 seconds
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:55 [backends.py:548] Using cache directory: /root/.cache/vllm/torch_compile_cache/0aafedc52a/rank_0_0/backbone for vLLM's torch.compile
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:55 [backends.py:559] Dynamo bytecode transform time: 7.38 s
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:58 [backends.py:164] Directly load the compiled graph(s) for dynamic shape from the cache, took 1.871 s
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:50:58 [monitor.py:34] torch.compile takes 7.38 s in total
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:51:00 [gpu_worker.py:298] Available KV cache memory: 11.62 GiB
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:51:01 [kv_cache_utils.py:1087] GPU KV cache size: 1,015,120 tokens
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:51:01 [kv_cache_utils.py:1091] Maximum concurrency for 2,048 tokens per request: 495.66x
+[1;36m(EngineCore_DP0 pid=50261)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/67 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   3%|▎         | 2/67 [00:00<00:03, 18.30it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   6%|▌         | 4/67 [00:00<00:03, 18.66it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   9%|▉         | 6/67 [00:00<00:03, 18.68it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 8/67 [00:00<00:03, 18.55it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  15%|█▍        | 10/67 [00:00<00:03, 18.31it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  18%|█▊        | 12/67 [00:00<00:02, 18.43it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  22%|██▏       | 15/67 [00:00<00:02, 19.29it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  27%|██▋       | 18/67 [00:00<00:02, 20.31it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  31%|███▏      | 21/67 [00:01<00:02, 21.19it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  36%|███▌      | 24/67 [00:01<00:02, 21.40it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  40%|████      | 27/67 [00:01<00:01, 21.32it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  45%|████▍     | 30/67 [00:01<00:01, 20.50it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  49%|████▉     | 33/67 [00:01<00:01, 21.31it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  54%|█████▎    | 36/67 [00:01<00:01, 22.62it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  58%|█████▊    | 39/67 [00:01<00:01, 24.04it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  63%|██████▎   | 42/67 [00:01<00:00, 25.30it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  67%|██████▋   | 45/67 [00:02<00:00, 26.35it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  72%|███████▏  | 48/67 [00:02<00:00, 26.99it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  76%|███████▌  | 51/67 [00:02<00:00, 26.94it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  82%|████████▏ | 55/67 [00:02<00:00, 28.09it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  87%|████████▋ | 58/67 [00:02<00:00, 27.43it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  91%|█████████ | 61/67 [00:02<00:00, 27.34it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  96%|█████████▌| 64/67 [00:02<00:00, 27.82it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 67/67 [00:02<00:00, 24.52it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 67/67 [00:02<00:00, 23.18it/s]
+[1;36m(EngineCore_DP0 pid=50261)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   3%|▎         | 1/35 [00:00<00:03,  9.86it/s]Capturing CUDA graphs (decode, FULL):  11%|█▏        | 4/35 [00:00<00:01, 17.57it/s]Capturing CUDA graphs (decode, FULL):  20%|██        | 7/35 [00:00<00:01, 19.65it/s]Capturing CUDA graphs (decode, FULL):  29%|██▊       | 10/35 [00:00<00:01, 21.15it/s]Capturing CUDA graphs (decode, FULL):  37%|███▋      | 13/35 [00:00<00:01, 21.02it/s]Capturing CUDA graphs (decode, FULL):  46%|████▌     | 16/35 [00:00<00:00, 21.30it/s]Capturing CUDA graphs (decode, FULL):  54%|█████▍    | 19/35 [00:00<00:00, 21.75it/s]Capturing CUDA graphs (decode, FULL):  63%|██████▎   | 22/35 [00:01<00:00, 22.00it/s]Capturing CUDA graphs (decode, FULL):  71%|███████▏  | 25/35 [00:01<00:00, 22.26it/s]Capturing CUDA graphs (decode, FULL):  80%|████████  | 28/35 [00:01<00:00, 20.87it/s]Capturing CUDA graphs (decode, FULL):  89%|████████▊ | 31/35 [00:01<00:00, 20.27it/s]Capturing CUDA graphs (decode, FULL):  97%|█████████▋| 34/35 [00:01<00:00, 19.70it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 20.27it/s]
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:51:08 [gpu_model_runner.py:3480] Graph capturing finished in 6 secs, took 0.45 GiB
+[1;36m(EngineCore_DP0 pid=50261)[0;0m INFO 11-03 10:51:08 [core.py:210] init engine (profile, create kv cache, warmup model) took 20.53 seconds
+INFO 11-03 10:51:09 [llm.py:306] Supported_tasks: ['generate']
+wrote results/kaggle_t4/serving/vllm_b1.json
+{
+ "engine": "vllm",
+ "batch": 1,
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "dtype": "float16",
+ "max_tokens": 128,
+ "gpu_memory_utilization": 0.9,
+ "gpu": "Tesla T4",
+ "gpu_total_gb": 15.0,
+ "compute_cap": "7.5",
+ "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+ "torch": "2.8.0+cu128",
+ "requests": 64,
+ "tokens": 8192,
+ "wall_s": 59.187105892000545,
+ "tokens_per_s": 138.40852456864584,
+ "requests_per_s": 1.0813165981925457,
+ "p50_ms": 921.438108500297,
+ "p95_ms": 963.3292439498291
+}
+wrote results/kaggle_t4/serving/vllm_b8.json
+{
+ "engine": "vllm",
+ "batch": 8,
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "dtype": "float16",
+ "max_tokens": 128,
+ "gpu_memory_utilization": 0.9,
+ "gpu": "Tesla T4",
+ "gpu_total_gb": 15.0,
+ "compute_cap": "7.5",
+ "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+ "torch": "2.8.0+cu128",
+ "requests": 64,
+ "tokens": 8192,
+ "wall_s": 8.125205424001251,
+ "tokens_per_s": 1008.220663049508,
+ "requests_per_s": 7.876723930074281,
+ "p50_ms": 998.4115554998425,
+ "p95_ms": 1053.0014079995453
+}
+wrote results/kaggle_t4/serving/vllm_b32.json
+{
+ "engine": "vllm",
+ "batch": 32,
+ "model": "Qwen/Qwen2.5-0.5B-Instruct",
+ "dtype": "float16",
+ "max_tokens": 128,
+ "gpu_memory_utilization": 0.9,
+ "gpu": "Tesla T4",
+ "gpu_total_gb": 15.0,
+ "compute_cap": "7.5",
+ "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+ "torch": "2.8.0+cu128",
+ "requests": 64,
+ "tokens": 8192,
+ "wall_s": 2.7889325710002595,
+ "tokens_per_s": 2937.3245108833567,
+ "requests_per_s": 22.947847741276224,
+ "p50_ms": 1394.4464990008782,
+ "p95_ms": 1395.8551580017229
+}
+[rank0]:[W1103 10:52:21.683270036 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+$ /usr/bin/python3 /kaggle/working/hw45/serve_bench.py kv-child --card kaggle_t4 --model Qwen/Qwen2.5-1.5B-Instruct --dtype float16 --gpu-util 0.9 --max-model-len 4096 --kv-batch 8 --max-tokens 128 --verify-len 0
+1.5B-Instruct: 26.234670 seconds
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:53:35 [weight_utils.py:450] No model.safetensors.index.json found in remote.
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:53:48 [default_loader.py:267] Loading weights took 13.41 seconds
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:53:50 [gpu_model_runner.py:2653] Model loading took 2.8876 GiB and 40.335227 seconds
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:54:00 [backends.py:548] Using cache directory: /root/.cache/vllm/torch_compile_cache/69df4dc681/rank_0_0/backbone for vLLM's torch.compile
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:54:00 [backends.py:559] Dynamo bytecode transform time: 9.06 s
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:54:05 [backends.py:197] Cache the graph for dynamic shape for later use
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:54:26 [backends.py:218] Compiling a graph for dynamic shape takes 25.55 s
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:54:34 [monitor.py:34] torch.compile takes 34.60 s in total
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:54:36 [gpu_worker.py:298] Available KV cache memory: 9.67 GiB
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:54:37 [kv_cache_utils.py:1087] GPU KV cache size: 362,144 tokens
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:54:37 [kv_cache_utils.py:1091] Maximum concurrency for 4,096 tokens per request: 88.41x
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:54:44 [gpu_model_runner.py:3480] Graph capturing finished in 7 secs, took 0.08 GiB
+[1;36m(EngineCore_DP0 pid=51008)[0;0m INFO 11-03 10:54:44 [core.py:210] init engine (profile, create kv cache, warmup model) took 53.75 seconds
+INFO 11-03 10:54:46 [llm.py:306] Supported_tasks: ['generate']
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793703154.590908   50916 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+`torch_dtype` is deprecated! Use `dtype` instead!
+[1;36m(EngineCore_DP0 pid=51008)[0;0m 
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+[1;36m(EngineCore_DP0 pid=51008)[0;0m 
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:13<00:00, 13.27s/it]
+[1;36m(EngineCore_DP0 pid=51008)[0;0m 
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:13<00:00, 13.27s/it]
+[1;36m(EngineCore_DP0 pid=51008)[0;0m 
+[1;36m(EngineCore_DP0 pid=51008)[0;0m [rank0]:W1103 10:54:06.107000 51008 torch/_inductor/utils.py:1436] [0/0] Not enough SMs to use max_autotune_gemm mode
+[1;36m(EngineCore_DP0 pid=51008)[0;0m 
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/5 [00:00<?, ?it/s]
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  40%|████      | 2/5 [00:00<00:00, 19.40it/s]
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 5/5 [00:00<00:00, 17.28it/s]
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 5/5 [00:00<00:00, 17.49it/s]
+[1;36m(EngineCore_DP0 pid=51008)[0;0m 
+Capturing CUDA graphs (decode, FULL):   0%|          | 0/4 [00:00<?, ?it/s]
+Capturing CUDA graphs (decode, FULL):  25%|██▌       | 1/4 [00:02<00:07,  2.36s/it]
+Capturing CUDA graphs (decode, FULL):  75%|███████▌  | 3/4 [00:02<00:00,  1.50it/s]
+Capturing CUDA graphs (decode, FULL): 100%|██████████| 4/4 [00:04<00:00,  1.10s/it]
+Capturing CUDA graphs (decode, FULL): 100%|██████████| 4/4 [00:04<00:00,  1.11s/it]
+[rank0]:[W1103 10:54:46.646894303 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+$ /usr/bin/python3 /kaggle/working/hw45/serve_bench.py kv-child --card kaggle_t4 --model Qwen/Qwen2.5-1.5B-Instruct --dtype float16 --gpu-util 0.9 --max-model-len 32768 --kv-batch 8 --max-tokens 128 --verify-len 32768
+5:42 [cuda.py:322] Using Triton backend on V1 engine.
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:55:42 [weight_utils.py:392] Using model weights format ['*.safetensors']
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:55:43 [weight_utils.py:450] No model.safetensors.index.json found in remote.
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:55:47 [default_loader.py:267] Loading weights took 4.35 seconds
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:55:48 [gpu_model_runner.py:2653] Model loading took 2.8876 GiB and 5.170158 seconds
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:55:58 [backends.py:548] Using cache directory: /root/.cache/vllm/torch_compile_cache/a0c900579b/rank_0_0/backbone for vLLM's torch.compile
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:55:58 [backends.py:559] Dynamo bytecode transform time: 8.32 s
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:56:01 [backends.py:197] Cache the graph for dynamic shape for later use
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:56:23 [backends.py:218] Compiling a graph for dynamic shape takes 25.11 s
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:56:31 [monitor.py:34] torch.compile takes 33.43 s in total
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:56:33 [gpu_worker.py:298] Available KV cache memory: 9.67 GiB
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:56:33 [kv_cache_utils.py:1087] GPU KV cache size: 362,144 tokens
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:56:33 [kv_cache_utils.py:1091] Maximum concurrency for 32,768 tokens per request: 11.05x
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:56:39 [gpu_model_runner.py:3480] Graph capturing finished in 5 secs, took 0.08 GiB
+[1;36m(EngineCore_DP0 pid=52063)[0;0m INFO 11-03 10:56:39 [core.py:210] init engine (profile, create kv cache, warmup model) took 50.54 seconds
+INFO 11-03 10:56:41 [llm.py:306] Supported_tasks: ['generate']
+VERIFY_OK batch=8 len=32768 secs=193.56
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793703305.517369   51937 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+`torch_dtype` is deprecated! Use `dtype` instead!
+[1;36m(EngineCore_DP0 pid=52063)[0;0m 
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+[1;36m(EngineCore_DP0 pid=52063)[0;0m 
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:04<00:00,  4.24s/it]
+[1;36m(EngineCore_DP0 pid=52063)[0;0m 
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:04<00:00,  4.24s/it]
+[1;36m(EngineCore_DP0 pid=52063)[0;0m 
+[1;36m(EngineCore_DP0 pid=52063)[0;0m [rank0]:W1103 10:56:02.293000 52063 torch/_inductor/utils.py:1436] [0/0] Not enough SMs to use max_autotune_gemm mode
+[1;36m(EngineCore_DP0 pid=52063)[0;0m 
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/5 [00:00<?, ?it/s]
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  60%|██████    | 3/5 [00:00<00:00, 24.14it/s]
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 5/5 [00:00<00:00, 20.43it/s]
+[1;36m(EngineCore_DP0 pid=52063)[0;0m 
+Capturing CUDA graphs (decode, FULL):   0%|          | 0/4 [00:00<?, ?it/s]
+Capturing CUDA graphs (decode, FULL):  25%|██▌       | 1/4 [00:02<00:06,  2.18s/it]
+Capturing CUDA graphs (decode, FULL):  75%|███████▌  | 3/4 [00:02<00:00,  1.65it/s]
+Capturing CUDA graphs (decode, FULL): 100%|██████████| 4/4 [00:03<00:00,  1.13it/s]
+[rank0]:[W1103 10:59:54.333379029 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+wrote results/kaggle_t4/serving/kv_Qwen2.5-1.5B-Instruct.json
+{
+ "model": "Qwen/Qwen2.5-1.5B-Instruct",
+ "dtype": "float16",
+ "gpu": "Tesla T4",
+ "gpu_total_gb": 15.0,
+ "compute_cap": "7.5",
+ "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+ "gpu_memory_utilization": 0.9,
+ "batch": 8,
+ "layers": 28,
+ "kv_heads": 2,
+ "head_dim": 128,
+ "dtype_bytes": 2,
+ "bytes_per_token": 28672,
+ "max_position_embeddings": 32768,
+ "kv_capacity_tokens": 362144,
+ "kv_capacity_gb": 10.383392768,
+ "longest_context_at_batch": 32768,
+ "limited_by": "model max_position_embeddings",
+ "verified": true,
+ "curve": [
+  {
+   "context": 256,
+   "kv_gb_at_batch": 0.058720256,
+   "fits": true
+  },
+  {
+   "context": 512,
+   "kv_gb_at_batch": 0.117440512,
+   "fits": true
+  },
+  {
+   "context": 1024,
+   "kv_gb_at_batch": 0.234881024,
+   "fits": true
+  },
+  {
+   "context": 2048,
+   "kv_gb_at_batch": 0.469762048,
+   "fits": true
+  },
+  {
+   "context": 4096,
+   "kv_gb_at_batch": 0.939524096,
+   "fits": true
+  },
+  {
+   "context": 8192,
+   "kv_gb_at_batch": 1.879048192,
+   "fits": true
+  },
+  {
+   "context": 16384,
+   "kv_gb_at_batch": 3.758096384,
+   "fits": true
+  },
+  {
+   "context": 32768,
+   "kv_gb_at_batch": 7.516192768,
+   "fits": true
+  }
+ ]
+}
+=== [2026-11-03 10:59:58] [kaggle_t4] end partD
+
+
+# ---- Google Colab session (Tesla T4, GPU-e3bcdb6e-864d-471e-7372-88021ba40a10): Part B fp16 rerun ----
+=== [2026-11-03 13:50:49] [colab_t4] start partB-amp
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/colab_t4/partB/baseline/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793713856.005686    1143 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793713858.941743    1143 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.0557, "epoch_time_s": 6.6707, "opt_steps": 10}
+[search_bs32] thr 57.8 samp/s  peak 3.99 GB  epoch 60.5s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/colab_t4/partB/baseline/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793713884.679100    1295 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793713887.211619    1295 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.0387, "epoch_time_s": 11.2403, "opt_steps": 10}
+[search_bs64] thr 58.9 samp/s  peak 6.51 GB  epoch 59.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/colab_t4/partB/baseline/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793713912.576852    1430 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793713915.119065    1430 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.0342, "epoch_time_s": 22.2963, "opt_steps": 10}
+[search_bs128] thr 58.4 samp/s  peak 11.67 GB  epoch 59.9s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/colab_t4/partB/baseline/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793713951.992477    1616 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793713954.522920    1616 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] OOM at batch 256
+--> stopped at batch 256: oom
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --batch-size 32 --tag B_baseline --out results/colab_t4/partB/baseline/full.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793713972.160568    1710 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793713975.209261    1710 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_baseline] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_baseline] {"epoch": 1, "train_loss": 0.707, "epoch_time_s": 63.9932, "opt_steps": 110, "val_loss": 0.4946, "val_acc": 0.8013}
+[B_baseline] {"epoch": 2, "train_loss": 0.4265, "epoch_time_s": 66.1883, "opt_steps": 220, "val_loss": 0.4552, "val_acc": 0.8253}
+[B_baseline] {"epoch": 3, "train_loss": 0.2985, "epoch_time_s": 67.9063, "opt_steps": 330, "val_loss": 0.4513, "val_acc": 0.84}
+[B_baseline] {"epoch": 4, "train_loss": 0.2255, "epoch_time_s": 68.8928, "opt_steps": 440, "val_loss": 0.4672, "val_acc": 0.84}
+[B_baseline] test acc 0.8293  worst class neutral
+[B_baseline] thr 52.4 samp/s  peak 3.99 GB  epoch 66.7s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/colab_t4/partB/amp/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714279.821440    3062 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714282.632707    3062 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.0758, "epoch_time_s": 2.4074, "opt_steps": 10}
+[search_bs32] thr 170.9 samp/s  peak 3.24 GB  epoch 20.5s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/colab_t4/partB/amp/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714299.892961    3158 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714302.484463    3158 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.0449, "epoch_time_s": 3.785, "opt_steps": 10}
+[search_bs64] thr 203.0 samp/s  peak 4.90 GB  epoch 17.2s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/colab_t4/partB/amp/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714319.599624    3259 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714322.772436    3259 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.0406, "epoch_time_s": 6.023, "opt_steps": 10}
+[search_bs128] thr 228.7 samp/s  peak 8.24 GB  epoch 15.3s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/colab_t4/partB/amp/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714342.611820    3371 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714345.221548    3371 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] {"epoch": 1, "train_loss": 1.0252, "epoch_time_s": 11.114, "opt_steps": 10}
+[search_bs256] thr 239.9 samp/s  peak 14.94 GB  epoch 14.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 512 --tag search_bs512 --probe-steps 10 --eval false --out results/colab_t4/partB/amp/search/bs512.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714370.699179    3502 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714373.813724    3502 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs512] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs512] OOM at batch 512
+--> stopped at batch 512: oom
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --batch-size 32 --tag B_amp --out results/colab_t4/partB/amp/full.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714389.262371    3593 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714391.817798    3593 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_amp] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_amp] {"epoch": 1, "train_loss": 0.695, "epoch_time_s": 20.3802, "opt_steps": 110, "val_loss": 0.528, "val_acc": 0.788}
+[B_amp] {"epoch": 2, "train_loss": 0.424, "epoch_time_s": 20.192, "opt_steps": 220, "val_loss": 0.4722, "val_acc": 0.824}
+[B_amp] {"epoch": 3, "train_loss": 0.3016, "epoch_time_s": 20.3733, "opt_steps": 330, "val_loss": 0.4466, "val_acc": 0.8413}
+[B_amp] {"epoch": 4, "train_loss": 0.2387, "epoch_time_s": 20.51, "opt_steps": 440, "val_loss": 0.4667, "val_acc": 0.8467}
+[B_amp] test acc 0.8067  worst class neutral
+[B_amp] thr 171.9 samp/s  peak 3.24 GB  epoch 20.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/colab_t4/partB/best/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714493.173881    4055 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714495.750647    4055 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.0757, "epoch_time_s": 2.546, "opt_steps": 10}
+[search_bs32] thr 171.6 samp/s  peak 2.58 GB  epoch 20.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/colab_t4/partB/best/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714513.075964    4159 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714516.010525    4159 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.045, "epoch_time_s": 3.5507, "opt_steps": 10}
+[search_bs64] thr 205.9 samp/s  peak 4.24 GB  epoch 17.0s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/colab_t4/partB/best/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714535.078160    4264 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714537.652902    4264 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.0406, "epoch_time_s": 5.9288, "opt_steps": 10}
+[search_bs128] thr 231.2 samp/s  peak 7.58 GB  epoch 15.1s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/colab_t4/partB/best/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714560.311862    4383 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714562.921589    4383 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] {"epoch": 1, "train_loss": 1.0252, "epoch_time_s": 11.0244, "opt_steps": 10}
+[search_bs256] thr 241.2 samp/s  peak 14.28 GB  epoch 14.5s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 512 --tag search_bs512 --probe-steps 10 --eval false --out results/colab_t4/partB/best/search/bs512.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714589.538506    4526 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714592.119271    4526 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs512] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs512] OOM at batch 512
+--> stopped at batch 512: oom
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --batch-size 32 --tag B_best --out results/colab_t4/partB/best/full.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714608.685515    4614 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714611.203881    4614 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_best] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_best] {"epoch": 1, "train_loss": 0.683, "epoch_time_s": 20.4922, "opt_steps": 110, "val_loss": 0.4839, "val_acc": 0.8133}
+[B_best] {"epoch": 2, "train_loss": 0.4212, "epoch_time_s": 20.2731, "opt_steps": 220, "val_loss": 0.458, "val_acc": 0.832}
+[B_best] {"epoch": 3, "train_loss": 0.2993, "epoch_time_s": 20.3392, "opt_steps": 330, "val_loss": 0.4497, "val_acc": 0.8387}
+[B_best] {"epoch": 4, "train_loss": 0.2341, "epoch_time_s": 20.649, "opt_steps": 440, "val_loss": 0.4614, "val_acc": 0.836}
+[B_best] test acc 0.8080  worst class neutral
+[B_best] thr 171.2 samp/s  peak 2.58 GB  epoch 20.4s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 32 --tag search_bs32 --probe-steps 10 --eval false --out results/colab_t4/partB/best_ckpt/search/bs32.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714713.898790    5087 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714716.466161    5087 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs32] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs32] {"epoch": 1, "train_loss": 1.0758, "epoch_time_s": 3.0092, "opt_steps": 10}
+[search_bs32] thr 136.3 samp/s  peak 1.25 GB  epoch 25.7s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 64 --tag search_bs64 --probe-steps 10 --eval false --out results/colab_t4/partB/best_ckpt/search/bs64.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714734.595302    5191 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714737.853209    5191 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs64] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs64] {"epoch": 1, "train_loss": 1.045, "epoch_time_s": 4.477, "opt_steps": 10}
+[search_bs64] thr 158.1 samp/s  peak 1.45 GB  epoch 22.1s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 128 --tag search_bs128 --probe-steps 10 --eval false --out results/colab_t4/partB/best_ckpt/search/bs128.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714756.843167    5299 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714759.468796    5299 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs128] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs128] {"epoch": 1, "train_loss": 1.0406, "epoch_time_s": 7.7792, "opt_steps": 10}
+[search_bs128] thr 173.4 samp/s  peak 2.09 GB  epoch 20.2s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 256 --tag search_bs256 --probe-steps 10 --eval false --out results/colab_t4/partB/best_ckpt/search/bs256.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714782.682217    5426 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714785.248504    5426 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs256] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs256] {"epoch": 1, "train_loss": 1.0252, "epoch_time_s": 14.6783, "opt_steps": 10}
+[search_bs256] thr 178.8 samp/s  peak 3.48 GB  epoch 19.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 512 --tag search_bs512 --probe-steps 10 --eval false --out results/colab_t4/partB/best_ckpt/search/bs512.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714816.004754    5577 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714818.565263    5577 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs512] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs512] {"epoch": 1, "train_loss": 1.0339, "epoch_time_s": 28.711, "opt_steps": 10}
+[search_bs512] thr 181.1 samp/s  peak 6.25 GB  epoch 19.3s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 1024 --tag search_bs1024 --probe-steps 10 --eval false --out results/colab_t4/partB/best_ckpt/search/bs1024.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714862.240972    5794 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714865.521332    5794 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs1024] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs1024] {"epoch": 1, "train_loss": 1.0328, "epoch_time_s": 57.3966, "opt_steps": 10}
+[search_bs1024] thr 178.6 samp/s  peak 11.79 GB  epoch 19.6s
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 2048 --tag search_bs2048 --probe-steps 10 --eval false --out results/colab_t4/partB/best_ckpt/search/bs2048.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714937.773113    6135 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714940.311109    6135 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[search_bs2048] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[search_bs2048] OOM at batch 2048
+--> stopped at batch 2048: oom
+$ /usr/bin/python3 train_bert.py --slice-start 605 --seed 1605 --data data/Tweets.csv --text-col text --label-col airline_sentiment --amp auto --optim adamw8bit --grad-ckpt true --batch-size 32 --tag B_best_ckpt --out results/colab_t4/partB/best_ckpt/full.json
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714958.639414    6231 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1793714961.236550    6231 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+[data] matches HW4.a lock: rows 605..5604 (0-based data rows, inclusive), split 0a40f6dcbc3f
+[B_best_ckpt] data 605..5604 (0-based data rows, inclusive) splits={'train': 3500, 'val': 750, 'test': 750} labels=['negative', 'neutral', 'positive']
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-uncased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[B_best_ckpt] {"epoch": 1, "train_loss": 0.6872, "epoch_time_s": 26.394, "opt_steps": 110, "val_loss": 0.4844, "val_acc": 0.8093}
+[B_best_ckpt] {"epoch": 2, "train_loss": 0.417, "epoch_time_s": 26.1125, "opt_steps": 220, "val_loss": 0.4595, "val_acc": 0.8213}
+[B_best_ckpt] {"epoch": 3, "train_loss": 0.2898, "epoch_time_s": 26.378, "opt_steps": 330, "val_loss": 0.4502, "val_acc": 0.8427}
+[B_best_ckpt] {"epoch": 4, "train_loss": 0.2259, "epoch_time_s": 26.4823, "opt_steps": 440, "val_loss": 0.468, "val_acc": 0.8467}
+[B_best_ckpt] test acc 0.8160  worst class neutral
+[B_best_ckpt] thr 132.9 samp/s  peak 1.25 GB  epoch 26.3s
+{
+  "baseline": {
+    "max_batch": 128,
+    "full_status": "ok"
+  },
+  "amp": {
+    "max_batch": 256,
+    "full_status": "ok"
+  },
+  "best": {
+    "max_batch": 256,
+    "full_status": "ok"
+  },
+  "best_ckpt": {
+    "max_batch": 1024,
+    "full_status": "ok"
+  }
+}
+=== [2026-11-03 14:11:21] [colab_t4] end partB-amp

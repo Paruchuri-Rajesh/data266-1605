@@ -1,0 +1,19 @@
+{
+  "engine": "hf_pipeline",
+  "batch": 1,
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "dtype": "float16",
+  "max_tokens": 128,
+  "gpu": "Tesla T4",
+  "gpu_total_gb": 15.0,
+  "compute_cap": "7.5",
+  "uuid": "GPU-8cd406d2-0d44-2d5f-f41e-0f7b6d2d317a",
+  "torch": "2.8.0+cu128",
+  "requests": 64,
+  "tokens": 8192,
+  "wall_s": 328.2697031960015,
+  "tokens_per_s": 24.955090037988565,
+  "requests_per_s": 0.19496164092178567,
+  "p50_ms": 4999.4181829997615,
+  "p95_ms": 5616.000842799804
+}
