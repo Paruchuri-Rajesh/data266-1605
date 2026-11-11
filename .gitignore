@@ -29,3 +29,5 @@ hw6/checkpoints/*_progress.pt
 hw8/data/
 hw9/*.pt
 hw9/data/
+hw10/data/
+hw10/chroma_db/
