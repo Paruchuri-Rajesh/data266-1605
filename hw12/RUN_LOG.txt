@@ -1,15 +1,15 @@
 HW12 RUN LOG — GPTQ quantization + knowledge distillation
 Machine: Google Colab, Tesla T4 (sm_75, 16 GB). Python 3.13.16, torch 2.14.1+cu130, transformers 5.24.1,
-optimum >= 1.24.0, gptqmodel >= 1.4.3 (installed with --no-build-isolation). SEED = 42 for the executed run
-(course rule is SEED = 1605 / SID4; see AI_USE.md).
+optimum >= 1.24.0, gptqmodel >= 1.4.3 (installed with --no-build-isolation). SEED = 1605 (SID4).
 
 Models and data
   Part 1 base LLM: Qwen/Qwen3-0.6B @ c1899de289a04d12100db370d81485cdf75e47ca (the model used in the course-linked
     Hugging Face GPTQ guide). WikiText-2 = Salesforce/wikitext, wikitext-2-raw-v1: train split for calibration only
-    (128 passages > 200 chars), test split (299,078 tokens) for perplexity only.
+    (128 passages > 200 chars, sampled with SEED), test split (299,078 tokens) for perplexity only.
   Part 2 teacher: instructor-provided teacher_model folder (BertForSequenceClassification, 109.5M params,
-    id2label WORLD/SPORTS/BUSINESS/SCI-TECH = dataset order), loaded from local disk. Not committed (418 MB,
-    instructor's file). Student: distilbert/distilbert-base-uncased. Data: fancyzhx/ag_news.
+    id2label WORLD/SPORTS/BUSINESS/SCI-TECH = dataset order; 94.55% on a 2,000-example test slice as a label-order check),
+    loaded from local disk. Not committed (418 MB, instructor's file). Student: distilbert/distilbert-base-uncased.
+    Data: fancyzhx/ag_news.
 
 Environment problems and fixes (in order)
   1. gptqmodel pulled a torch built for CUDA 13.2 while Colab's torchaudio was built for 13.0, so
@@ -21,16 +21,24 @@ Environment problems and fixes (in order)
      as a zip and uploaded through the notebook's files.upload() fallback.
   4. Reloading the GPTQ checkpoint auto-selected the Marlin kernel, whose JIT build fails on a T4 (needs sm_80+).
      Fix: load with an explicit backend, trying EXLLAMA_V2 -> TRITON -> TORCH; EXLLAMA_V2 worked.
-     The quantized checkpoint from the first attempt was reused (quantization: 305.6 s, 1.55 GB peak).
 
-Run timings (T4)
-  Base fp16 + GPTQ evaluation: perplexity pass ~96 s per model; 30 x 64-token generations per model.
-  Teacher logits for 120,000 AG News training texts: 251.9 s.
-  Six distillation runs (T = 1, 2, 5, 10 at alpha 0.5; alpha 0.25, 0.75 at T = 10): ~6.0 min each, 36 min total,
+Runs
+  1. First complete run used SEED = 42 by mistake (pushed earlier as commit f1edb03). Best T = 10, alpha = 0.5,
+     student 94.62% vs. teacher 94.43%.
+  2. Re-run from scratch with SEED = 1605 (the standing course rule): GPTQ re-quantized (calibration sample depends
+     on the seed), all six students re-trained. This run is the one committed now; all numbers below are from it.
+
+Run timings (T4, SEED = 1605)
+  GPTQ quantization 257.5 s (1.55 GB peak); perplexity pass ~78 s for the quantized model; 30 x 64-token generations per model.
+  Teacher logits for 120,000 AG News training texts: 221.8 s.
+  Six distillation runs (T = 1, 2, 5, 10 at alpha 0.5; alpha 0.25, 0.75 at T = 5): 5.8-6.0 min each, ~35 min total,
   3,594 steps each (1 epoch, batch 32).
 
-Key results (SEED = 42)
-  Part 1: PPL 19.89 -> 21.11; disk 1136.9 -> 516.3 MB; peak memory 2.679 -> 2.578 GB; p50 3195.9 -> 3968.9 ms.
-  Part 2: best T = 10, alpha = 0.5. Teacher 94.43% vs. student 94.62% test accuracy; p50 10.09 -> 4.96 ms;
-  disk 417.7 -> 255.4 MB. Most-degraded class: Business (-0.21 pts), failures mostly predicted Sci/Tech.
+Key results (SEED = 1605)
+  Part 1: PPL 19.89 -> 21.14; disk 1136.9 -> 516.3 MB; peak memory 2.679 -> 2.073 GB; p50 2641.2 -> 3422.3 ms.
+  Part 2: best T = 5, alpha = 0.25 (by validation). Teacher 94.43% vs. student 94.25% test accuracy;
+  p50 8.42 -> 4.33 ms; disk 417.7 -> 255.4 MB. Most-degraded class: Business (-1.37 pts), failures mostly
+  predicted Sci/Tech (39 of 59) or World (16).
+  Changing the seed from 42 to 1605 changed the chosen T (10 -> 5) and alpha (0.5 -> 0.25); every run in both
+  seeds lies between 94.17% and 94.62% test accuracy, so the sweep differences are within seed noise.
 Full numbers: METRICS.md.

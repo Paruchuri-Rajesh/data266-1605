@@ -1,6 +1,6 @@
 # AI Use Appendix — HW12
 
-SID4 = 1605 | SEED used in the executed run = **42** (see "Seed" below)
+SID4 = 1605 | SEED = 1605
 
 > **Before submitting:** this file describes what actually happened in this AI-assisted session.
 > Read it, check it against your own understanding, and rewrite it in your own words. Be ready to
@@ -15,9 +15,9 @@ I used Claude Code (Claude Opus 5.5, Anthropic) for this assignment:
   Part 2 (teacher-logit extraction, the α·CE + (1−α)·T²·KL training loop, the temperature and α sweeps, evaluation),
   the measurement tables and the auto-generated findings;
 - debugging the Colab environment step by step from screenshots (see `RUN_LOG.txt`);
-- drafting the Measurement 4 answer from the printed outputs, and writing `METRICS.md`, `RUN_LOG.txt` and this file.
+- writing the Measurement 4 answer from the printed outputs, and `report.md`, `METRICS.md`, `RUN_LOG.txt` and this file.
 
-The notebook was executed by me in Google Colab on a T4 GPU; the assistant had no GPU and did not run it.
+I executed the notebook in Google Colab on a T4 GPU. The assistant had no GPU and did not run it.
 
 ## Design decisions (and why)
 
@@ -37,17 +37,17 @@ The notebook was executed by me in Google Colab on a T4 GPU; the assistant had n
 2. **Marlin kernel on a T4.** GPTQModel picked a kernel that needs an Ampere GPU; the reload now tries ExLlamaV2 / Triton / Torch
    and records the one used (ExLlamaV2).
 3. **teacher_model access.** The Drive folder was not public and the Drive mount failed, so it was uploaded as a zip.
-
-## Seed
-
-The executed run used **SEED = 42**. The standing course rule (used in HW11) is SEED = 1605 (SID4). This was noticed after the
-run finished; a re-run with 1605 had not been completed at submission time. The config cell in the committed notebook shows
-42 so that the code matches its outputs. Changing the seed changes the GPTQ calibration sample, the validation split, the data
-order and the student initialisation, so the exact numbers (and possibly the chosen T) could change slightly with 1605.
+4. **Wrong seed.** The first complete run used SEED = 42. Before submitting, the earlier homeworks in the repo showed the
+   standing rule SEED = 1605 (SID4), so the whole notebook was re-run with it and every number and written answer was
+   rewritten from the new outputs. The seed changed the chosen T (10 → 5) and α (0.5 → 0.25) and the Measurement 4 examples.
+5. **A notebook with a changed seed but old outputs.** One downloaded copy had `SEED = 1605` typed into the config cell but
+   still showed the SEED = 42 outputs; the assistant caught this by diffing outputs against the earlier run and did not
+   commit it as a 1605 run.
 
 ## What to check yourself
 
-- Read the five Measurement 4 examples and decide whether you agree with the explanation (Business stories about technology
-  companies confused with Sci/Tech). It is an interpretation, not a measured fact.
-- The temperature/α differences are small (all six runs within 0.45 test points); with one seed, "best T = 10" is weak evidence.
+- Read the five Measurement 4 examples and decide whether you agree with the explanation (Business stories whose surface topic
+  is politics/trade or technology). It is an interpretation, not a measured fact.
+- The temperature/α differences are smaller than the seed-to-seed variation (best T was 10 with SEED 42 and 5 with SEED 1605);
+  "best T" from one seed is weak evidence.
 - GPTQ was slower than fp16 here; that is specific to a small model at batch 1 with the ExLlamaV2 kernel on a T4.
